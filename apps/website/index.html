@@ -507,7 +507,7 @@
                   Copy <span aria-hidden="true">▢</span>
                 </button>
               </div>
-              <pre><code id="home-code-0">import { createWeather } from &#39;@themes/fluri&#39;;
+              <pre><code id="home-code-0">import { createWeather } from &#39;@fluritheme/fluri&#39;;
 
 const weather = createWeather({
   preset: &#39;gentle-snow&#39;,
@@ -534,7 +534,7 @@ window.addEventListener(&#39;pagehide&#39;, () =&gt; {
                   Copy <span aria-hidden="true">▢</span>
                 </button>
               </div>
-              <pre><code id="home-code-1">import { useFluri } from &#39;@themes/fluri-react&#39;;
+              <pre><code id="home-code-1">import { useFluri } from &#39;@fluritheme/fluri-react&#39;;
 
 export function WinterPage() {
   const weather = useFluri({
@@ -567,7 +567,7 @@ export function WinterPage() {
               </div>
               <pre><code id="home-code-2">&lt;script setup lang=&quot;ts&quot;&gt;
 import { onMounted, onBeforeUnmount } from &#39;vue&#39;;
-import { createWeather } from &#39;@themes/fluri&#39;;
+import { createWeather } from &#39;@fluritheme/fluri&#39;;
 
 const weather = createWeather({ preset: &#39;gentle-snow&#39; });
 onMounted(() =&gt; weather.start());

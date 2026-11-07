@@ -2,7 +2,7 @@ import type { NextConfig } from 'next';
 const config: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  transpilePackages: ['@themes/fluri', '@themes/fluri-react'],
+  transpilePackages: ['@fluritheme/fluri', '@fluritheme/fluri-react'],
   async headers() {
     return [
       {

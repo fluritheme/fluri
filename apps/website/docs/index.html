@@ -172,9 +172,9 @@
               your project.
             </p>
             <div class="download-row">
-              <a class="button button-dark" href="/downloads/themes-fluri-0.1.0.tgz" download
+              <a class="button button-dark" href="/downloads/fluritheme-fluri-0.1.0.tgz" download
                 >Download core package <span aria-hidden="true">↓</span></a
-              ><a class="text-link" href="/downloads/themes-fluri-react-0.1.0.tgz" download
+              ><a class="text-link" href="/downloads/fluritheme-fluri-react-0.1.0.tgz" download
                 >React adapter ↓</a
               >
             </div>
@@ -189,12 +189,12 @@
                   Copy <span aria-hidden="true">▢</span>
                 </button>
               </div>
-              <pre><code id="install-local">npm install ./themes-fluri-0.1.0.tgz</code></pre>
+              <pre><code id="install-local">npm install ./fluritheme-fluri-0.1.0.tgz</code></pre>
             </div>
             <p>
-              After registry publication, the package name is <code>@themes/fluri</code>. The
-              optional adapter is <code>@themes/fluri-react</code>. These downloads contain compiled
-              ESM, TypeScript declarations, README, and MIT licensing.
+              After registry publication, the package name is <code>@fluritheme/fluri</code>. The
+              optional adapter is <code>@fluritheme/fluri-react</code>. These downloads contain
+              compiled ESM, TypeScript declarations, README, and MIT licensing.
             </p>
             <div class="code-block">
               <div class="code-bar">
@@ -207,7 +207,7 @@
                   Copy <span aria-hidden="true">▢</span>
                 </button>
               </div>
-              <pre><code id="docs-start">import { createWeather } from &#39;@themes/fluri&#39;;
+              <pre><code id="docs-start">import { createWeather } from &#39;@fluritheme/fluri&#39;;
 
 const weather = createWeather({
   preset: &#39;gentle-snow&#39;,
@@ -248,7 +248,7 @@ window.addEventListener(&#39;pagehide&#39;, () =&gt; {
                   Copy <span aria-hidden="true">▢</span>
                 </button>
               </div>
-              <pre><code id="install-react">npm install ./themes-fluri-0.1.0.tgz ./themes-fluri-react-0.1.0.tgz</code></pre>
+              <pre><code id="install-react">npm install ./fluritheme-fluri-0.1.0.tgz ./fluritheme-fluri-react-0.1.0.tgz</code></pre>
             </div>
             <div class="integration-panel" data-code-tabs>
               <div class="integration-tabs" role="tablist" aria-label="Framework examples">
@@ -293,7 +293,7 @@ window.addEventListener(&#39;pagehide&#39;, () =&gt; {
                       Copy <span aria-hidden="true">▢</span>
                     </button>
                   </div>
-                  <pre><code id="docs-code-0">import { createWeather } from &#39;@themes/fluri&#39;;
+                  <pre><code id="docs-code-0">import { createWeather } from &#39;@fluritheme/fluri&#39;;
 
 const weather = createWeather({
   preset: &#39;gentle-snow&#39;,
@@ -320,7 +320,7 @@ window.addEventListener(&#39;pagehide&#39;, () =&gt; {
                       Copy <span aria-hidden="true">▢</span>
                     </button>
                   </div>
-                  <pre><code id="docs-code-1">import { useFluri } from &#39;@themes/fluri-react&#39;;
+                  <pre><code id="docs-code-1">import { useFluri } from &#39;@fluritheme/fluri-react&#39;;
 
 export function WinterPage() {
   const weather = useFluri({
@@ -353,7 +353,7 @@ export function WinterPage() {
                   </div>
                   <pre><code id="docs-code-2">&lt;script setup lang=&quot;ts&quot;&gt;
 import { onMounted, onBeforeUnmount } from &#39;vue&#39;;
-import { createWeather } from &#39;@themes/fluri&#39;;
+import { createWeather } from &#39;@fluritheme/fluri&#39;;
 
 const weather = createWeather({ preset: &#39;gentle-snow&#39; });
 onMounted(() =&gt; weather.start());
@@ -551,7 +551,7 @@ unregister();</code></pre>
                   Copy <span aria-hidden="true">▢</span>
                 </button>
               </div>
-              <pre><code id="docs-christmas">import { christmasPack } from &#39;@themes/fluri/christmas&#39;;
+              <pre><code id="docs-christmas">import { christmasPack } from &#39;@fluritheme/fluri/christmas&#39;;
 
 const removeChristmas = weather.use(christmasPack({
   lights: { warmth: 0.9 },

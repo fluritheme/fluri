@@ -16,7 +16,7 @@ Built with TypeScript. Made for your interface.
 <img src="assets/readme/badges/frameworks.svg" alt="Framework independent" height="24" />
 <img src="assets/readme/badges/canvas.svg" alt="Renderer: Canvas 2D" height="24" />
 
-<a href="https://www.npmjs.com/package/@themes/fluri"><img src="https://fluri.xyz/readme/npm-downloads.svg" alt="npm downloads for @themes/fluri over the last 30 days" height="24" /></a>
+<a href="https://www.npmjs.com/package/@fluritheme/fluri"><img src="https://fluri.xyz/readme/npm-downloads.svg" alt="npm downloads for @fluritheme/fluri over the last 30 days" height="24" /></a>
 
 **[Live playground](https://fluri.xyz/playground/) · [Explore the presets](https://fluri.xyz/showcase/) · [Documentation](https://fluri.xyz/docs/)**
 
@@ -48,7 +48,7 @@ Use a light dusting on a portfolio, a playful snowfall on a landing page, or war
 **Before the first npm release:** use the [versioned package downloads](https://fluri.xyz/docs/#quick-start), or run this workspace locally. The installation command below is the package’s registry command once published.
 
 ```sh
-npm install @themes/fluri
+npm install @fluritheme/fluri
 ```
 
 Mark the elements that should collect snow:
@@ -61,7 +61,7 @@ Mark the elements that should collect snow:
 Start after the DOM is ready:
 
 ```ts
-import { createWeather } from '@themes/fluri';
+import { createWeather } from '@fluritheme/fluri';
 
 const weather = createWeather({
   preset: 'gentle-snow',
@@ -127,16 +127,16 @@ Presets configure the weather. Attach the optional Christmas module to add decor
 
 ## React and Next.js
 
-The core is framework independent. **`@themes/fluri-react`** adds a component and hook that own the controller through mount, updates, and cleanup, including React Strict Mode.
+The core is framework independent. **`@fluritheme/fluri-react`** adds a component and hook that own the controller through mount, updates, and cleanup, including React Strict Mode.
 
 ```sh
-npm install @themes/fluri @themes/fluri-react
+npm install @fluritheme/fluri @fluritheme/fluri-react
 ```
 
 ```tsx
 'use client';
 
-import { useFluri } from '@themes/fluri-react';
+import { useFluri } from '@fluritheme/fluri-react';
 
 export function WinterCard() {
   const weather = useFluri({
@@ -162,7 +162,7 @@ Vanilla JavaScript, Vue, and Svelte can use the core with their own mount and cl
 Add the separate Christmas export and label the surfaces to decorate:
 
 ```ts
-import { christmasPack } from '@themes/fluri/christmas';
+import { christmasPack } from '@fluritheme/fluri/christmas';
 
 const removeChristmas = weather.use(
   christmasPack({

@@ -25,7 +25,7 @@
 
 ## 0.1.0 — 2026-11-05
 
-Initial Fluri implementation under the owner-selected `@themes/fluri` package name and MIT license.
+Initial Fluri implementation under the owner-selected `@fluritheme/fluri` package name and MIT license.
 
 - Deterministic Canvas 2D snowfall with wind, gusts, intensity ramps, depth, flake styles, and quality controls.
 - DOM surface discovery/registration, typed local snow profiles, responsive geometry tracking, clipping approximations, debug views, swept collision, shedding, and cross-surface transfer.

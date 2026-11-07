@@ -1,4 +1,4 @@
-import { presetNames } from '@themes/fluri';
+import { presetNames } from '@fluritheme/fluri';
 import WeatherControls from './WeatherControls';
 export default function Home() {
   return (

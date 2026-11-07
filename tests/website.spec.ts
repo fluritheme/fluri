@@ -221,7 +221,7 @@ test('content and legal notices work without JavaScript and downloads contain ge
     const manifest = JSON.parse(
       await readFile(new URL('../packages/core/package.json', import.meta.url), 'utf8'),
     ) as { version: string };
-    for (const name of ['themes-fluri', 'themes-fluri-react']) {
+    for (const name of ['fluritheme-fluri', 'fluritheme-fluri-react']) {
       const response = await request.get(`${site}/downloads/${name}-${manifest.version}.tgz`);
       expect(response.ok()).toBe(true);
       const bytes = await response.body();

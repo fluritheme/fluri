@@ -1,7 +1,7 @@
 import { StrictMode, useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { useFluri } from '@themes/fluri-react';
-import type { WeatherOptions, WeatherState } from '@themes/fluri';
+import { useFluri } from '@fluritheme/fluri-react';
+import type { WeatherOptions, WeatherState } from '@fluritheme/fluri';
 import './style.css';
 function WeatherScene() {
   const [intensity, setIntensity] = useState(0.5);
@@ -138,7 +138,7 @@ function App() {
         </p>
       </main>
       <footer>
-        <span>@themes/fluri-react · MIT licensed</span>
+        <span>@fluritheme/fluri-react · MIT licensed</span>
         <span>Runnable integration example</span>
       </footer>
     </>

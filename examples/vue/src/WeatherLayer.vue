@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, watch } from 'vue';
-import { createWeather, type WeatherController, type WeatherMetrics } from '@themes/fluri';
+import { createWeather, type WeatherController, type WeatherMetrics } from '@fluritheme/fluri';
 const props = defineProps<{ intensity: number }>();
 const emit = defineEmits<{ metrics: [value: WeatherMetrics] }>();
 let weather: WeatherController | undefined;

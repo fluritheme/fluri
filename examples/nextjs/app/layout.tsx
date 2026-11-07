@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </header>
         {children}
         <footer>
-          <span>@themes/fluri-react · MIT licensed</span>
+          <span>@fluritheme/fluri-react · MIT licensed</span>
           <span>Next.js App Router integration</span>
         </footer>
       </body>

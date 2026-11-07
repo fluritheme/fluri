@@ -28,6 +28,7 @@ jobs:
       - run: pnpm audit --audit-level high
       - run: pnpm measure
       - run: pnpm release:check
+      - run: node scripts/consumer-smoke.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

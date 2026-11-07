@@ -7,7 +7,7 @@ Pale snow automatically receives a subtle cool outline on light solid-color back
 ## Tune a restrained site effect
 
 ```ts
-import { createWeather } from '@themes/fluri';
+import { createWeather } from '@fluritheme/fluri';
 
 const weather = createWeather({
   preset: 'minimal',
@@ -158,7 +158,7 @@ For explicit demo controls, call `trigger('snowball', { selector: '#workshop' })
 ```
 
 ```ts
-import { christmasPack } from '@themes/fluri/christmas';
+import { christmasPack } from '@fluritheme/fluri/christmas';
 
 const removeDecorations = weather.use(
   christmasPack({
@@ -191,7 +191,7 @@ To reconfigure the pack, call its disposer and register a new `christmasPack()` 
 This extension draws a small lantern above deliberately marked surfaces. It owns no network, input listeners, or DOM nodes.
 
 ```ts
-import type { PluginContext, WeatherPlugin } from '@themes/fluri';
+import type { PluginContext, WeatherPlugin } from '@fluritheme/fluri';
 
 function lanterns(): WeatherPlugin {
   let context: PluginContext | undefined;

@@ -1,11 +1,11 @@
 # Fluri API reference
 
-Fluri is a browser effects engine distributed as ESM with TypeScript declarations. The core entry point is `@themes/fluri`; the optional decoration factory is `@themes/fluri/christmas`. Importing either entry point is safe during server rendering. Call `start()` only after a browser document has a connected body.
+Fluri is a browser effects engine distributed as ESM with TypeScript declarations. The core entry point is `@fluritheme/fluri`; the optional decoration factory is `@fluritheme/fluri/christmas`. Importing either entry point is safe during server rendering. Call `start()` only after a browser document has a connected body.
 
 ## Creating an instance
 
 ```ts
-import { createWeather } from '@themes/fluri';
+import { createWeather } from '@fluritheme/fluri';
 
 const weather = createWeather({
   preset: 'winter-magic',
@@ -215,7 +215,7 @@ Payloads intentionally remain extensible. Do not depend on every individual flak
 ## Optional Christmas pack
 
 ```ts
-import { christmasPack } from '@themes/fluri/christmas';
+import { christmasPack } from '@fluritheme/fluri/christmas';
 
 const disposeChristmas = weather.use(
   christmasPack({
@@ -264,7 +264,7 @@ Setup may return cleanup, and `destroy()` can release additional state. Plugin n
 
 ## React
 
-`@themes/fluri-react` exports `useFluri(options?, onReady?)` and `<Fluri options={...} onReady={...} />`. Both own an instance for the mounted lifetime and destroy it on unmount, including React Strict Mode replay. Render them from a client component. The hook returns a ref-like `{ current: WeatherController | null }`; the controller becomes available after mounting. Keep options stable when practical; changed options are applied through `updateConfig()`.
+`@fluritheme/fluri-react` exports `useFluri(options?, onReady?)` and `<Fluri options={...} onReady={...} />`. Both own an instance for the mounted lifetime and destroy it on unmount, including React Strict Mode replay. Render them from a client component. The hook returns a ref-like `{ current: WeatherController | null }`; the controller becomes available after mounting. Keep options stable when practical; changed options are applied through `updateConfig()`.
 
 `getMetrics().textureStatus` reports `idle`, `loading`, `ready`, `error`, or `destroyed` for the optional snow texture. Loading is asynchronous; procedural flakes render until decoding succeeds.
 

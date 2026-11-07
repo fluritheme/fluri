@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "pnpm --filter @fluri/playground dev",
     "dev:website": "pnpm --filter @fluri/website dev",
-    "build": "node scripts/prepare-packages.mjs && pnpm --filter @themes/fluri build && pnpm --filter @themes/fluri-react build && pnpm --filter './apps/*' build && node scripts/assemble-site.mjs",
+    "build": "node scripts/prepare-packages.mjs && pnpm --filter @fluritheme/fluri build && pnpm --filter @fluritheme/fluri-react build && pnpm --filter './apps/*' build && node scripts/assemble-site.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run",
     "test:browser": "playwright test",
@@ -25,7 +25,7 @@
     "deploy:check": "npx wrangler@4.158.0 deploy --dry-run",
     "preview:worker": "npx wrangler@4.158.0 dev --port 8787",
     "benchmark": "node scripts/benchmark.mjs",
-    "build:examples": "pnpm --filter @themes/fluri build && pnpm --filter @themes/fluri-react build && pnpm --filter './examples/*' build",
+    "build:examples": "pnpm --filter @fluritheme/fluri build && pnpm --filter @fluritheme/fluri-react build && pnpm --filter './examples/*' build",
     "test:frameworks": "node scripts/test-frameworks.mjs"
   },
   "devDependencies": {

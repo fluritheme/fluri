@@ -23,8 +23,8 @@ execFileSync(
     '--ignore-scripts',
     '--no-audit',
     '--no-fund',
-    join(archives, 'themes-fluri-0.1.0.tgz'),
-    join(archives, 'themes-fluri-react-0.1.0.tgz'),
+    join(archives, 'fluritheme-fluri-0.1.0.tgz'),
+    join(archives, 'fluritheme-fluri-react-0.1.0.tgz'),
     'react@19.3.1',
     'react-dom@19.3.1',
     '@types/react@19.3.0',
@@ -35,9 +35,9 @@ execFileSync(
 await writeFile(
   join(destination, 'verify.mjs'),
   `import assert from 'node:assert/strict';
-import {createWeather} from '@themes/fluri';
-import {christmasPack} from '@themes/fluri/christmas';
-import {Fluri} from '@themes/fluri-react';
+import {createWeather} from '@fluritheme/fluri';
+import {christmasPack} from '@fluritheme/fluri/christmas';
+import {Fluri} from '@fluritheme/fluri-react';
 import {createElement} from 'react';
 import {renderToString} from 'react-dom/server';
 const weather=createWeather({preset:'winter-magic'});
@@ -51,9 +51,9 @@ console.log('Installed tarballs: core, Christmas export, React SSR, and teardown
 );
 await writeFile(
   join(destination, 'consumer.mts'),
-  `import {createWeather,type WeatherController,type WeatherOptions} from '@themes/fluri';
-import {christmasPack} from '@themes/fluri/christmas';
-import {useFluri,Fluri} from '@themes/fluri-react';
+  `import {createWeather,type WeatherController,type WeatherOptions} from '@fluritheme/fluri';
+import {christmasPack} from '@fluritheme/fluri/christmas';
+import {useFluri,Fluri} from '@fluritheme/fluri-react';
 const options:WeatherOptions={snow:{intensity:0.4},dom:{detection:'explicit'}};
 const weather:WeatherController=createWeather(options);
 weather.use(christmasPack({lights:{warmth:0.8}}));

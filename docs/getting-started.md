@@ -1,9 +1,9 @@
 # Getting started
 
-Install `@themes/fluri` and call `createWeather()` after the body exists. Fluri has no backend, user account, or required service credentials.
+Install `@fluritheme/fluri` and call `createWeather()` after the body exists. Fluri has no backend, user account, or required service credentials.
 
 ```ts
-import { createWeather } from '@themes/fluri';
+import { createWeather } from '@fluritheme/fluri';
 const weather = createWeather({ autoStart: true, preset: 'gentle-snow' });
 // At teardown:
 weather.destroy();
@@ -28,7 +28,7 @@ Canvas coordinates remain viewport-relative and rendering is clipped to the cont
 Bundle this entry with your normal browser build tool and include it using a module script:
 
 ```ts
-import { createWeather } from '@themes/fluri';
+import { createWeather } from '@fluritheme/fluri';
 const weather = createWeather();
 weather.start();
 window.addEventListener('pagehide', () => weather.destroy(), { once: true });
@@ -38,12 +38,12 @@ The npm output is ESM and imports its declared dependency. It is intended for a 
 
 ## React / Next.js
 
-Install `@themes/fluri-react` with `react` and `@themes/fluri`. In Next.js, use a client component:
+Install `@fluritheme/fluri-react` with `react` and `@fluritheme/fluri`. In Next.js, use a client component:
 
 ```tsx
 'use client';
-import { Fluri } from '@themes/fluri-react';
-import { christmasPack } from '@themes/fluri/christmas';
+import { Fluri } from '@fluritheme/fluri-react';
+import { christmasPack } from '@fluritheme/fluri/christmas';
 export default function Winter() {
   return (
     <Fluri
@@ -63,7 +63,7 @@ No wrapper is required; pair core lifecycle with Vue lifecycle hooks:
 ```vue
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue';
-import { createWeather, type WeatherController } from '@themes/fluri';
+import { createWeather, type WeatherController } from '@fluritheme/fluri';
 let weather: WeatherController | undefined;
 onMounted(() => {
   weather = createWeather();
@@ -79,7 +79,7 @@ onUnmounted(() => weather?.destroy());
 ```svelte
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { createWeather } from '@themes/fluri';
+  import { createWeather } from '@fluritheme/fluri';
   onMount(() => {
     const weather = createWeather();
     weather.start();

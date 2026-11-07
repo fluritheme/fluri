@@ -58,22 +58,22 @@ importers:
 
   apps/playground:
     dependencies:
-      '@themes/fluri':
+      '@fluritheme/fluri':
         specifier: workspace:*
         version: link:../../packages/core
 
   apps/website:
     dependencies:
-      '@themes/fluri':
+      '@fluritheme/fluri':
         specifier: workspace:*
         version: link:../../packages/core
 
   examples/nextjs:
     dependencies:
-      '@themes/fluri':
+      '@fluritheme/fluri':
         specifier: workspace:*
         version: link:../../packages/core
-      '@themes/fluri-react':
+      '@fluritheme/fluri-react':
         specifier: workspace:*
         version: link:../../packages/react
       next:
@@ -88,10 +88,10 @@ importers:
 
   examples/react:
     dependencies:
-      '@themes/fluri':
+      '@fluritheme/fluri':
         specifier: workspace:*
         version: link:../../packages/core
-      '@themes/fluri-react':
+      '@fluritheme/fluri-react':
         specifier: workspace:*
         version: link:../../packages/react
       react:
@@ -103,13 +103,13 @@ importers:
 
   examples/vanilla-ts:
     dependencies:
-      '@themes/fluri':
+      '@fluritheme/fluri':
         specifier: workspace:*
         version: link:../../packages/core
 
   examples/vue:
     dependencies:
-      '@themes/fluri':
+      '@fluritheme/fluri':
         specifier: workspace:*
         version: link:../../packages/core
       vue:
@@ -135,7 +135,7 @@ importers:
         specifier: ^18.0.0 || ^19.0.0
         version: 19.3.1
     devDependencies:
-      '@themes/fluri':
+      '@fluritheme/fluri':
         specifier: workspace:*
         version: link:../core
       '@types/react':

@@ -9,6 +9,6 @@
     "preview": "vite preview --host 127.0.0.1 --port 4174"
   },
   "dependencies": {
-    "@themes/fluri": "workspace:*"
+    "@fluritheme/fluri": "workspace:*"
   }
 }

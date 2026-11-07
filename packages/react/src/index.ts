@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
-import { createWeather } from '@themes/fluri';
-import type { WeatherController, WeatherOptions } from '@themes/fluri';
-export type { WeatherController, WeatherOptions } from '@themes/fluri';
+import { createWeather } from '@fluritheme/fluri';
+import type { WeatherController, WeatherOptions } from '@fluritheme/fluri';
+export type { WeatherController, WeatherOptions } from '@fluritheme/fluri';
 /** Owns a browser instance for exactly the lifetime of a mounted component, including Strict Mode replay. */
 export function useFluri(
   options: WeatherOptions = {},

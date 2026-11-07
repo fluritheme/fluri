@@ -16,9 +16,9 @@
     "jsx": "react-jsx",
     "types": ["node", "vite/client"],
     "paths": {
-      "@themes/fluri": ["./packages/core/src/index.ts"],
-      "@themes/fluri/christmas": ["./packages/core/src/christmas.ts"],
-      "@themes/fluri-react": ["./packages/react/src/index.ts"]
+      "@fluritheme/fluri": ["./packages/core/src/index.ts"],
+      "@fluritheme/fluri/christmas": ["./packages/core/src/christmas.ts"],
+      "@fluritheme/fluri-react": ["./packages/react/src/index.ts"]
     },
     "noImplicitReturns": true
   },

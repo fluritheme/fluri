@@ -9,7 +9,7 @@
     "preview": "vite preview --host 127.0.0.1 --port 5203 --strictPort"
   },
   "dependencies": {
-    "@themes/fluri": "workspace:*",
+    "@fluritheme/fluri": "workspace:*",
     "vue": "3.5.45"
   },
   "devDependencies": {

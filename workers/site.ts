@@ -11,8 +11,8 @@ function isParticipationEnvironment(
 }
 
 const packages = new Map([
-  ['/readme/npm-downloads.svg', '@themes/fluri'],
-  ['/readme/npm-downloads-react.svg', '@themes/fluri-react'],
+  ['/readme/npm-downloads.svg', '@fluritheme/fluri'],
+  ['/readme/npm-downloads-react.svg', '@fluritheme/fluri-react'],
 ]);
 
 function badge(value: string, description: string, maxAge: number): Response {
@@ -125,7 +125,7 @@ export default {
     const key = new Request(`${url.origin}${url.pathname}`);
     let cache: Cache | undefined;
     try {
-      cache = await caches.open('fluri-readme-badges-v1');
+      cache = await caches.open('fluri-readme-fluritheme-v1');
     } catch {
       // The badge also works on hosts without a Cache API.
     }

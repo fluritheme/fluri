@@ -1,5 +1,5 @@
 {
-  "name": "@themes/fluri",
+  "name": "@fluritheme/fluri",
   "version": "0.1.0",
   "description": "Interactive snowfall for websites: DOM-aware snow accumulation, mouse interactions, snow physics, Canvas 2D rendering, and Christmas effects.",
   "type": "module",

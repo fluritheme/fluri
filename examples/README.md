@@ -4,8 +4,8 @@ These runnable applications use the actual workspace packages and the same engin
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm --filter @themes/fluri build
-pnpm --filter @themes/fluri-react build
+pnpm --filter @fluritheme/fluri build
+pnpm --filter @fluritheme/fluri-react build
 ```
 
 | Example            | Development command                        | Local address           | Behavior                                                        |

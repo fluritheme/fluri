@@ -1,4 +1,4 @@
-import type { PluginContext, PresetName, WeatherController } from '@themes/fluri';
+import type { PluginContext, PresetName, WeatherController } from '@fluritheme/fluri';
 import './style.css';
 import './participation';
 
@@ -171,7 +171,7 @@ async function configureHoliday(controller: WeatherController): Promise<void> {
   removeHoliday?.();
   removeHoliday = undefined;
   if (!selectedPreset.startsWith('christmas')) return;
-  const { christmasPack } = await import('@themes/fluri/christmas');
+  const { christmasPack } = await import('@fluritheme/fluri/christmas');
   if (!destroyed && revision === holidayRevision && selectedPreset.startsWith('christmas'))
     removeHoliday = controller.use(christmasPack({ lights: { warmth: 0.9 }, garlands: true }));
 }
@@ -219,7 +219,7 @@ async function ensureWeather(): Promise<WeatherController | undefined> {
   if (!scene || destroyed) return undefined;
   initializing = (async () => {
     try {
-      const { createWeather } = await import('@themes/fluri');
+      const { createWeather } = await import('@fluritheme/fluri');
       if (destroyed) return undefined;
       weather = createWeather({
         container: scene,

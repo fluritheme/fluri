@@ -1,4 +1,4 @@
-import { readFile, writeFile, mkdir, cp, readdir } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, cp, readdir, unlink } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import ts from 'typescript';
@@ -71,6 +71,9 @@ await writeFile(
   `User-agent: *\nAllow: /\nDisallow: /dashboard/\nDisallow: /api/\nSitemap: ${origin}/sitemap.xml\n`,
 );
 await mkdir(new URL('public/downloads/', website), { recursive: true });
+for (const name of await readdir(new URL('public/downloads/', website))) {
+  if (name.endsWith('.tgz')) await unlink(new URL(`public/downloads/${name}`, website));
+}
 for (const name of ['core', 'react'])
   execFileSync(
     'pnpm',
@@ -88,6 +91,8 @@ await writeFile(
 > Open-source TypeScript snow animation library for websites. Snow accumulates on supported DOM edges and responds to pointer interactions. MIT licensed.
 
 Fluri is a visual effect, not a weather forecast service. The core works independently of frameworks; a separate React adapter supports React and Next.js. Defaults include no visitor telemetry or network requests. Adaptive quality and reduced-motion controls are available; performance and supported geometry have documented limits. Registry availability is stated in the getting-started guide.
+
+Package names: @fluritheme/fluri (core) and @fluritheme/fluri-react (optional React adapter).
 
 ## Product and source
 - [Overview](${origin}/): Live preview and product capabilities.

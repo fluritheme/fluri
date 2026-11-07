@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, shallowRef } from 'vue';
-import type { WeatherMetrics } from '@themes/fluri';
+import type { WeatherMetrics } from '@fluritheme/fluri';
 import WeatherLayer from './WeatherLayer.vue';
 const intensity = ref(0.5);
 const mounted = ref(true);
@@ -91,6 +91,6 @@ function toggleMount() {
     </p>
   </main>
   <footer>
-    <span>@themes/fluri · MIT licensed</span><span>Runnable Vue integration example</span>
+    <span>@fluritheme/fluri · MIT licensed</span><span>Runnable Vue integration example</span>
   </footer>
 </template>

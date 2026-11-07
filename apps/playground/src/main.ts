@@ -5,8 +5,8 @@ import {
   type WeatherController,
   type WeatherOptions,
   type WeatherMetrics,
-} from '@themes/fluri';
-import { christmasPack } from '@themes/fluri/christmas';
+} from '@fluritheme/fluri';
+import { christmasPack } from '@fluritheme/fluri/christmas';
 import './style.css';
 
 declare global {
@@ -316,11 +316,13 @@ function currentTS(): string {
     wreath: christmas.wreath,
     candyCanes: christmas.candyCanes,
   };
-  const pluginImport = enabled ? `import { christmasPack } from '@themes/fluri/christmas';\n` : '';
+  const pluginImport = enabled
+    ? `import { christmasPack } from '@fluritheme/fluri/christmas';\n`
+    : '';
   const pluginSetup = enabled
     ? `\nweather.use(christmasPack(${JSON.stringify(options, null, 2)}));\n`
     : '';
-  return `import { createWeather } from '@themes/fluri';\n${pluginImport}\nconst weather = createWeather(${currentJSON()});\n${pluginSetup}\nweather.start();\n\nwindow.addEventListener('pagehide', () => weather.destroy(), { once: true });\n`;
+  return `import { createWeather } from '@fluritheme/fluri';\n${pluginImport}\nconst weather = createWeather(${currentJSON()});\n${pluginSetup}\nweather.start();\n\nwindow.addEventListener('pagehide', () => weather.destroy(), { once: true });\n`;
 }
 function readPath(object: unknown, path: string): unknown {
   let value: unknown = object;
@@ -533,7 +535,7 @@ for (const card of document.querySelectorAll<HTMLButtonElement>('[data-preset]')
     notify(`${titleCase(name)} is in the forecast.`);
   });
 on('copy-install', () => {
-  void copy('npm install @themes/fluri');
+  void copy('npm install @fluritheme/fluri');
 });
 
 on('export-top', () => {

@@ -4,7 +4,7 @@ import worker, { downloadBadge } from './site';
 afterEach(() => vi.unstubAllGlobals());
 
 const stats = (downloads: unknown = 12345) => ({
-  package: '@themes/fluri',
+  package: '@fluritheme/fluri',
   downloads,
   start: '2026-10-08',
   end: '2026-11-06',
@@ -14,7 +14,7 @@ describe('README npm download badges', () => {
   it('renders the exact reported count, period, and accessible description', async () => {
     const fetcher = vi.fn().mockResolvedValue(Response.json(stats()));
     vi.stubGlobal('fetch', fetcher);
-    const response = await downloadBadge('@themes/fluri');
+    const response = await downloadBadge('@fluritheme/fluri');
     const svg = await response.text();
     expect(svg).toContain('12,345');
     expect(svg).toContain('2026-10-08 through 2026-11-06');
@@ -22,23 +22,23 @@ describe('README npm download badges', () => {
     expect(response.headers.get('Content-Type')).toContain('image/svg+xml');
     expect(response.headers.get('Cache-Control')).toBe('public, max-age=3600');
     expect(fetcher).toHaveBeenCalledWith(
-      'https://api.npmjs.org/downloads/point/last-month/@themes/fluri',
+      'https://api.npmjs.org/downloads/point/last-month/@fluritheme/fluri',
       expect.objectContaining({ redirect: 'manual', signal: expect.any(AbortSignal) }),
     );
   });
 
   it('displays a real zero without treating it as missing statistics', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(Response.json(stats(0))));
-    expect(await (await downloadBadge('@themes/fluri')).text()).toContain('30D: 0</title>');
+    expect(await (await downloadBadge('@fluritheme/fluri')).text()).toContain('30D: 0</title>');
   });
 
   it('confirms a missing package in the registry before labeling it unpublished', async () => {
     const fetcher = vi.fn().mockImplementation(async () => new Response(null, { status: 404 }));
     vi.stubGlobal('fetch', fetcher);
-    const response = await downloadBadge('@themes/fluri');
+    const response = await downloadBadge('@fluritheme/fluri');
     expect(await response.text()).toContain('not published');
     expect(response.headers.get('Cache-Control')).toBe('public, max-age=300');
-    expect(fetcher.mock.calls[1]?.[0]).toBe('https://registry.npmjs.org/%40themes%2Ffluri');
+    expect(fetcher.mock.calls[1]?.[0]).toBe('https://registry.npmjs.org/%40fluritheme%2Ffluri');
   });
 
   it('distinguishes a published package whose statistics are not available yet', async () => {
@@ -49,7 +49,7 @@ describe('README npm download badges', () => {
         .mockResolvedValueOnce(new Response(null, { status: 404 }))
         .mockResolvedValueOnce(Response.json({})),
     );
-    expect(await (await downloadBadge('@themes/fluri')).text()).toContain('stats pending');
+    expect(await (await downloadBadge('@fluritheme/fluri')).text()).toContain('stats pending');
   });
 
   it.each([
@@ -62,7 +62,7 @@ describe('README npm download badges', () => {
     null,
   ])('does not invent counts or embed malformed upstream data: %j', async (data) => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(Response.json(data)));
-    const response = await downloadBadge('@themes/fluri');
+    const response = await downloadBadge('@fluritheme/fluri');
     const svg = await response.text();
     expect(svg).toContain('unavailable');
     expect(svg).not.toContain('<script');
@@ -74,13 +74,13 @@ describe('README npm download badges', () => {
       'fetch',
       vi.fn().mockRejectedValue(new DOMException('Timed out', 'TimeoutError')),
     );
-    expect(await (await downloadBadge('@themes/fluri')).text()).toContain('unavailable');
+    expect(await (await downloadBadge('@fluritheme/fluri')).text()).toContain('unavailable');
   });
 
   it('does not follow upstream redirects', async () => {
     const fetcher = vi.fn().mockResolvedValue(Response.redirect('https://example.org/'));
     vi.stubGlobal('fetch', fetcher);
-    expect(await (await downloadBadge('@themes/fluri')).text()).toContain('unavailable');
+    expect(await (await downloadBadge('@fluritheme/fluri')).text()).toContain('unavailable');
     expect(fetcher).toHaveBeenCalledTimes(1);
     expect(fetcher.mock.calls[0]?.[1].redirect).toBe('manual');
   });

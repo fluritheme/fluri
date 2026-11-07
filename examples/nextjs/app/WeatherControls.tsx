@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
-import { useFluri } from '@themes/fluri-react';
-import type { WeatherOptions, WeatherState } from '@themes/fluri';
+import { useFluri } from '@fluritheme/fluri-react';
+import type { WeatherOptions, WeatherState } from '@fluritheme/fluri';
 export default function WeatherControls() {
   const [intensity, setIntensity] = useState(0.5);
   const options = useMemo<WeatherOptions>(

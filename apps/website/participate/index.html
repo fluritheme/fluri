@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en" id="top">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#eff5f7" />
+    <meta
+      name="description"
+      content="Register your website, verify your domain, and choose optional aggregate reporting and a public Fluri community listing."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Fluri" />
+    <meta property="og:title" content="Participate — Share your winter · Fluri" />
+    <meta
+      property="og:description"
+      content="Register your website, verify your domain, and choose optional aggregate reporting and a public Fluri community listing."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Participate — Share your winter · Fluri" />
+    <meta
+      name="twitter:description"
+      content="Register your website, verify your domain, and choose optional aggregate reporting and a public Fluri community listing."
+    />
+    <meta name="twitter:image" content="https://fluri.xyz/art/social-card.png" />
+    <link rel="canonical" href="https://fluri.xyz/participate/" />
+    <meta property="og:url" content="https://fluri.xyz/participate/" />
+    <meta property="og:image" content="https://fluri.xyz/art/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Fluri — A little winter for the web" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://fluri.xyz/#website",
+            "url": "https://fluri.xyz/",
+            "name": "Fluri",
+            "description": "Interactive snowfall and DOM-aware snow accumulation for JavaScript and TypeScript websites.",
+            "inLanguage": "en"
+          },
+          {
+            "@type": "Person",
+            "@id": "https://fluri.xyz/about/#operator",
+            "name": "Frantisek Gejdos",
+            "url": "https://fluri.xyz/about/",
+            "email": "fluritheme@gmail.com",
+            "homeLocation": { "@type": "Country", "name": "Slovakia" }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://fluri.xyz/#software",
+            "name": "Fluri",
+            "url": "https://fluri.xyz/",
+            "description": "Framework independent TypeScript snow animation library with DOM-aware snow accumulation, pointer interactions, snowballs, adaptive Canvas 2D rendering, and optional Christmas effects.",
+            "codeRepository": "https://github.com/fluritheme/fluri",
+            "programmingLanguage": "TypeScript",
+            "runtimePlatform": "Web browser",
+            "version": "0.1.0",
+            "license": "https://opensource.org/license/mit",
+            "author": { "@id": "https://fluri.xyz/about/#operator" },
+            "keywords": [
+              "JavaScript snow animation",
+              "TypeScript snowfall",
+              "DOM snow accumulation",
+              "React snow effects",
+              "Christmas website effects",
+              "interactive snow physics"
+            ],
+            "softwareRequirements": "A browser supporting Canvas 2D and ES2022; see browser support documentation."
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://fluri.xyz/participate/#page",
+            "url": "https://fluri.xyz/participate/",
+            "name": "Participate — Share your winter · Fluri",
+            "description": "Register your website, verify your domain, and choose optional aggregate reporting and a public Fluri community listing.",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://fluri.xyz/#website" },
+            "about": { "@id": "https://fluri.xyz/#software" }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Fluri", "item": "https://fluri.xyz/" },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Participate",
+                "item": "https://fluri.xyz/participate/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <link rel="icon" href="/fluri.svg" type="image/svg+xml" />
+    <title>Participate — Share your winter · Fluri</title>
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body data-page="participate/">
+    <a href="#main" class="skip-link">Skip to content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="Fluri home"
+          ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <g
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+              />
+            </g></svg
+          ><span>fluri</span><span class="brand-period">.</span></a
+        >
+        <nav id="primary-nav" class="primary-nav" aria-label="Main navigation">
+          <a href="/features/">Features</a><a href="/showcase/">Showcase</a><a href="/docs/">Docs</a
+          ><a href="/about/">About</a
+          ><a class="mobile-playground" href="/playground/"
+            >Open playground <span aria-hidden="true">↗</span></a
+          >
+        </nav>
+        <div class="header-actions">
+          <a class="header-playground" href="/playground/"
+            >Playground <span aria-hidden="true">↗</span></a
+          ><button
+            type="button"
+            class="menu-toggle"
+            id="menu-toggle"
+            aria-label="Open navigation"
+            aria-expanded="false"
+            aria-controls="primary-nav"
+          >
+            <span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main id="main" tabindex="-1">
+      <section class="page-heading container">
+        <p class="eyebrow">WINTER, WITH PERMISSION</p>
+        <h1>A place for<br /><em>your snowfall.</em></h1>
+        <p class="page-intro">
+          Register your website, verify your domain, and choose what you share. Your visitors stay
+          on your website.
+        </p>
+      </section>
+      <section class="container participation-layout" aria-label="Website participation">
+        <aside class="participation-aside">
+          <span class="eyebrow">YOUR WEBSITE. YOUR CHOICE.</span>
+          <h2>A small footprint.<br /><em>A clear picture.</em></h2>
+          <ol class="participation-steps">
+            <li>
+              <span>01</span>
+              <div>
+                <strong>Make it yours.</strong>
+                <p>Register a domain and confirm ownership with a DNS record.</p>
+              </div>
+            </li>
+            <li>
+              <span>02</span>
+              <div>
+                <strong>Share only totals.</strong>
+                <p>Optionally report daily effect impressions from your own lawful measurement.</p>
+              </div>
+            </li>
+            <li>
+              <span>03</span>
+              <div>
+                <strong>Choose to be featured.</strong>
+                <p>Public community listings need your separate permission and our review.</p>
+              </div>
+            </li>
+          </ol>
+          <a class="text-link" href="/reference/participation.md">Read the participation guide ↗</a>
+          <p class="fine-print">
+            The snow library has no automatic reporting. Registration and analytics are optional.
+            <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a>
+          </p>
+        </aside>
+        <div class="participation-workspace">
+          <div class="portal-switch" role="group" aria-label="Website access">
+            <button type="button" id="register-tab" aria-pressed="true">Register a site</button
+            ><button type="button" id="manage-tab" aria-pressed="false">Manage your site</button>
+          </div>
+          <p id="participation-notice" class="service-notice" role="status" aria-live="polite"></p>
+          <section id="register-panel" class="service-card">
+            <span class="eyebrow">START WITH YOUR DOMAIN</span>
+            <h2>Bring your winter.</h2>
+            <form id="register-site" class="service-form">
+              <label
+                >Website domain<input
+                  name="domain"
+                  type="text"
+                  inputmode="url"
+                  autocomplete="url"
+                  required
+                  maxlength="253"
+                  aria-describedby="domain-help"
+              /></label>
+              <p class="field-help" id="domain-help">
+                Enter the domain you control, without a path.
+              </p>
+              <label
+                >Website name<input
+                  name="displayName"
+                  type="text"
+                  required
+                  maxlength="80"
+                  autocomplete="organization" /></label
+              ><label
+                >Contact email<input
+                  name="contactEmail"
+                  type="email"
+                  required
+                  maxlength="254"
+                  autocomplete="email" /></label
+              ><label class="check-field"
+                ><input name="analyticsEnabled" type="checkbox" /><span
+                  ><strong>Share aggregate impressions</strong
+                  ><small
+                    >Enable private reporting of daily totals. No browser tracker is added.</small
+                  ></span
+                ></label
+              ><label class="check-field"
+                ><input name="showcasePermission" type="checkbox" /><span
+                  ><strong>Consider my site for the community</strong
+                  ><small
+                    >Allow Fluri to publicly link to this domain under its website name after
+                    review. Statistics stay private.</small
+                  ></span
+                ></label
+              ><label class="check-field"
+                ><input name="analyticsAttestation" type="checkbox" required /><span
+                  >I am authorized to register this website and agree to the
+                  <a href="/terms/">participation terms</a>. Any totals I share come from lawful
+                  measurement and contain no visitor data.</span
+                ></label
+              ><button class="button button-dark" type="submit">
+                Register my website <span aria-hidden="true">↗</span>
+              </button>
+            </form>
+          </section>
+          <section id="manage-panel" class="service-card" hidden>
+            <span class="eyebrow">WELCOME BACK</span>
+            <h2>Your forecast, in hand.</h2>
+            <p>
+              Use the management key saved when you registered. It stays in memory for this page
+              only.
+            </p>
+            <form id="manage-site" class="service-form">
+              <label
+                >Management key<input
+                  name="managementToken"
+                  type="password"
+                  required
+                  autocomplete="off"
+                  spellcheck="false" /></label
+              ><button class="button button-dark" type="submit">
+                Open my website <span aria-hidden="true">↗</span>
+              </button>
+            </form>
+            <p class="fine-print">
+              Lost the key? Contact
+              <a href="mailto:fluritheme@gmail.com">fluritheme@gmail.com</a> for ownership review.
+            </p>
+          </section>
+          <section id="owner-workspace" hidden></section>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="/"
+            ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+              <g
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+                />
+              </g></svg
+            ><span>fluri</span><span class="brand-period">.</span></a
+          >
+          <p>A little winter for the web.<br />Made with care. Open by nature.</p>
+          <button type="button" id="motion-toggle" class="motion-toggle" aria-pressed="false">
+            <span aria-hidden="true">◌</span> <span id="motion-label">Preview motion on</span>
+          </button>
+        </div>
+        <div>
+          <h2>Explore</h2>
+          <a href="/features/">Features</a><a href="/showcase/">Showcase</a
+          ><a href="/playground/">Playground</a><a href="/community/">Community</a>
+        </div>
+        <div>
+          <h2>Build</h2>
+          <a href="/docs/">Documentation</a><a href="/changelog/">Changelog</a
+          ><a href="/participate/">Share your website</a><a href="/about/">About &amp; contact</a>
+        </div>
+        <div>
+          <h2>The details</h2>
+          <a href="/privacy/">Privacy</a><a href="/terms/">Terms</a
+          ><a href="/cookies/">Cookies &amp; storage</a><a href="/license/">MIT license</a>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <span>© 2026 Fluri contributors</span
+        ><span>Made for ordinary websites. And extraordinary little moments.</span
+        ><a href="#top">Back to the top ↑</a>
+      </div>
+    </footer>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

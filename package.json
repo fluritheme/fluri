@@ -1,0 +1,54 @@
+{
+  "name": "fluri-workspace",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "packageManager": "pnpm@10.33.2",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @fluri/playground dev",
+    "dev:website": "pnpm --filter @fluri/website dev",
+    "build": "node scripts/prepare-packages.mjs && pnpm --filter @themes/fluri build && pnpm --filter @themes/fluri-react build && pnpm --filter './apps/*' build && node scripts/assemble-site.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "test:browser": "playwright test",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm build",
+    "measure": "node scripts/measure-bundle.mjs",
+    "release:check": "node scripts/release-check.mjs",
+    "preview": "vite preview --outDir dist --host 127.0.0.1 --port 4173",
+    "deploy": "pnpm build && npx wrangler@4.158.0 deploy",
+    "deploy:check": "npx wrangler@4.158.0 deploy --dry-run",
+    "preview:worker": "npx wrangler@4.158.0 dev --port 8787",
+    "benchmark": "node scripts/benchmark.mjs",
+    "build:examples": "pnpm --filter @themes/fluri build && pnpm --filter @themes/fluri-react build && pnpm --filter './examples/*' build",
+    "test:frameworks": "node scripts/test-frameworks.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.64.1",
+    "@types/node": "26.6.6",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "10.14.0",
+    "globals": "17.14.0",
+    "prettier": "3.9.10",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.1",
+    "vite": "8.3.6",
+    "vitest": "5.1.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "eslint>minimatch": "11.0.1",
+      "@eslint/config-array>minimatch": "11.0.1",
+      "@typescript-eslint/typescript-estree>minimatch": "11.0.1"
+    }
+  }
+}

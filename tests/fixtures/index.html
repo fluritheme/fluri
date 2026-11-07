@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fluri browser verification</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 1900px;
+        background: #0b1320;
+        color: #f3f7ff;
+        font-family: system-ui, sans-serif;
+      }
+      nav {
+        position: sticky;
+        top: 12px;
+        z-index: 3;
+        margin: 24px;
+        padding: 16px 22px;
+        border: 1px solid #475569;
+        border-radius: 12px;
+        background: #1a293e;
+      }
+      main {
+        max-width: 980px;
+        margin: 60px auto;
+        padding: 0 24px;
+      }
+      h1 {
+        font-size: clamp(30px, 6vw, 58px);
+        letter-spacing: -0.04em;
+        margin-bottom: 14px;
+      }
+      p {
+        color: #a9bbcf;
+        line-height: 1.7;
+      }
+      .card {
+        background: #1d2d44;
+        border: 1px solid #49617b;
+        border-radius: 14px;
+        padding: 25px;
+      }
+      #upper {
+        width: min(70%, 420px);
+        margin-top: 75px;
+        transform-origin: center;
+      }
+      #lower {
+        width: 100%;
+        height: 100px;
+        margin-top: 150px;
+      }
+      #clip {
+        margin-top: 55px;
+        height: 95px;
+        overflow: hidden;
+        border: 1px solid #526679;
+        border-radius: 14px;
+        background: #121f31;
+      }
+      #clipped {
+        margin: 24px -50px 0 40px;
+        width: 110%;
+        height: 80px;
+      }
+      #ordinary {
+        display: block;
+        width: 140px;
+        margin-top: 55px;
+        padding: 14px 20px;
+        border: 0;
+        border-radius: 8px;
+        background: #b7e0f3;
+        color: #142a3b;
+        font: inherit;
+        cursor: pointer;
+      }
+      #dialog {
+        background: #1a293e;
+        color: #f3f7ff;
+        border: 1px solid #6f8fad;
+        border-radius: 16px;
+        max-width: min(90vw, 450px);
+        padding: 24px;
+      }
+      #dialog::backdrop {
+        background: #0008;
+      }
+      #dialog-close {
+        padding: 10px 16px;
+      }
+      #spacer {
+        height: 500px;
+      }
+      @media (max-width: 600px) {
+        nav {
+          margin: 16px;
+        }
+        main {
+          margin-top: 40px;
+          padding-inline: 20px;
+        }
+        #upper {
+          width: 88%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav id="sticky" data-weather-surface data-holiday-lights data-holiday-garland>
+      Fluri · Browser verification
+    </nav>
+    <main>
+      <h1>Winter on real surfaces.</h1>
+      <p>
+        This scene exercises the actual exported library, native DOM geometry, Canvas 2D, browser
+        input, and lifecycle cleanup.
+      </p>
+      <article class="card" id="upper" data-weather-surface data-holiday-icicles data-holiday-frost>
+        <strong>A moving surface</strong>
+        <p>Deposits stay in local coordinates.</p>
+      </article>
+      <article
+        class="card"
+        id="lower"
+        data-weather-surface
+        data-plough-route
+        data-holiday-gifts
+        data-holiday-ornaments
+      >
+        A receiving shelf
+      </article>
+      <div id="clip">
+        <article class="card" id="clipped" data-weather-surface>A clipped surface</article>
+      </div>
+      <button id="ordinary" type="button" data-weather-surface>Click me</button>
+      <output id="click-count" aria-live="polite">0</output>
+      <div id="dynamic"></div>
+      <div id="shadow-host"></div>
+      <div id="spacer"></div>
+      <article class="card" id="offscreen" data-weather-surface>Scrollable lower surface</article>
+    </main>
+    <dialog id="dialog" data-weather-surface data-weather-layer="foreground">
+      <h2>A native top-layer dialog</h2>
+      <p>Focus, dismissal, and clicks retain normal browser behavior.</p>
+      <button id="dialog-close" type="button">Close dialog</button>
+    </dialog>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

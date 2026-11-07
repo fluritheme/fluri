@@ -1,0 +1,28 @@
+{
+  "generatedAt": "2026-11-06T21:42:42.809Z",
+  "method": "Production build in local headless Chromium, 1440x1000 viewport at 2x DPR. 1,000 actual DOM nodes, 200 tracked surfaces, 4,000 requested ambient particles, glow enabled, adaptive enabled. 2.5 second warmup and 120 real RAF samples.",
+  "caveat": "One local machine and browser; this is not a physical-mobile or cross-device FPS guarantee.",
+  "medianObservedFps": 60.0051924797589,
+  "maximumActiveParticles": 352,
+  "maximumFrameIntervalMs": 16.800000000000182,
+  "lastMetrics": {
+    "state": "running",
+    "fps": 60.00224979845321,
+    "frameTime": 16.600000000000364,
+    "simTime": 0.29999999701976776,
+    "renderTime": 0.29999999701976776,
+    "geometryScanTime": 0.5,
+    "particleCount": 350,
+    "surfaceCount": 200,
+    "collisionChecks": 238,
+    "droppedFrames": 0,
+    "quality": 1,
+    "snowMass": 5076.103707326576,
+    "snowballCount": 0,
+    "snowmanCount": 0,
+    "approximateMemory": 108000,
+    "particleBudget": 353,
+    "textureStatus": "idle"
+  },
+  "pageErrors": []
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@fluri/example-vue",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5203 --strictPort",
+    "build": "vue-tsc --noEmit -p tsconfig.json && vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 5203 --strictPort"
+  },
+  "dependencies": {
+    "@themes/fluri": "workspace:*",
+    "vue": "3.5.45"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "6.0.10",
+    "vue-tsc": "3.3.14"
+  }
+}

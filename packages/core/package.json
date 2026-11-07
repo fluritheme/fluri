@@ -1,0 +1,83 @@
+{
+  "name": "@themes/fluri",
+  "version": "0.1.0",
+  "description": "Interactive snowfall for websites: DOM-aware snow accumulation, mouse interactions, snow physics, Canvas 2D rendering, and Christmas effects.",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "docs",
+    "assets",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./christmas": {
+      "types": "./dist/christmas.d.ts",
+      "import": "./dist/christmas.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "fluri",
+    "snow",
+    "snowfall",
+    "snow-animation",
+    "snow-effect",
+    "snowflakes",
+    "snow-accumulation",
+    "winter",
+    "christmas",
+    "christmas-lights",
+    "holiday",
+    "particles",
+    "particle-system",
+    "canvas",
+    "canvas2d",
+    "dom",
+    "physics",
+    "mouse-interaction",
+    "snowball",
+    "snowman",
+    "snowplow",
+    "snowplough",
+    "javascript",
+    "typescript",
+    "framework-agnostic",
+    "react",
+    "vue",
+    "web-animation"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "zod": "4.6.7"
+  },
+  "homepage": "https://fluri.xyz/",
+  "author": {
+    "name": "Frantisek Gejdos",
+    "url": "https://fluri.xyz/about/"
+  },
+  "bugs": {
+    "url": "https://github.com/fluritheme/fluri/issues",
+    "email": "fluritheme@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fluritheme/fluri.git",
+    "directory": "packages/core"
+  }
+}

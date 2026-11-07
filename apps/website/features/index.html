@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en" id="top">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#eff5f7" />
+    <meta
+      name="description"
+      content="Discover Fluri’s surface-aware snow, interactions, adaptive performance, accessible motion controls, and optional Christmas effects."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Fluri" />
+    <meta property="og:title" content="Features — Thoughtful snow for your interface · Fluri" />
+    <meta
+      property="og:description"
+      content="Discover Fluri’s surface-aware snow, interactions, adaptive performance, accessible motion controls, and optional Christmas effects."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Features — Thoughtful snow for your interface · Fluri" />
+    <meta
+      name="twitter:description"
+      content="Discover Fluri’s surface-aware snow, interactions, adaptive performance, accessible motion controls, and optional Christmas effects."
+    />
+    <meta name="twitter:image" content="https://fluri.xyz/art/social-card.png" />
+    <link rel="canonical" href="https://fluri.xyz/features/" />
+    <meta property="og:url" content="https://fluri.xyz/features/" />
+    <meta property="og:image" content="https://fluri.xyz/art/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Fluri — A little winter for the web" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://fluri.xyz/#website",
+            "url": "https://fluri.xyz/",
+            "name": "Fluri",
+            "description": "Interactive snowfall and DOM-aware snow accumulation for JavaScript and TypeScript websites.",
+            "inLanguage": "en"
+          },
+          {
+            "@type": "Person",
+            "@id": "https://fluri.xyz/about/#operator",
+            "name": "Frantisek Gejdos",
+            "url": "https://fluri.xyz/about/",
+            "email": "fluritheme@gmail.com",
+            "homeLocation": { "@type": "Country", "name": "Slovakia" }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://fluri.xyz/#software",
+            "name": "Fluri",
+            "url": "https://fluri.xyz/",
+            "description": "Framework independent TypeScript snow animation library with DOM-aware snow accumulation, pointer interactions, snowballs, adaptive Canvas 2D rendering, and optional Christmas effects.",
+            "codeRepository": "https://github.com/fluritheme/fluri",
+            "programmingLanguage": "TypeScript",
+            "runtimePlatform": "Web browser",
+            "version": "0.1.0",
+            "license": "https://opensource.org/license/mit",
+            "author": { "@id": "https://fluri.xyz/about/#operator" },
+            "keywords": [
+              "JavaScript snow animation",
+              "TypeScript snowfall",
+              "DOM snow accumulation",
+              "React snow effects",
+              "Christmas website effects",
+              "interactive snow physics"
+            ],
+            "softwareRequirements": "A browser supporting Canvas 2D and ES2022; see browser support documentation."
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://fluri.xyz/features/#page",
+            "url": "https://fluri.xyz/features/",
+            "name": "Features — Thoughtful snow for your interface · Fluri",
+            "description": "Discover Fluri’s surface-aware snow, interactions, adaptive performance, accessible motion controls, and optional Christmas effects.",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://fluri.xyz/#website" },
+            "about": { "@id": "https://fluri.xyz/#software" }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Fluri", "item": "https://fluri.xyz/" },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Features",
+                "item": "https://fluri.xyz/features/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <link rel="icon" href="/fluri.svg" type="image/svg+xml" />
+    <title>Features — Thoughtful snow for your interface · Fluri</title>
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body data-page="features/">
+    <a href="#main" class="skip-link">Skip to content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="Fluri home"
+          ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <g
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+              />
+            </g></svg
+          ><span>fluri</span><span class="brand-period">.</span></a
+        >
+        <nav id="primary-nav" class="primary-nav" aria-label="Main navigation">
+          <a href="/features/" aria-current="page">Features</a><a href="/showcase/">Showcase</a
+          ><a href="/docs/">Docs</a><a href="/about/">About</a
+          ><a class="mobile-playground" href="/playground/"
+            >Open playground <span aria-hidden="true">↗</span></a
+          >
+        </nav>
+        <div class="header-actions">
+          <a class="header-playground" href="/playground/"
+            >Playground <span aria-hidden="true">↗</span></a
+          ><button
+            type="button"
+            class="menu-toggle"
+            id="menu-toggle"
+            aria-label="Open navigation"
+            aria-expanded="false"
+            aria-controls="primary-nav"
+          >
+            <span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main id="main" tabindex="-1">
+      <section class="page-heading container">
+        <p class="eyebrow">MEET THE ENGINE</p>
+        <h1>A little atmosphere.<br /><em>Real thought underneath.</em></h1>
+        <p class="page-intro">
+          A winter effect should feel like part of your website. Here is how Fluri makes room for
+          the snow without taking over the interface.
+        </p>
+      </section>
+      <section class="container feature-demo-layout">
+        <div>
+          <span class="detail-index">SURFACES &amp; PHYSICS</span>
+          <h2>It settles in.<br /><em>Then goes along.</em></h2>
+          <p>
+            Fluri keeps snow in each surface’s local coordinates. Deposits follow translation,
+            supported rotation, scrolling, and responsive geometry. A fast movement can shake some
+            loose.
+          </p>
+          <p>
+            Uneven packing, rounded shoulders, wind, and granular flow shape each pile. Snow
+            displaced from one supported edge can fall onto the next.
+          </p>
+          <div class="inline-note">Try it here: add snow, then move the card with its handle.</div>
+        </div>
+        <section class="live-demo" aria-label="Live interactive snow preview">
+          <div class="demo-topline">
+            <span><i class="status-dot"></i> <span id="demo-status">Live preview</span></span
+            ><span class="demo-top-hint">The real Fluri engine</span>
+          </div>
+          <div class="snow-scene" id="snow-scene" data-scene="features">
+            <img
+              class="scene-art"
+              src="/art/winter-window.svg"
+              width="1200"
+              height="780"
+              alt=""
+              fetchpriority="auto"
+            />
+            <div class="scene-label">
+              <span class="scene-small">A FORECAST OF YOUR OWN</span
+              ><strong id="forecast-title">A little winter.<br />A lot of wonder.</strong>
+            </div>
+            <article
+              class="snow-card snow-card-main"
+              id="moving-card"
+              data-weather-surface
+              data-weather-snow-depth="18"
+              data-holiday-lights
+              data-holiday-garland
+            >
+              <div class="snow-card-top">
+                <span class="tiny-label">LET IT SETTLE</span
+                ><button
+                  class="drag-handle"
+                  id="drag-handle"
+                  aria-label="Move snowy card. Drag or use arrow keys; Home to reset."
+                >
+                  <span aria-hidden="true">↔</span> Move
+                </button>
+              </div>
+              <h3>Made for your interface.</h3>
+              <p>Snow follows the surface.<br />Give it a little nudge.</p>
+              <span class="card-spark" aria-hidden="true">✳</span>
+            </article>
+            <div
+              class="catching-shelf"
+              data-weather-surface
+              data-weather-snow-depth="12"
+              data-plough-route
+              data-holiday-lights
+            >
+              <span
+                ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                  <g
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+                    />
+                  </g>
+                </svg>
+                A soft place to land.</span
+              ><span aria-hidden="true">↳</span>
+            </div>
+          </div>
+          <div class="demo-bottom">
+            <div class="demo-tools">
+              <button type="button" id="demo-add">
+                <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                  <g
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+                    />
+                  </g></svg
+                ><span>Add snow</span></button
+              ><button type="button" id="demo-gust">
+                <svg
+                  class="line-icon"
+                  viewBox="0 0 32 32"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M3 11h19c7 0 7-8 2-8-3 0-4 2-4 3M3 17h24c5 0 5 7 0 7M3 23h12c6 0 6 7 1 7"
+                  /></svg
+                ><span>A little wind</span></button
+              ><button type="button" id="demo-clear">
+                <span aria-hidden="true">↺</span><span>Clear</span>
+              </button>
+            </div>
+            <button type="button" class="demo-pause" id="demo-pause" aria-pressed="false">
+              Ⅱ <span>Pause</span>
+            </button>
+          </div>
+          <p class="demo-instruction">
+            Drag the handle to move the card.
+            <span class="desktop-hint">Brush an edge. Shift + drag to roll a snowball.</span>
+          </p>
+        </section>
+      </section>
+      <section class="section container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">THE DETAILS YOU CAN WORK WITH</p>
+            <h2>Small moments.<br /><em>Useful controls.</em></h2>
+          </div>
+        </div>
+        <div class="capability-grid">
+          <article>
+            <svg
+              class="line-icon"
+              viewBox="0 0 32 32"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="3" y="8" width="26" height="17" rx="4" />
+              <path d="M3 8c6-4 8 2 14-1s8-2 12 1M9 15h8M9 19h13" />
+            </svg>
+            <h3>Choose where winter lands.</h3>
+            <p>
+              Automatic discovery for supported edges, or explicit attributes and JavaScript
+              registration for predictable integration. Per-surface material, depth, and layer
+              controls.
+            </p>
+          </article>
+          <article>
+            <svg
+              class="line-icon"
+              viewBox="0 0 32 32"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m8 3 18 16-10 1-5 9-3-26Z" />
+              <path d="m18 20 5 8" />
+            </svg>
+            <h3>Make it interactive.</h3>
+            <p>
+              Brushing, gathering, throwing, snowballs, snowmen, and a tiny snowplough. Turn
+              individual interactions on or off to suit your page.
+            </p>
+          </article>
+          <article>
+            <svg
+              class="line-icon"
+              viewBox="0 0 32 32"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M3 11h19c7 0 7-8 2-8-3 0-4 2-4 3M3 17h24c5 0 5 7 0 7M3 23h12c6 0 6 7 1 7" />
+            </svg>
+            <h3>Give it a forecast.</h3>
+            <p>
+              Ten presets, runtime intensity controls, variable wind, gusts, flake styles,
+              accumulation, and optional custom textures.
+            </p>
+          </article>
+          <article>
+            <svg
+              class="line-icon"
+              viewBox="0 0 32 32"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M6 3v26M16 3v26M26 3v26M2 10h8M12 22h8M22 13h8" />
+            </svg>
+            <h3>Set a sensible budget.</h3>
+            <p>
+              Adaptive ambient density, late-frame response, capped pixel ratio, bounded overflow
+              particles, and inspectable runtime metrics.
+            </p>
+          </article>
+          <article>
+            <svg
+              class="line-icon"
+              viewBox="0 0 32 32"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M26 4C7 2 2 11 7 21c8 7 21 2 19-17ZM5 28 22 11M13 21v-7M16 18h7" />
+            </svg>
+            <h3>Respect the person visiting.</h3>
+            <p>
+              Reduced-motion policy, hidden-tab suspension, optional pause controls, and complete
+              teardown of listeners, observers, and overlays.
+            </p>
+          </article>
+          <article>
+            <svg
+              class="line-icon"
+              viewBox="0 0 32 32"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m10 8-7 8 7 8M22 8l7 8-7 8M19 4l-6 24" />
+            </svg>
+            <h3>Build on a typed API.</h3>
+            <p>
+              A framework independent controller, a React adapter, lifecycle events, runtime
+              updates, and a plugin API for your own ideas.
+            </p>
+          </article>
+        </div>
+      </section>
+      <section class="soft-section">
+        <div class="container festive-feature">
+          <img
+            src="/art/winter-night.svg"
+            width="800"
+            height="940"
+            alt="A warm cabin beneath snowy evergreens"
+            loading="lazy"
+          />
+          <div>
+            <p class="eyebrow">A LITTLE EXTRA FOR THE HOLIDAYS</p>
+            <h2>Set the lights.<br /><em>Keep the choice.</em></h2>
+            <p>
+              The optional Christmas module adds warm lights, garlands, ornaments, frost, icicles,
+              gifts, wreaths, candy canes, and sparkles to the surfaces you label.
+            </p>
+            <p>
+              Decorations are deliberate. Add a data attribute where each belongs, and leave the
+              rest of your page alone.
+            </p>
+            <a class="button button-outline" href="/showcase/?preset=christmas-night"
+              >Try a festive forecast<span aria-hidden="true">↗</span></a
+            >
+          </div>
+        </div>
+      </section>
+      <section class="section container boundary-section">
+        <div>
+          <p class="eyebrow">BUILT FOR THE BROWSER WE HAVE</p>
+          <h2>Thoughtful effects.<br /><em>Honest boundaries.</em></h2>
+        </div>
+        <div>
+          <p>
+            Fluri approximates supported DOM geometry and painting order. It does not reproduce the
+            browser compositor or a three-dimensional snow simulation.
+          </p>
+          <p>
+            Complex perspective transforms, arbitrary masks, closed shadow-root internals,
+            cross-origin iframe contents, and some top-layer behavior have limits. Explicit surfaces
+            give you more predictable results.
+          </p>
+          <a class="text-link" href="/docs/#limitations"
+            >Read the integration limits <span aria-hidden="true">→</span></a
+          >
+        </div>
+      </section>
+      <section class="closing container">
+        <div class="closing-flake" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <g
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+              />
+            </g>
+          </svg>
+        </div>
+        <p class="eyebrow">SMALL DETAILS. LASTING IMPRESSIONS.</p>
+        <h2>Make room for<br /><em>a little wonder.</em></h2>
+        <p>Your website. Your forecast.</p>
+        <div class="button-row">
+          <a class="button button-dark" href="/playground/"
+            >Find your winter<span aria-hidden="true">↗</span></a
+          ><a class="text-link" href="/docs/">Read the docs <span aria-hidden="true">→</span></a>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="/"
+            ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+              <g
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+                />
+              </g></svg
+            ><span>fluri</span><span class="brand-period">.</span></a
+          >
+          <p>A little winter for the web.<br />Made with care. Open by nature.</p>
+          <button type="button" id="motion-toggle" class="motion-toggle" aria-pressed="false">
+            <span aria-hidden="true">◌</span> <span id="motion-label">Preview motion on</span>
+          </button>
+        </div>
+        <div>
+          <h2>Explore</h2>
+          <a href="/features/">Features</a><a href="/showcase/">Showcase</a
+          ><a href="/playground/">Playground</a><a href="/community/">Community</a>
+        </div>
+        <div>
+          <h2>Build</h2>
+          <a href="/docs/">Documentation</a><a href="/changelog/">Changelog</a
+          ><a href="/participate/">Share your website</a><a href="/about/">About &amp; contact</a>
+        </div>
+        <div>
+          <h2>The details</h2>
+          <a href="/privacy/">Privacy</a><a href="/terms/">Terms</a
+          ><a href="/cookies/">Cookies &amp; storage</a><a href="/license/">MIT license</a>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <span>© 2026 Fluri contributors</span
+        ><span>Made for ordinary websites. And extraordinary little moments.</span
+        ><a href="#top">Back to the top ↑</a>
+      </div>
+    </footer>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

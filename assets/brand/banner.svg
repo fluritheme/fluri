@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Fluri — Let your website snow.</title>
+  <desc id="desc">An original ice-blue Fluri snowflake mark and winter typography against a dark aurora sky, with a few softly glowing snowflakes.</desc>
+  <defs>
+    <linearGradient id="night" x1="0" y1="0" x2="1200" y2="360" gradientUnits="userSpaceOnUse"><stop stop-color="#14283b"/><stop offset="1" stop-color="#09121d"/></linearGradient>
+    <radialGradient id="aurora" cx="0" cy="0" r="1" gradientTransform="translate(740 -50) rotate(88) scale(430 670)" gradientUnits="userSpaceOnUse"><stop stop-color="#345d77" stop-opacity=".6"/><stop offset="1" stop-color="#345d77" stop-opacity="0"/></radialGradient>
+    <linearGradient id="ice" x1="126" y1="155" x2="872" y2="250" gradientUnits="userSpaceOnUse"><stop stop-color="#f1fbff"/><stop offset="1" stop-color="#94cfe8"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="5"/></filter>
+  </defs>
+  <rect width="1200" height="360" rx="24" fill="url(#night)"/>
+  <rect width="1200" height="360" rx="24" fill="url(#aurora)"/>
+  <rect x=".5" y=".5" width="1199" height="359" rx="23.5" stroke="#36516b"/>
+  <g stroke="#c0ecff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.2" transform="translate(72 55)">
+    <path d="M24 0v48M3.22 12l41.56 24M3.22 36l41.56-24M16 5l8 8 8-8M16 43l8-8 8 8M4 21l11-3-3-11M36 41l-3-11 11-3M4 27l11 3-3 11M36 7l-3 11 11 3"/>
+  </g>
+  <text x="137" y="93" fill="#e8f5ff" font-family="Inter,system-ui,-apple-system,sans-serif" font-size="44" font-weight="700" letter-spacing="-2">fluri</text>
+  <text x="72" y="205" fill="url(#ice)" font-family="Inter,system-ui,-apple-system,sans-serif" font-size="69" font-weight="550" letter-spacing="-3">Let your website snow.</text>
+  <text x="76" y="252" fill="#9db9ce" font-family="Inter,system-ui,-apple-system,sans-serif" font-size="20" letter-spacing=".3">DOM-aware winter weather for the web.</text>
+  <g fill="#dcf5ff"><circle cx="1019" cy="74" r="2"/><circle cx="1101" cy="144" r="3"/><circle cx="945" cy="118" r="1.5"/><circle cx="855" cy="50" r="2"/><circle cx="1040" cy="235" r="1.5"/><circle cx="1138" cy="281" r="2.5"/><circle cx="924" cy="280" r="2"/><circle cx="617" cy="58" r="1.5"/><circle cx="744" cy="298" r="1.5"/><circle cx="421" cy="45" r="1.2"/></g>
+  <g fill="#b6e9ff" filter="url(#glow)" opacity=".6"><circle cx="1019" cy="74" r="4"/><circle cx="1101" cy="144" r="5"/><circle cx="1138" cy="281" r="4"/></g>
+  <g stroke="#bddff2" stroke-linecap="round" stroke-width="1.5" transform="translate(1050 178) rotate(14)"><path d="M0-13v26M-11.25-6.5l22.5 13M-11.25 6.5l22.5-13M-5-9l5 4 5-4M-5 9l5-4 5 4"/></g>
+  <path d="M33 330C162 327 162 333 304 331S500 328 672 331 977 328 1167 331" stroke="#5b8098" stroke-opacity=".3"/>
+  <text x="76" y="308" fill="#7195ae" font-family="Inter,system-ui,-apple-system,sans-serif" font-size="11" letter-spacing="2">TYPESCRIPT  ·  FRAMEWORK INDEPENDENT  ·  MIT LICENSED</text>
+</svg>

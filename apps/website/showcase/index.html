@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="en" id="top">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#eff5f7" />
+    <meta
+      name="description"
+      content="Try all ten Fluri snowfall presets in a live interactive preview. From a minimal dusting to a glowing Christmas night, make the forecast yours."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Fluri" />
+    <meta property="og:title" content="Showcase — Find your kind of winter · Fluri" />
+    <meta
+      property="og:description"
+      content="Try all ten Fluri snowfall presets in a live interactive preview. From a minimal dusting to a glowing Christmas night, make the forecast yours."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Showcase — Find your kind of winter · Fluri" />
+    <meta
+      name="twitter:description"
+      content="Try all ten Fluri snowfall presets in a live interactive preview. From a minimal dusting to a glowing Christmas night, make the forecast yours."
+    />
+    <meta name="twitter:image" content="https://fluri.xyz/art/social-card.png" />
+    <link rel="canonical" href="https://fluri.xyz/showcase/" />
+    <meta property="og:url" content="https://fluri.xyz/showcase/" />
+    <meta property="og:image" content="https://fluri.xyz/art/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Fluri — A little winter for the web" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://fluri.xyz/#website",
+            "url": "https://fluri.xyz/",
+            "name": "Fluri",
+            "description": "Interactive snowfall and DOM-aware snow accumulation for JavaScript and TypeScript websites.",
+            "inLanguage": "en"
+          },
+          {
+            "@type": "Person",
+            "@id": "https://fluri.xyz/about/#operator",
+            "name": "Frantisek Gejdos",
+            "url": "https://fluri.xyz/about/",
+            "email": "fluritheme@gmail.com",
+            "homeLocation": { "@type": "Country", "name": "Slovakia" }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://fluri.xyz/#software",
+            "name": "Fluri",
+            "url": "https://fluri.xyz/",
+            "description": "Framework independent TypeScript snow animation library with DOM-aware snow accumulation, pointer interactions, snowballs, adaptive Canvas 2D rendering, and optional Christmas effects.",
+            "codeRepository": "https://github.com/fluritheme/fluri",
+            "programmingLanguage": "TypeScript",
+            "runtimePlatform": "Web browser",
+            "version": "0.1.0",
+            "license": "https://opensource.org/license/mit",
+            "author": { "@id": "https://fluri.xyz/about/#operator" },
+            "keywords": [
+              "JavaScript snow animation",
+              "TypeScript snowfall",
+              "DOM snow accumulation",
+              "React snow effects",
+              "Christmas website effects",
+              "interactive snow physics"
+            ],
+            "softwareRequirements": "A browser supporting Canvas 2D and ES2022; see browser support documentation."
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://fluri.xyz/showcase/#page",
+            "url": "https://fluri.xyz/showcase/",
+            "name": "Showcase — Find your kind of winter · Fluri",
+            "description": "Try all ten Fluri snowfall presets in a live interactive preview. From a minimal dusting to a glowing Christmas night, make the forecast yours.",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://fluri.xyz/#website" },
+            "about": { "@id": "https://fluri.xyz/#software" }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Fluri", "item": "https://fluri.xyz/" },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Showcase",
+                "item": "https://fluri.xyz/showcase/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <link rel="icon" href="/fluri.svg" type="image/svg+xml" />
+    <title>Showcase — Find your kind of winter · Fluri</title>
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body data-page="showcase/">
+    <a href="#main" class="skip-link">Skip to content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="Fluri home"
+          ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <g
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+              />
+            </g></svg
+          ><span>fluri</span><span class="brand-period">.</span></a
+        >
+        <nav id="primary-nav" class="primary-nav" aria-label="Main navigation">
+          <a href="/features/">Features</a><a href="/showcase/" aria-current="page">Showcase</a
+          ><a href="/docs/">Docs</a><a href="/about/">About</a
+          ><a class="mobile-playground" href="/playground/"
+            >Open playground <span aria-hidden="true">↗</span></a
+          >
+        </nav>
+        <div class="header-actions">
+          <a class="header-playground" href="/playground/"
+            >Playground <span aria-hidden="true">↗</span></a
+          ><button
+            type="button"
+            class="menu-toggle"
+            id="menu-toggle"
+            aria-label="Open navigation"
+            aria-expanded="false"
+            aria-controls="primary-nav"
+          >
+            <span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main id="main" tabindex="-1">
+      <section class="page-heading container">
+        <p class="eyebrow">THE WINTER COLLECTION</p>
+        <h1>Find your<br /><em>kind of snowfall.</em></h1>
+        <p class="page-intro">
+          Ten starting points. An entire season of possibilities. Pick a forecast below and see it
+          running in the live scene.
+        </p>
+      </section>
+      <section class="container collection-layout">
+        <div class="collection-preview">
+          <section class="live-demo showcase-demo" aria-label="Live interactive snow preview">
+            <div class="demo-topline">
+              <span><i class="status-dot"></i> <span id="demo-status">Live preview</span></span
+              ><span class="demo-top-hint">The real Fluri engine</span>
+            </div>
+            <div class="snow-scene" id="snow-scene" data-scene="showcase">
+              <img
+                class="scene-art"
+                src="/art/winter-window.svg"
+                width="1200"
+                height="780"
+                alt=""
+                fetchpriority="auto"
+              />
+              <div class="scene-label">
+                <span class="scene-small">A FORECAST OF YOUR OWN</span
+                ><strong id="forecast-title">A little winter.<br />A lot of wonder.</strong>
+              </div>
+              <article
+                class="snow-card snow-card-main"
+                id="moving-card"
+                data-weather-surface
+                data-weather-snow-depth="18"
+                data-holiday-lights
+                data-holiday-garland
+              >
+                <div class="snow-card-top">
+                  <span class="tiny-label">LET IT SETTLE</span
+                  ><button
+                    class="drag-handle"
+                    id="drag-handle"
+                    aria-label="Move snowy card. Drag or use arrow keys; Home to reset."
+                  >
+                    <span aria-hidden="true">↔</span> Move
+                  </button>
+                </div>
+                <h3>Made for your interface.</h3>
+                <p>Snow follows the surface.<br />Give it a little nudge.</p>
+                <span class="card-spark" aria-hidden="true">✳</span>
+              </article>
+              <div
+                class="catching-shelf"
+                data-weather-surface
+                data-weather-snow-depth="12"
+                data-plough-route
+                data-holiday-lights
+              >
+                <span
+                  ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                    <g
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+                      />
+                    </g>
+                  </svg>
+                  A soft place to land.</span
+                ><span aria-hidden="true">↳</span>
+              </div>
+            </div>
+            <div class="demo-bottom">
+              <div class="demo-tools">
+                <button type="button" id="demo-add">
+                  <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                    <g
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+                      />
+                    </g></svg
+                  ><span>Add snow</span></button
+                ><button type="button" id="demo-gust">
+                  <svg
+                    class="line-icon"
+                    viewBox="0 0 32 32"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M3 11h19c7 0 7-8 2-8-3 0-4 2-4 3M3 17h24c5 0 5 7 0 7M3 23h12c6 0 6 7 1 7"
+                    /></svg
+                  ><span>A little wind</span></button
+                ><button type="button" id="demo-clear">
+                  <span aria-hidden="true">↺</span><span>Clear</span>
+                </button>
+              </div>
+              <button type="button" class="demo-pause" id="demo-pause" aria-pressed="false">
+                Ⅱ <span>Pause</span>
+              </button>
+            </div>
+            <p class="demo-instruction">
+              Drag the handle to move the card.
+              <span class="desktop-hint">Brush an edge to clear the snow.</span>
+            </p>
+          </section>
+          <div class="preview-description">
+            <div>
+              <p class="eyebrow" id="selected-category">A QUIET START</p>
+              <h2 id="selected-name">Gentle snow</h2>
+              <p id="selected-description">A soft dusting. Room to breathe.</p>
+            </div>
+            <button class="button button-outline" id="copy-forecast">
+              Copy configuration <span aria-hidden="true">↗</span>
+            </button>
+          </div>
+          <p class="collection-note">
+            These are live engine presets. The illustration sets the scene; the falling and
+            accumulated snow is simulated. Festive presets also enable explicitly placed lights and
+            garlands in this preview.
+          </p>
+        </div>
+        <div class="collection-picker">
+          <div class="filter-list" role="group" aria-label="Filter presets">
+            <button class="filter-button" data-filter="all" aria-pressed="true">All</button
+            ><button class="filter-button" data-filter="quiet" aria-pressed="false">Quiet</button
+            ><button class="filter-button" data-filter="atmosphere" aria-pressed="false">
+              Atmosphere</button
+            ><button class="filter-button" data-filter="festive" aria-pressed="false">
+              Festive</button
+            ><button class="filter-button" data-filter="playful" aria-pressed="false">
+              Playful
+            </button>
+          </div>
+          <div class="preset-list" role="group" aria-label="Choose a snowfall preset">
+            <button
+              type="button"
+              class="preset-choice"
+              data-preset="gentle-snow"
+              data-category="quiet"
+              aria-pressed="true"
+            >
+              <span class="preset-thumbnail mood-quiet" aria-hidden="true"
+                ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                  <g
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+                    />
+                  </g></svg
+                ><i></i><i></i><i></i></span
+              ><span
+                ><strong>Gentle snow</strong><small>A soft dusting. Room to breathe.</small></span
+              ><span class="preset-check" aria-hidden="true">✓</span></button
+            ><button
+              type="button"
+              class="preset-choice"
+              data-preset="winter-magic"
+              data-category="atmosphere"
+              aria-pressed="false"
+            >
+              <span class="preset-thumbnail mood-atmosphere" aria-hidden="true"
+                ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                  <g
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+                    />
+                  </g></svg
+                ><i></i><i></i><i></i></span
+              ><span
+                ><strong>Winter magic</strong
+                ><small>A little glow. A little more wonder.</small></span
+              ><span class="preset-check" aria-hidden="true">↗</span></button
+            ><button
+              type="button"
+              class="preset-choice"
+              data-preset="snowstorm"
+              data-category="atmosphere"
+              aria-pressed="false"
+            >
+              <span class="preset-thumbnail mood-atmosphere" aria-hidden="true"
+                ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                  <g
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+                    />
+                  </g></svg
+                ><i></i><i></i><i></i></span
+              ><span><strong>Snowstorm</strong><small>A stronger wind and a busy sky.</small></span
+              ><span class="preset-check" aria-hidden="true">↗</span></button
+            ><button
+              type="button"
+              class="preset-choice"
+              data-preset="frosted-glass"
+              data-category="quiet"
+              aria-pressed="false"
+            >
+              <span class="preset-thumbnail mood-quiet" aria-hidden="true"
+                ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                  <g
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+                    />
+                  </g></svg
+                ><i></i><i></i><i></i></span
+              ><span
+                ><strong>Frosted glass</strong
+                ><small>Sparse crystals. A crisp winter morning.</small></span
+              ><span class="preset-check" aria-hidden="true">↗</span></button
+            ><button
+              type="button"
+              class="preset-choice"
+              data-preset="christmas-classic"
+              data-category="festive"
+              aria-pressed="false"
+            >
+              <span class="preset-thumbnail mood-festive" aria-hidden="true"
+                ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                  <g
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+                    />
+                  </g></svg
+                ><i></i><i></i><i></i></span
+              ><span
+                ><strong>Christmas classic</strong
+                ><small>A familiar snowfall, ready for warm lights.</small></span
+              ><span class="preset-check" aria-hidden="true">↗</span></button
+            ><button
+              type="button"
+              class="preset-choice"
+              data-preset="christmas-night"
+              data-category="festive"
+              aria-pressed="false"
+            >
+              <span class="preset-thumbnail mood-festive" aria-hidden="true"
+                ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                  <g
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+                    />
+                  </g></svg
+                ><i></i><i></i><i></i></span
+              ><span
+                ><strong>Christmas night</strong
+                ><small>A cool, glowing sky after sunset.</small></span
+              ><span class="preset-check" aria-hidden="true">↗</span></button
+            ><button
+              type="button"
+              class="preset-choice"
+              data-preset="north-pole"
+              data-category="playful"
+              aria-pressed="false"
+            >
+              <span class="preset-thumbnail mood-playful" aria-hidden="true"
+                ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                  <g
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+                    />
+                  </g></svg
+                ><i></i><i></i><i></i></span
+              ><span
+                ><strong>North pole</strong><small>Deeper snow and room for snowballs.</small></span
+              ><span class="preset-check" aria-hidden="true">↗</span></button
+            ><button
+              type="button"
+              class="preset-choice"
+              data-preset="minimal"
+              data-category="quiet"
+              aria-pressed="false"
+            >
+              <span class="preset-thumbnail mood-quiet" aria-hidden="true"
+                ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                  <g
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+                    />
+                  </g></svg
+                ><i></i><i></i><i></i></span
+              ><span><strong>Minimal</strong><small>Small dots. The lightest touch.</small></span
+              ><span class="preset-check" aria-hidden="true">↗</span></button
+            ><button
+              type="button"
+              class="preset-choice"
+              data-preset="playful"
+              data-category="playful"
+              aria-pressed="false"
+            >
+              <span class="preset-thumbnail mood-playful" aria-hidden="true"
+                ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                  <g
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+                    />
+                  </g></svg
+                ><i></i><i></i><i></i></span
+              ><span
+                ><strong>Playful</strong
+                ><small>Snowballs, snowmen, and a curious breeze.</small></span
+              ><span class="preset-check" aria-hidden="true">↗</span></button
+            ><button
+              type="button"
+              class="preset-choice"
+              data-preset="cinematic"
+              data-category="atmosphere"
+              aria-pressed="false"
+            >
+              <span class="preset-thumbnail mood-atmosphere" aria-hidden="true"
+                ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                  <g
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+                    />
+                  </g></svg
+                ><i></i><i></i><i></i></span
+              ><span
+                ><strong>Cinematic</strong
+                ><small>Large flakes, depth, and soft atmosphere.</small></span
+              ><span class="preset-check" aria-hidden="true">↗</span>
+            </button>
+          </div>
+          <p class="filter-status" role="status" id="filter-status">10 forecasts to explore</p>
+          <a class="text-link" href="/playground/"
+            >Fine-tune everything in the playground <span aria-hidden="true">→</span></a
+          >
+        </div>
+      </section>
+      <section class="section container use-cases">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">A FEW PLACES WINTER FEELS AT HOME</p>
+            <h2>Made for moments.<br /><em>Built into your world.</em></h2>
+          </div>
+        </div>
+        <div class="use-case-grid">
+          <article>
+            <span>PORTFOLIOS &amp; PERSONAL SITES</span>
+            <h3>A quiet change of season.</h3>
+            <p>
+              Keep your work in focus with a restrained snowfall, explicit surfaces, and a small
+              particle budget.
+            </p>
+            <a href="/showcase/?preset=minimal" class="text-link">Try Minimal →</a>
+          </article>
+          <article>
+            <span>LANDING PAGES &amp; LAUNCHES</span>
+            <h3>A moment to remember.</h3>
+            <p>
+              Let a moving card catch a little snow. Add one playful interaction to a familiar
+              interface.
+            </p>
+            <a href="/showcase/?preset=playful" class="text-link">Try Playful →</a>
+          </article>
+          <article>
+            <span>SEASONAL EXPERIENCES</span>
+            <h3>A warmer welcome.</h3>
+            <p>
+              Turn on a seasonal forecast and decorate selected surfaces with soft lights and
+              garlands.
+            </p>
+            <a href="/showcase/?preset=christmas-night" class="text-link">Try Christmas night →</a>
+          </article>
+        </div>
+      </section>
+      <section class="closing container">
+        <div class="closing-flake" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <g
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+              />
+            </g>
+          </svg>
+        </div>
+        <p class="eyebrow">SMALL DETAILS. LASTING IMPRESSIONS.</p>
+        <h2>Make room for<br /><em>a little wonder.</em></h2>
+        <p>Your website. Your forecast.</p>
+        <div class="button-row">
+          <a class="button button-dark" href="/playground/"
+            >Find your winter<span aria-hidden="true">↗</span></a
+          ><a class="text-link" href="/docs/">Read the docs <span aria-hidden="true">→</span></a>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="/"
+            ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+              <g
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+                />
+              </g></svg
+            ><span>fluri</span><span class="brand-period">.</span></a
+          >
+          <p>A little winter for the web.<br />Made with care. Open by nature.</p>
+          <button type="button" id="motion-toggle" class="motion-toggle" aria-pressed="false">
+            <span aria-hidden="true">◌</span> <span id="motion-label">Preview motion on</span>
+          </button>
+        </div>
+        <div>
+          <h2>Explore</h2>
+          <a href="/features/">Features</a><a href="/showcase/">Showcase</a
+          ><a href="/playground/">Playground</a><a href="/community/">Community</a>
+        </div>
+        <div>
+          <h2>Build</h2>
+          <a href="/docs/">Documentation</a><a href="/changelog/">Changelog</a
+          ><a href="/participate/">Share your website</a><a href="/about/">About &amp; contact</a>
+        </div>
+        <div>
+          <h2>The details</h2>
+          <a href="/privacy/">Privacy</a><a href="/terms/">Terms</a
+          ><a href="/cookies/">Cookies &amp; storage</a><a href="/license/">MIT license</a>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <span>© 2026 Fluri contributors</span
+        ><span>Made for ordinary websites. And extraordinary little moments.</span
+        ><a href="#top">Back to the top ↑</a>
+      </div>
+    </footer>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

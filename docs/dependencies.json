@@ -1,0 +1,22 @@
+{
+  "methodology": "pnpm licenses list --prod; filesystem paths omitted; React is an optional adapter peer, Zod is the core runtime dependency.",
+  "licenses": {
+    "MIT": [
+      {
+        "name": "react",
+        "versions": ["19.3.1"],
+        "license": "MIT",
+        "homepage": "https://react.dev/",
+        "description": "React is a JavaScript library for building user interfaces."
+      },
+      {
+        "name": "zod",
+        "versions": ["4.6.7"],
+        "license": "MIT",
+        "author": "Colin McDonnell",
+        "homepage": "https://zod.dev",
+        "description": "TypeScript-first schema declaration and validation library with static type inference"
+      }
+    ]
+  }
+}

@@ -1,0 +1,25 @@
+# Fluri
+
+> Open-source TypeScript snow animation library for websites. Snow accumulates on supported DOM edges and responds to pointer interactions. MIT licensed.
+
+Fluri is a visual effect, not a weather forecast service. The core works independently of frameworks; a separate React adapter supports React and Next.js. Defaults include no visitor telemetry or network requests. Adaptive quality and reduced-motion controls are available; performance and supported geometry have documented limits. Registry availability is stated in the getting-started guide.
+
+## Product and source
+- [Overview](https://fluri.xyz/): Live preview and product capabilities.
+- [Documentation](https://fluri.xyz/docs/): Setup, lifecycle, configuration, and framework examples.
+- [Source](https://github.com/fluritheme/fluri): Source code, license, issues, and contribution instructions.
+- [Preset previews](https://fluri.xyz/showcase/): Ten presets rendered by the actual engine.
+- [Playground](https://fluri.xyz/playground/): Interactive configuration; JavaScript required.
+
+## Reference
+- [Getting started](https://fluri.xyz/reference/getting-started.md)
+- [API](https://fluri.xyz/reference/api-reference.md)
+- [Customization](https://fluri.xyz/reference/customization.md)
+- [Browser support](https://fluri.xyz/reference/browser-support.md)
+- [Performance](https://fluri.xyz/reference/performance.md)
+- [Known limitations](https://fluri.xyz/reference/limitations.md)
+- [Accessibility](https://fluri.xyz/reference/accessibility.md)
+- [Privacy](https://fluri.xyz/privacy/)
+- [Optional website participation](https://fluri.xyz/reference/participation.md): Owner-approved registration and server-to-server aggregate reports; not unique people or automatic visitor tracking.
+
+Operator: Frantisek Gejdos, Slovakia. Contact: fluritheme@gmail.com.

@@ -1,0 +1,32 @@
+{
+  "name": "fluri",
+  "main": "workers/site.ts",
+  "compatibility_date": "2026-11-06",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "fluri.xyz", "custom_domain": true }],
+  "d1_databases": [
+    {
+      "binding": "PARTICIPATION_DB",
+      "database_name": "fluri-participation",
+      "database_id": "cf122b29-03b7-4eea-a3a6-489076da63c5",
+      "migrations_dir": "migrations",
+    },
+  ],
+  "ratelimits": [
+    { "name": "API_LIMIT", "namespace_id": "1001", "simple": { "limit": 60, "period": 60 } },
+    { "name": "LOGIN_LIMIT", "namespace_id": "1002", "simple": { "limit": 5, "period": 60 } },
+  ],
+  "assets": {
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/api/*",
+      "/dashboard/*",
+      "/readme/npm-downloads.svg",
+      "/readme/npm-downloads-react.svg",
+    ],
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page",
+  },
+}

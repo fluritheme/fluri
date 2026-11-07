@@ -1,0 +1,68 @@
+{
+  "name": "@themes/fluri-react",
+  "version": "0.1.0",
+  "description": "React snow effects for websites: Fluri component and hook with DOM-aware snowfall, snow accumulation, Next.js support, and automatic lifecycle cleanup.",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "fluri",
+    "react",
+    "react-snow",
+    "react-snowfall",
+    "snow",
+    "snowfall",
+    "snow-animation",
+    "snow-effect",
+    "snow-accumulation",
+    "winter",
+    "christmas",
+    "nextjs",
+    "react-hooks",
+    "typescript",
+    "canvas",
+    "ssr",
+    "animation"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "peerDependencies": {
+    "@themes/fluri": "^0.1.0",
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@themes/fluri": "workspace:*",
+    "@types/react": "^19.3.0"
+  },
+  "homepage": "https://fluri.xyz/docs/#frameworks",
+  "author": {
+    "name": "Frantisek Gejdos",
+    "url": "https://fluri.xyz/about/"
+  },
+  "bugs": {
+    "url": "https://github.com/fluritheme/fluri/issues",
+    "email": "fluritheme@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fluritheme/fluri.git",
+    "directory": "packages/react"
+  }
+}

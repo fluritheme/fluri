@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en" id="top">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#eff5f7" />
+    <meta
+      name="description"
+      content="The small preferences Fluri can remember on your device, and how you can remove them."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Fluri" />
+    <meta property="og:title" content="Cookies &amp; local storage" />
+    <meta
+      property="og:description"
+      content="The small preferences Fluri can remember on your device, and how you can remove them."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Cookies &amp; local storage" />
+    <meta
+      name="twitter:description"
+      content="The small preferences Fluri can remember on your device, and how you can remove them."
+    />
+    <meta name="twitter:image" content="https://fluri.xyz/art/social-card.png" />
+    <link rel="canonical" href="https://fluri.xyz/cookies/" />
+    <meta property="og:url" content="https://fluri.xyz/cookies/" />
+    <meta property="og:image" content="https://fluri.xyz/art/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Fluri — A little winter for the web" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://fluri.xyz/#website",
+            "url": "https://fluri.xyz/",
+            "name": "Fluri",
+            "description": "Interactive snowfall and DOM-aware snow accumulation for JavaScript and TypeScript websites.",
+            "inLanguage": "en"
+          },
+          {
+            "@type": "Person",
+            "@id": "https://fluri.xyz/about/#operator",
+            "name": "Frantisek Gejdos",
+            "url": "https://fluri.xyz/about/",
+            "email": "fluritheme@gmail.com",
+            "homeLocation": { "@type": "Country", "name": "Slovakia" }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://fluri.xyz/#software",
+            "name": "Fluri",
+            "url": "https://fluri.xyz/",
+            "description": "Framework independent TypeScript snow animation library with DOM-aware snow accumulation, pointer interactions, snowballs, adaptive Canvas 2D rendering, and optional Christmas effects.",
+            "codeRepository": "https://github.com/fluritheme/fluri",
+            "programmingLanguage": "TypeScript",
+            "runtimePlatform": "Web browser",
+            "version": "0.1.0",
+            "license": "https://opensource.org/license/mit",
+            "author": { "@id": "https://fluri.xyz/about/#operator" },
+            "keywords": [
+              "JavaScript snow animation",
+              "TypeScript snowfall",
+              "DOM snow accumulation",
+              "React snow effects",
+              "Christmas website effects",
+              "interactive snow physics"
+            ],
+            "softwareRequirements": "A browser supporting Canvas 2D and ES2022; see browser support documentation."
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://fluri.xyz/cookies/#page",
+            "url": "https://fluri.xyz/cookies/",
+            "name": "Cookies & local storage",
+            "description": "The small preferences Fluri can remember on your device, and how you can remove them.",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://fluri.xyz/#website" },
+            "about": { "@id": "https://fluri.xyz/#software" }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Fluri", "item": "https://fluri.xyz/" },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Cookies & local storage",
+                "item": "https://fluri.xyz/cookies/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <link rel="icon" href="/fluri.svg" type="image/svg+xml" />
+    <title>Cookies &amp; local storage</title>
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body data-page="cookies/">
+    <a href="#main" class="skip-link">Skip to content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="Fluri home"
+          ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <g
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+              />
+            </g></svg
+          ><span>fluri</span><span class="brand-period">.</span></a
+        >
+        <nav id="primary-nav" class="primary-nav" aria-label="Main navigation">
+          <a href="/features/">Features</a><a href="/showcase/">Showcase</a><a href="/docs/">Docs</a
+          ><a href="/about/">About</a
+          ><a class="mobile-playground" href="/playground/"
+            >Open playground <span aria-hidden="true">↗</span></a
+          >
+        </nav>
+        <div class="header-actions">
+          <a class="header-playground" href="/playground/"
+            >Playground <span aria-hidden="true">↗</span></a
+          ><button
+            type="button"
+            class="menu-toggle"
+            id="menu-toggle"
+            aria-label="Open navigation"
+            aria-expanded="false"
+            aria-controls="primary-nav"
+          >
+            <span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main id="main" tabindex="-1">
+      <section class="page-heading container">
+        <p class="eyebrow">THE PRACTICAL DETAILS</p>
+        <h1>Cookies & local storage</h1>
+        <p class="page-intro">
+          The small preferences Fluri can remember on your device, and how you can remove them.
+        </p>
+      </section>
+      <div class="container legal-layout">
+        <aside class="docs-sidebar">
+          <span class="eyebrow">ON THIS PAGE</span>
+          <nav aria-label="Page contents">
+            <a href="#our-approach">Your forecast stays with you</a
+            ><a href="#stored-values">What can be saved</a
+            ><a href="#dashboard-session">Private dashboard authentication</a
+            ><a href="#hosting-security">Cloudflare security</a
+            ><a href="#your-controls">Change or remove your preferences</a
+            ><a href="#more-information">More information</a>
+          </nav>
+          <span class="docs-version">UPDATED 7 NOVEMBER 2026</span>
+        </aside>
+        <article class="prose legal-prose">
+          <section id="our-approach">
+            <h2>Your forecast stays with you</h2>
+            <p>
+              The Fluri application does not set advertising, audience-measurement, or cross-site
+              tracking cookies. The snow engine runs in memory. This website can save two local
+              preferences, and the private project dashboard uses a necessary session cookie after
+              administrator login.
+            </p>
+            <p>
+              Optional participation is separate from the engine: owners can send aggregate reports
+              from their own backends. There is no automatic visitor reporting module in this
+              release. Local storage is kept by your browser and is not automatically included with
+              requests; our application does not upload the saved snow preferences.
+            </p>
+          </section>
+          <section id="stored-values">
+            <h2>What can be saved</h2>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Storage key</th>
+                    <th scope="col">Purpose</th>
+                    <th scope="col">When it is saved</th>
+                    <th scope="col">Lifetime</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row"><code>fluri:motion:v1</code></th>
+                    <td>
+                      Local storage remembering the website snow setting, <code>on</code> or
+                      <code>off</code>.
+                    </td>
+                    <td>When you change the website snow setting.</td>
+                    <td>Until replaced, cleared, or removed by your browser.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row"><code>fluri:configuration:v1</code></th>
+                    <td>Local storage for your playground configuration.</td>
+                    <td>Only when you choose <strong>Save locally</strong>.</td>
+                    <td>Until replaced, cleared, or removed by your browser.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row"><code>__Host-fluri_session</code></th>
+                    <td>
+                      First-party, HttpOnly, Secure, SameSite=Strict cookie authenticating the
+                      private project administrator. It is not an analytics identifier.
+                    </td>
+                    <td>After successful dashboard login.</td>
+                    <td>
+                      At most eight hours; cleared by logout. Server-side session revocation
+                      invalidates existing sessions.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>
+              The portal does not save owner management or reporting credentials to cookies, local
+              storage, or session storage. Entered credentials remain in page memory until you leave
+              or reload the page. Keep your own secure copy if you want to manage the registration
+              later.
+            </p>
+          </section>
+          <section id="dashboard-session">
+            <h2>Private dashboard authentication</h2>
+            <p>
+              Signing in to the operator dashboard sets <code>__Host-fluri_session</code>, a random
+              session credential used only to authorize dashboard access. It has the HttpOnly,
+              Secure and SameSite=Strict attributes, applies to this origin, and expires after eight
+              hours or when you sign out. This cookie is necessary to provide the signed-in service
+              you request; it is not used for audience measurement or advertising. Owners using the
+              participation portal authenticate with management keys held in page memory; the portal
+              does not persist those keys in local storage.
+            </p>
+          </section>
+          <section id="hosting-security">
+            <h2>Cloudflare security</h2>
+            <p>
+              Cloudflare delivers and protects this website. Depending on the security features
+              applied to a request, Cloudflare may use necessary security or challenge cookies.
+              These are separate from the Fluri application’s local preferences. We do not use them
+              for advertising.
+            </p>
+            <p>
+              <a
+                href="https://developers.cloudflare.com/fundamentals/reference/policies-compliances/cloudflare-cookies/"
+                rel="external"
+                >Cloudflare’s cookie documentation</a
+              >
+              explains its security cookies and when each is used. Not every cookie in that
+              documentation is used on this website.
+            </p>
+          </section>
+          <section id="your-controls">
+            <h2>Change or remove your preferences</h2>
+            <p>
+              Use the website’s snow control to change your motion preference. Your device’s
+              reduced-motion setting is respected independently. To remove saved values, clear this
+              website’s cookies and site data in your browser. Export a playground configuration
+              first if you want to keep it.
+            </p>
+            <p>
+              Dashboard logout removes its session cookie. Clearing site data also signs that
+              browser out. Blocking the dashboard cookie prevents authenticated dashboard use; it
+              does not stop you from reading the public site or using the library. Blocking provider
+              security cookies can affect access when a challenge is required.
+            </p>
+          </section>
+          <section id="more-information">
+            <h2>More information</h2>
+            <p>
+              Read the <a href="/privacy/">privacy policy</a> for the operator’s contact details,
+              processing purposes, hosting information, and your rights. For questions about browser
+              storage on Fluri, email
+              <a href="mailto:fluritheme@gmail.com">fluritheme@gmail.com</a>.
+            </p>
+          </section>
+        </article>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="/"
+            ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+              <g
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+                />
+              </g></svg
+            ><span>fluri</span><span class="brand-period">.</span></a
+          >
+          <p>A little winter for the web.<br />Made with care. Open by nature.</p>
+          <button type="button" id="motion-toggle" class="motion-toggle" aria-pressed="false">
+            <span aria-hidden="true">◌</span> <span id="motion-label">Preview motion on</span>
+          </button>
+        </div>
+        <div>
+          <h2>Explore</h2>
+          <a href="/features/">Features</a><a href="/showcase/">Showcase</a
+          ><a href="/playground/">Playground</a><a href="/community/">Community</a>
+        </div>
+        <div>
+          <h2>Build</h2>
+          <a href="/docs/">Documentation</a><a href="/changelog/">Changelog</a
+          ><a href="/participate/">Share your website</a><a href="/about/">About &amp; contact</a>
+        </div>
+        <div>
+          <h2>The details</h2>
+          <a href="/privacy/">Privacy</a><a href="/terms/">Terms</a
+          ><a href="/cookies/">Cookies &amp; storage</a><a href="/license/">MIT license</a>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <span>© 2026 Fluri contributors</span
+        ><span>Made for ordinary websites. And extraordinary little moments.</span
+        ><a href="#top">Back to the top ↑</a>
+      </div>
+    </footer>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

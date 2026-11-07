@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="en" id="top">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#eff5f7" />
+    <meta
+      name="description"
+      content="Install Fluri, add snowy surfaces, and integrate the TypeScript snow engine with React, Vue, or your own framework. Read configuration and lifecycle guidance."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Fluri" />
+    <meta property="og:title" content="Documentation — Your first snowfall · Fluri" />
+    <meta
+      property="og:description"
+      content="Install Fluri, add snowy surfaces, and integrate the TypeScript snow engine with React, Vue, or your own framework. Read configuration and lifecycle guidance."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Documentation — Your first snowfall · Fluri" />
+    <meta
+      name="twitter:description"
+      content="Install Fluri, add snowy surfaces, and integrate the TypeScript snow engine with React, Vue, or your own framework. Read configuration and lifecycle guidance."
+    />
+    <meta name="twitter:image" content="https://fluri.xyz/art/social-card.png" />
+    <link rel="canonical" href="https://fluri.xyz/docs/" />
+    <meta property="og:url" content="https://fluri.xyz/docs/" />
+    <meta property="og:image" content="https://fluri.xyz/art/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Fluri — A little winter for the web" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://fluri.xyz/#website",
+            "url": "https://fluri.xyz/",
+            "name": "Fluri",
+            "description": "Interactive snowfall and DOM-aware snow accumulation for JavaScript and TypeScript websites.",
+            "inLanguage": "en"
+          },
+          {
+            "@type": "Person",
+            "@id": "https://fluri.xyz/about/#operator",
+            "name": "Frantisek Gejdos",
+            "url": "https://fluri.xyz/about/",
+            "email": "fluritheme@gmail.com",
+            "homeLocation": { "@type": "Country", "name": "Slovakia" }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://fluri.xyz/#software",
+            "name": "Fluri",
+            "url": "https://fluri.xyz/",
+            "description": "Framework independent TypeScript snow animation library with DOM-aware snow accumulation, pointer interactions, snowballs, adaptive Canvas 2D rendering, and optional Christmas effects.",
+            "codeRepository": "https://github.com/fluritheme/fluri",
+            "programmingLanguage": "TypeScript",
+            "runtimePlatform": "Web browser",
+            "version": "0.1.0",
+            "license": "https://opensource.org/license/mit",
+            "author": { "@id": "https://fluri.xyz/about/#operator" },
+            "keywords": [
+              "JavaScript snow animation",
+              "TypeScript snowfall",
+              "DOM snow accumulation",
+              "React snow effects",
+              "Christmas website effects",
+              "interactive snow physics"
+            ],
+            "softwareRequirements": "A browser supporting Canvas 2D and ES2022; see browser support documentation."
+          },
+          {
+            "@type": "TechArticle",
+            "@id": "https://fluri.xyz/docs/#page",
+            "url": "https://fluri.xyz/docs/",
+            "name": "Documentation — Your first snowfall · Fluri",
+            "description": "Install Fluri, add snowy surfaces, and integrate the TypeScript snow engine with React, Vue, or your own framework. Read configuration and lifecycle guidance.",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://fluri.xyz/#website" },
+            "about": { "@id": "https://fluri.xyz/#software" }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Fluri", "item": "https://fluri.xyz/" },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Documentation",
+                "item": "https://fluri.xyz/docs/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <link rel="icon" href="/fluri.svg" type="image/svg+xml" />
+    <title>Documentation — Your first snowfall · Fluri</title>
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body data-page="docs/">
+    <a href="#main" class="skip-link">Skip to content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="Fluri home"
+          ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <g
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+              />
+            </g></svg
+          ><span>fluri</span><span class="brand-period">.</span></a
+        >
+        <nav id="primary-nav" class="primary-nav" aria-label="Main navigation">
+          <a href="/features/">Features</a><a href="/showcase/">Showcase</a
+          ><a href="/docs/" aria-current="page">Docs</a><a href="/about/">About</a
+          ><a class="mobile-playground" href="/playground/"
+            >Open playground <span aria-hidden="true">↗</span></a
+          >
+        </nav>
+        <div class="header-actions">
+          <a class="header-playground" href="/playground/"
+            >Playground <span aria-hidden="true">↗</span></a
+          ><button
+            type="button"
+            class="menu-toggle"
+            id="menu-toggle"
+            aria-label="Open navigation"
+            aria-expanded="false"
+            aria-controls="primary-nav"
+          >
+            <span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main id="main" tabindex="-1">
+      <section class="page-heading container">
+        <p class="eyebrow">THE FIELD GUIDE</p>
+        <h1>From the first flake<br /><em>to your own forecast.</em></h1>
+        <p class="page-intro">
+          Install the package, choose a surface, and start the weather. Practical documentation for
+          a considered integration.
+        </p>
+      </section>
+      <div class="container docs-layout">
+        <aside class="docs-sidebar" aria-label="Documentation contents">
+          <span class="eyebrow">ON THIS PAGE</span>
+          <nav>
+            <a href="#quick-start">Quick start</a><a href="#frameworks">Frameworks</a
+            ><a href="#surfaces">Snowy surfaces</a><a href="#configuration">Configuration</a
+            ><a href="#lifecycle">Lifecycle & controls</a><a href="#christmas">Christmas module</a
+            ><a href="#performance">Performance</a><a href="#accessibility">Accessibility</a
+            ><a href="#limitations">Browser limits</a>
+          </nav>
+          <a class="reference-link" href="/reference/api-reference.md" download
+            >Download full API reference ↗</a
+          ><span class="docs-version">VERSION 0.1.0 · ESM</span>
+        </aside>
+        <div class="docs-content">
+          <section id="quick-start">
+            <span class="doc-kicker">GETTING STARTED</span>
+            <h2>Your first snowfall.</h2>
+            <p>
+              Fluri’s packages are prepared for their first npm release. You can use the built
+              package archives from this site today. Download them, then install the local files in
+              your project.
+            </p>
+            <div class="download-row">
+              <a class="button button-dark" href="/downloads/themes-fluri-0.1.0.tgz" download
+                >Download core package <span aria-hidden="true">↓</span></a
+              ><a class="text-link" href="/downloads/themes-fluri-react-0.1.0.tgz" download
+                >React adapter ↓</a
+              >
+            </div>
+            <div class="code-block">
+              <div class="code-bar">
+                <span>Install the downloaded core</span
+                ><button
+                  class="copy-button"
+                  data-copy-target="install-local"
+                  aria-label="Copy Install the downloaded core"
+                >
+                  Copy <span aria-hidden="true">▢</span>
+                </button>
+              </div>
+              <pre><code id="install-local">npm install ./themes-fluri-0.1.0.tgz</code></pre>
+            </div>
+            <p>
+              After registry publication, the package name is <code>@themes/fluri</code>. The
+              optional adapter is <code>@themes/fluri-react</code>. These downloads contain compiled
+              ESM, TypeScript declarations, README, and MIT licensing.
+            </p>
+            <div class="code-block">
+              <div class="code-bar">
+                <span>Start in the browser</span
+                ><button
+                  class="copy-button"
+                  data-copy-target="docs-start"
+                  aria-label="Copy Start in the browser"
+                >
+                  Copy <span aria-hidden="true">▢</span>
+                </button>
+              </div>
+              <pre><code id="docs-start">import { createWeather } from &#39;@themes/fluri&#39;;
+
+const weather = createWeather({
+  preset: &#39;gentle-snow&#39;,
+  dom: { detection: &#39;explicit&#39; },
+});
+
+weather.start();
+
+// Release the effect when your page unmounts.
+window.addEventListener(&#39;pagehide&#39;, () =&gt; {
+  weather.destroy();
+}, { once: true });</code></pre>
+            </div>
+            <div class="doc-callout">
+              <strong>Start after the DOM exists.</strong>
+              <p>
+                Importing the library and creating an idle controller are safe during server
+                rendering. Call <code>start()</code> in the browser after mount.
+                <code>autoStart</code> defaults to <code>false</code>.
+              </p>
+            </div>
+          </section>
+          <section id="frameworks">
+            <h2>Bring your own framework.</h2>
+            <p>
+              The core uses browser APIs. Use the React adapter for automatic lifecycle cleanup, or
+              pair the controller with your framework’s mount and unmount hooks.
+            </p>
+            <p>For React, install both archives with React already in your application:</p>
+            <div class="code-block">
+              <div class="code-bar">
+                <span>Install the React adapter</span
+                ><button
+                  class="copy-button"
+                  data-copy-target="install-react"
+                  aria-label="Copy Install the React adapter"
+                >
+                  Copy <span aria-hidden="true">▢</span>
+                </button>
+              </div>
+              <pre><code id="install-react">npm install ./themes-fluri-0.1.0.tgz ./themes-fluri-react-0.1.0.tgz</code></pre>
+            </div>
+            <div class="integration-panel" data-code-tabs>
+              <div class="integration-tabs" role="tablist" aria-label="Framework examples">
+                <button
+                  type="button"
+                  role="tab"
+                  id="docs-tab-0"
+                  aria-selected="true"
+                  aria-controls="docs-panel-0"
+                  tabindex="0"
+                >
+                  TypeScript</button
+                ><button
+                  type="button"
+                  role="tab"
+                  id="docs-tab-1"
+                  aria-selected="false"
+                  aria-controls="docs-panel-1"
+                  tabindex="-1"
+                >
+                  React</button
+                ><button
+                  type="button"
+                  role="tab"
+                  id="docs-tab-2"
+                  aria-selected="false"
+                  aria-controls="docs-panel-2"
+                  tabindex="-1"
+                >
+                  Vue
+                </button>
+              </div>
+              <div role="tabpanel" id="docs-panel-0" aria-labelledby="docs-tab-0">
+                <div class="code-block">
+                  <div class="code-bar">
+                    <span>TypeScript integration</span
+                    ><button
+                      class="copy-button"
+                      data-copy-target="docs-code-0"
+                      aria-label="Copy TypeScript integration"
+                    >
+                      Copy <span aria-hidden="true">▢</span>
+                    </button>
+                  </div>
+                  <pre><code id="docs-code-0">import { createWeather } from &#39;@themes/fluri&#39;;
+
+const weather = createWeather({
+  preset: &#39;gentle-snow&#39;,
+  dom: { detection: &#39;explicit&#39; },
+});
+
+weather.start();
+
+// Release the effect when your page unmounts.
+window.addEventListener(&#39;pagehide&#39;, () =&gt; {
+  weather.destroy();
+}, { once: true });</code></pre>
+                </div>
+              </div>
+              <div role="tabpanel" id="docs-panel-1" aria-labelledby="docs-tab-1" hidden>
+                <div class="code-block">
+                  <div class="code-bar">
+                    <span>React integration</span
+                    ><button
+                      class="copy-button"
+                      data-copy-target="docs-code-1"
+                      aria-label="Copy React integration"
+                    >
+                      Copy <span aria-hidden="true">▢</span>
+                    </button>
+                  </div>
+                  <pre><code id="docs-code-1">import { useFluri } from &#39;@themes/fluri-react&#39;;
+
+export function WinterPage() {
+  const weather = useFluri({
+    preset: &#39;gentle-snow&#39;,
+    dom: { detection: &#39;explicit&#39; },
+  });
+
+  return (
+    &lt;article data-weather-surface&gt;
+      &lt;h1&gt;A little winter.&lt;/h1&gt;
+      &lt;button onClick={() =&gt; weather.current?.pause()}&gt;
+        Pause snow
+      &lt;/button&gt;
+    &lt;/article&gt;
+  );
+}</code></pre>
+                </div>
+              </div>
+              <div role="tabpanel" id="docs-panel-2" aria-labelledby="docs-tab-2" hidden>
+                <div class="code-block">
+                  <div class="code-bar">
+                    <span>Vue integration</span
+                    ><button
+                      class="copy-button"
+                      data-copy-target="docs-code-2"
+                      aria-label="Copy Vue integration"
+                    >
+                      Copy <span aria-hidden="true">▢</span>
+                    </button>
+                  </div>
+                  <pre><code id="docs-code-2">&lt;script setup lang=&quot;ts&quot;&gt;
+import { onMounted, onBeforeUnmount } from &#39;vue&#39;;
+import { createWeather } from &#39;@themes/fluri&#39;;
+
+const weather = createWeather({ preset: &#39;gentle-snow&#39; });
+onMounted(() =&gt; weather.start());
+onBeforeUnmount(() =&gt; weather.destroy());
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;article data-weather-surface&gt;A little winter.&lt;/article&gt;
+&lt;/template&gt;</code></pre>
+                </div>
+              </div>
+            </div>
+            <p>
+              Next.js integrations belong in a client component with <code>'use client'</code>. The
+              React hook starts after mount and cleans up on unmount; it is safe with Strict Mode
+              setup replay.
+            </p>
+          </section>
+          <section id="surfaces">
+            <h2>Give snow a place to land.</h2>
+            <p>
+              For predictable behavior, choose explicit detection and label the elements you want to
+              collect snow. Keep important controls and dense content clear.
+            </p>
+            <div class="code-block">
+              <div class="code-bar">
+                <span>Choose surfaces in HTML</span
+                ><button
+                  class="copy-button"
+                  data-copy-target="docs-surfaces"
+                  aria-label="Copy Choose surfaces in HTML"
+                >
+                  Copy <span aria-hidden="true">▢</span>
+                </button>
+              </div>
+              <pre><code id="docs-surfaces">&lt;article data-weather-surface data-weather-snow-depth=&quot;14&quot;&gt;
+  Snow can settle here.
+&lt;/article&gt;
+&lt;section data-weather-ignore&gt;
+  Keep this content clear.
+&lt;/section&gt;</code></pre>
+            </div>
+            <div class="code-block">
+              <div class="code-bar">
+                <span>Register a surface in JavaScript</span
+                ><button
+                  class="copy-button"
+                  data-copy-target="docs-register"
+                  aria-label="Copy Register a surface in JavaScript"
+                >
+                  Copy <span aria-hidden="true">▢</span>
+                </button>
+              </div>
+              <pre><code id="docs-register">const unregister = weather.registerSurface(element, {
+  material: &#39;sticky&#39;,
+  maxSnowDepth: 12,
+  layer: &#39;content&#39;,
+});
+
+// Remove this registration when it is no longer needed.
+unregister();</code></pre>
+            </div>
+            <p>
+              Supported materials: <code>flat</code>, <code>slippery</code>, <code>sticky</code>,
+              and <code>no-accumulation</code>. Explicit surfaces can override depth, accumulation,
+              layer, and clipping behavior.
+            </p>
+          </section>
+          <section id="configuration">
+            <h2>Set your forecast.</h2>
+            <p>
+              Start from one of the ten presets and override only the values you need. Configuration
+              is validated at runtime and fully typed.
+            </p>
+            <div class="code-block">
+              <div class="code-bar">
+                <span>A considered starting point</span
+                ><button
+                  class="copy-button"
+                  data-copy-target="docs-config"
+                  aria-label="Copy A considered starting point"
+                >
+                  Copy <span aria-hidden="true">▢</span>
+                </button>
+              </div>
+              <pre><code id="docs-config">const weather = createWeather({
+  preset: &#39;gentle-snow&#39;,
+  snow: {
+    intensity: 0.45,
+    wind: { base: 0.12, gusts: true },
+    accumulation: { maxDepth: 14 },
+  },
+  dom: { detection: &#39;explicit&#39;, maxSurfaces: 60 },
+  performance: { adaptive: true, maxDPR: 1.5 },
+  accessibility: { reducedMotion: &#39;respect&#39; },
+});</code></pre>
+            </div>
+            <p>
+              Use the <a href="/playground/">playground</a> to change options live and export
+              validated JSON. The
+              <a href="/reference/api-reference.md">complete API reference</a> documents defaults,
+              ranges, attributes, events, and plugin hooks.
+            </p>
+          </section>
+          <section id="participation">
+            <h2>Share your website, on your terms.</h2>
+            <p>
+              The library has no automatic installation reporting or visitor analytics. Owners can
+              separately register a domain, verify control, and choose whether to share daily
+              aggregate counts or request a public community listing. Website-owner approval does
+              not replace any visitor consent required by the source analytics.
+            </p>
+            <p>
+              <a href="/participate/">Register or manage a website ↗</a> ·
+              <a href="/reference/participation.md">Read the reporting and privacy guide ↗</a>
+            </p>
+          </section>
+          <section id="lifecycle">
+            <h2>Keep control of the weather.</h2>
+            <div class="table-scroll">
+              <table>
+                <caption>
+                  Common controller methods
+                </caption>
+                <thead>
+                  <tr>
+                    <th>Method</th>
+                    <th>What it does</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>start()</code></td>
+                    <td>Create the overlays and start the simulation.</td>
+                  </tr>
+                  <tr>
+                    <td><code>pause() / resume()</code></td>
+                    <td>Temporarily pause or resume the effect.</td>
+                  </tr>
+                  <tr>
+                    <td><code>stop()</code></td>
+                    <td>Stop the animation and clear its visuals.</td>
+                  </tr>
+                  <tr>
+                    <td><code>destroy()</code></td>
+                    <td>Release overlays, listeners, observers, and plugins.</td>
+                  </tr>
+                  <tr>
+                    <td><code>setIntensity(0.5)</code></td>
+                    <td>Change snowfall intensity from 0 to 1.</td>
+                  </tr>
+                  <tr>
+                    <td><code>setPreset('minimal')</code></td>
+                    <td>Switch preset at runtime.</td>
+                  </tr>
+                  <tr>
+                    <td><code>updateConfig(patch)</code></td>
+                    <td>Apply a typed partial configuration.</td>
+                  </tr>
+                  <tr>
+                    <td><code>addSnow(8) / clearAccumulation()</code></td>
+                    <td>Add deposited snow or clear it.</td>
+                  </tr>
+                  <tr>
+                    <td><code>trigger('gust')</code></td>
+                    <td>Trigger an intentional effect.</td>
+                  </tr>
+                  <tr>
+                    <td><code>getMetrics()</code></td>
+                    <td>Read runtime budgets, counts, state, and timings.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>
+              Store the controller in your page or component lifecycle. Destroy it when the owning
+              page or component leaves. A destroyed controller cannot be restarted; create a new
+              instance for a new lifecycle.
+            </p>
+          </section>
+          <section id="christmas">
+            <h2>A little Christmas, on purpose.</h2>
+            <p>
+              The Christmas module is a separate import. Choose its effects, then label the surfaces
+              where each should appear.
+            </p>
+            <div class="code-block">
+              <div class="code-bar">
+                <span>Enable seasonal effects</span
+                ><button
+                  class="copy-button"
+                  data-copy-target="docs-christmas"
+                  aria-label="Copy Enable seasonal effects"
+                >
+                  Copy <span aria-hidden="true">▢</span>
+                </button>
+              </div>
+              <pre><code id="docs-christmas">import { christmasPack } from &#39;@themes/fluri/christmas&#39;;
+
+const removeChristmas = weather.use(christmasPack({
+  lights: { warmth: 0.9 },
+  garlands: true,
+  frost: true,
+}));
+
+// Remove this plugin independently when the season ends.
+removeChristmas();</code></pre>
+            </div>
+            <div class="code-block">
+              <div class="code-bar">
+                <span>Place the decorations</span
+                ><button
+                  class="copy-button"
+                  data-copy-target="docs-decorations"
+                  aria-label="Copy Place the decorations"
+                >
+                  Copy <span aria-hidden="true">▢</span>
+                </button>
+              </div>
+              <pre><code id="docs-decorations">&lt;nav data-weather-surface
+     data-holiday-lights
+     data-holiday-garland&gt;
+  A warmer welcome.
+&lt;/nav&gt;</code></pre>
+            </div>
+            <p>
+              Other supported effects include ornaments, gifts, icicles, wreaths, sparkle, and candy
+              canes. See the API reference for each option and attribute.
+            </p>
+          </section>
+          <section id="performance">
+            <h2>Leave room for the rest of your page.</h2>
+            <p>
+              Keep adaptive performance enabled. It bounds the requested snowfall by visible area
+              and device input class, responds to sustained late frames, and reduces rendering
+              detail under pressure. Overflow parcels are bounded and coalesced.
+            </p>
+            <ul>
+              <li>Start with a gentle or minimal preset and explicit surfaces.</li>
+              <li>
+                Use <code>dom.maxSurfaces</code>, <code>snow.particleCount</code>,
+                <code>performance.maxDPR</code>, and <code>performance.maxFPS</code> to set your
+                budget.
+              </li>
+              <li>Measure on your own page and physical target devices.</li>
+              <li>Inspect <code>getMetrics()</code> or the playground’s Quality panel.</li>
+            </ul>
+            <p>
+              Performance depends on the browser, device, page styles, and effects. A local
+              benchmark is not a cross-device guarantee.
+            </p>
+          </section>
+          <section id="accessibility">
+            <h2>Make motion optional.</h2>
+            <p>
+              The default <code>accessibility.reducedMotion: 'respect'</code> honors the
+              operating-system reduced-motion preference. Hidden tabs suspend animation. Offer
+              visitors an accessible pause control if you add a continuous effect.
+            </p>
+            <div class="code-block">
+              <div class="code-bar">
+                <span>Connect your pause button</span
+                ><button
+                  class="copy-button"
+                  data-copy-target="docs-pause"
+                  aria-label="Copy Connect your pause button"
+                >
+                  Copy <span aria-hidden="true">▢</span>
+                </button>
+              </div>
+              <pre><code id="docs-pause">const pause = document.querySelector(&#39;button&#39;);
+pause?.addEventListener(&#39;click&#39;, () =&gt; {
+  const paused = weather.getMetrics().state === &#39;paused&#39;;
+  if (paused) weather.resume();
+  else weather.pause();
+  pause.setAttribute(&#39;aria-pressed&#39;, String(!paused));
+});</code></pre>
+            </div>
+            <p>
+              Snow is decorative. Keep important information in normal HTML, preserve readable
+              contrast, and test keyboard and touch behavior with the effect running.
+            </p>
+          </section>
+          <section id="limitations">
+            <h2>Know the edges.</h2>
+            <p>
+              Fluri uses an approximation of supported DOM geometry, clipping, and paint order. It
+              cannot exactly reproduce arbitrary CSS composition or a true three-dimensional
+              simulation.
+            </p>
+            <ul>
+              <li>
+                Closed shadow-root internals and cross-origin iframe contents are not inspectable.
+              </li>
+              <li>
+                Complex masks, perspective transforms, and some native top layers have limits.
+              </li>
+              <li>
+                Automatic surface detection is heuristic; use explicit registration for reliable
+                control.
+              </li>
+              <li>Browser emulation does not replace testing on a physical phone.</li>
+            </ul>
+            <a class="text-link" href="/reference/limitations.md"
+              >Read the complete limitations <span aria-hidden="true">↗</span></a
+            >
+          </section>
+        </div>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="/"
+            ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+              <g
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
+                />
+              </g></svg
+            ><span>fluri</span><span class="brand-period">.</span></a
+          >
+          <p>A little winter for the web.<br />Made with care. Open by nature.</p>
+          <button type="button" id="motion-toggle" class="motion-toggle" aria-pressed="false">
+            <span aria-hidden="true">◌</span> <span id="motion-label">Preview motion on</span>
+          </button>
+        </div>
+        <div>
+          <h2>Explore</h2>
+          <a href="/features/">Features</a><a href="/showcase/">Showcase</a
+          ><a href="/playground/">Playground</a><a href="/community/">Community</a>
+        </div>
+        <div>
+          <h2>Build</h2>
+          <a href="/docs/">Documentation</a><a href="/changelog/">Changelog</a
+          ><a href="/participate/">Share your website</a><a href="/about/">About &amp; contact</a>
+        </div>
+        <div>
+          <h2>The details</h2>
+          <a href="/privacy/">Privacy</a><a href="/terms/">Terms</a
+          ><a href="/cookies/">Cookies &amp; storage</a><a href="/license/">MIT license</a>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <span>© 2026 Fluri contributors</span
+        ><span>Made for ordinary websites. And extraordinary little moments.</span
+        ><a href="#top">Back to the top ↑</a>
+      </div>
+    </footer>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "@fluri/example-next",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1 --port 5202",
+    "build": "next build",
+    "start": "next start --hostname 127.0.0.1 --port 5202",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@themes/fluri": "workspace:*",
+    "@themes/fluri-react": "workspace:*",
+    "next": "16.4.5",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  }
+}

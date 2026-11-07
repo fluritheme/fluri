@@ -1,0 +1,14 @@
+{
+  "name": "@fluri/website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node ../../scripts/prepare-website.mjs && vite --host 127.0.0.1 --port 5174",
+    "build": "node ../../scripts/prepare-website.mjs && vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4174"
+  },
+  "dependencies": {
+    "@themes/fluri": "workspace:*"
+  }
+}

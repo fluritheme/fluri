@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f4efe4" />
-    <title>Merry Christmas · Fluri</title>
+    <meta name="theme-color" content="#17332d" />
+    <title>My Website has now snow. · Fluri</title>
     <meta
       name="description"
-      content="A Christmas website with falling snow, warm lights, gifts, and a snowman garden. Made with Fluri."
+      content="A blurred Christmas background, falling snow, and a little Fluri magic."
     />
     <link rel="canonical" href="https://fluri.xyz/christmas/" />
-    <meta property="og:title" content="Merry Christmas · Fluri" />
-    <meta property="og:description" content="A little Christmas magic." />
+    <meta property="og:title" content="My Website has now snow." />
+    <meta property="og:description" content="fluri.xyz" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://fluri.xyz/christmas/" />
     <meta property="og:image" content="https://fluri.xyz/art/christmas-cabin.jpg" />
@@ -21,151 +21,21 @@
     <script type="module" src="/src/christmas-experience.ts"></script>
   </head>
   <body>
-    <main id="christmas-world" class="christmas-site">
-      <header class="xmas-header">
-        <a class="xmas-brand" href="/" aria-label="Fluri home"
-          ><span aria-hidden="true">✳</span> fluri<span class="brand-dot">.</span></a
-        >
-        <nav aria-label="Christmas navigation">
-          <a href="#moments">Christmas</a><a href="#garden">Snow garden</a
-          ><button id="tour-toggle" aria-pressed="true">Pause snow</button>
-        </nav>
-      </header>
-      <section class="arrival" aria-labelledby="arrival-title">
-        <div class="arrival-copy">
-          <h1 id="arrival-title">Merry<br /><em>Christmas.</em></h1>
-          <p>A little magic for the season.</p>
-          <button class="snow-button" id="more-snow">
-            Let it snow <span aria-hidden="true">✳</span>
-          </button>
-        </div>
-        <figure class="arrival-art">
-          <div
-            class="picture-frame"
-            data-christmas-surface
-            data-weather-surface
-            data-weather-snow-depth="12"
-            data-holiday-lights
-          >
-            <img
-              src="/art/christmas-cabin.jpg"
-              width="1024"
-              height="1536"
-              fetchpriority="high"
-              alt="A warm Christmas cabin beside a decorated tree in fresh snow."
-            />
-          </div>
-        </figure>
-      </section>
-      <div class="moments" id="moments">
-        <section class="letter-station" aria-label="A Christmas letter">
-          <div class="envelope" id="christmas-letter">
-            <article class="letter-paper" aria-label="Your Christmas letter" aria-hidden="true">
-              <p class="letter-to">Dear you,</p>
-              <p>Wishing you a<br />beautiful Christmas.</p>
-              <p class="letter-sign">With love, <em>Fluri</em> ♡</p>
-            </article>
-            <div
-              class="envelope-back"
-              data-christmas-surface
-              data-weather-surface
-              data-weather-snow-depth="10"
-            ></div>
-            <div class="envelope-front"></div>
-            <div class="envelope-flap"></div>
-            <button
-              class="wax-seal"
-              id="letter-open"
-              aria-expanded="false"
-              aria-controls="christmas-letter"
-              aria-label="Open your Christmas letter"
-            >
-              <span aria-hidden="true">✳</span>
-            </button>
-          </div>
-        </section>
-        <section class="gift-station" aria-label="A Christmas gift">
-          <div class="christmas-gift" id="christmas-gift">
-            <div class="gift-message" aria-hidden="true">
-              <span aria-hidden="true">♡</span><strong><em>For you.</em></strong>
-            </div>
-            <div class="gift-base"><span class="gift-ribbon"></span></div>
-            <div
-              class="gift-lid"
-              data-christmas-surface
-              data-weather-surface
-              data-weather-snow-depth="10"
-            >
-              <span class="gift-bow bow-left"></span><span class="gift-bow bow-right"></span>
-            </div>
-            <button
-              id="gift-open"
-              class="gift-open"
-              aria-expanded="false"
-              aria-controls="christmas-gift"
-            >
-              Open gift ↗
-            </button>
-          </div>
-        </section>
-        <section class="garden-station" id="garden" aria-label="Snowman garden">
-          <div class="snow-garden">
-            <span id="snow-garden-spark" class="garden-moon" aria-hidden="true">✧</span
-            ><svg class="garden-pines" viewBox="0 0 100 120" fill="none" aria-hidden="true">
-              <path d="M28 2 7 40h10L0 70h16L3 98h49L39 70h15L39 40h10L28 2Z" fill="#426555" />
-              <path d="M71 21 55 50h8L48 76h11L48 101h45L83 76h10L80 50h8L71 21Z" fill="#73907b" />
-              <path d="M28 98v22M71 99v21" stroke="#b9c0a0" stroke-width="4" />
-              <path d="m13 31 15-29 16 29-16-9-15 9ZM60 43l11-22 12 22-12-6-11 6Z" fill="#eeeadd" />
-            </svg>
-            <p class="sr-only" id="garden-message" aria-live="polite">Snowman garden.</p>
-            <div
-              id="snowman-ground"
-              class="snowman-ground"
-              data-christmas-surface
-              data-weather-surface
-              data-weather-snow-depth="18"
-              data-weather-material="sticky"
-            ></div>
-            <div class="garden-tools">
-              <button id="snowball-now">Snowball</button
-              ><button id="snowman-now" aria-label="Build a snowman in the snow garden">
-                Snowman</button
-              ><button id="garden-reset">Reset ↺</button>
-            </div>
-          </div>
-        </section>
+    <main id="christmas-world">
+      <img
+        class="christmas-background"
+        src="/art/christmas-cabin.jpg"
+        width="1024"
+        height="1536"
+        fetchpriority="high"
+        alt=""
+        aria-hidden="true"
+      />
+      <div class="christmas-shade" aria-hidden="true"></div>
+      <div class="christmas-message">
+        <h1>My Website<span>has now snow.</span></h1>
+        <a href="/" aria-label="Visit fluri.xyz">fluri.xyz</a>
       </div>
-      <section class="plough-station" aria-label="Christmas snowplough">
-        <div
-          id="plough-route"
-          class="christmas-shelf"
-          data-christmas-surface
-          data-weather-surface
-          data-weather-snow-depth="17"
-          data-plough-route
-          data-holiday-lights
-        >
-          <span aria-hidden="true">✳</span
-          ><button id="plough-now" aria-label="Send the Christmas snowplough">
-            Clear the snow →
-          </button>
-        </div>
-      </section>
-      <footer class="scene-footer">
-        <a href="/">fluri.xyz ↗</a><a href="/privacy/">Privacy</a>
-      </footer>
     </main>
-    <aside class="record-controls" aria-label="Additional controls" data-weather-ignore>
-      <button id="tour-replay">Restart</button><button id="fullscreen-toggle">Fullscreen</button
-      ><button id="record-toggle" aria-pressed="true">Hide controls</button>
-      <div class="sr-only">
-        <span id="tour-chapter">Snow</span><span id="tour-time">00:00 / 00:36</span
-        ><progress id="tour-progress" max="36" value="0" aria-label="Sequence progress"></progress>
-        <p id="tour-status" role="status" aria-live="polite"></p>
-      </div>
-    </aside>
-    <noscript
-      ><p class="no-script">Enable JavaScript for snow and interactive decorations.</p></noscript
-    >
   </body>
 </html>

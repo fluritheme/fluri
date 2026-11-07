@@ -2,140 +2,69 @@ import { expect, test } from '@playwright/test';
 import type {} from '../apps/website/src/christmas-experience';
 
 const site = 'http://127.0.0.1:4173/christmas/';
-test.setTimeout(90_000);
 
-test('the website automatically opens the letter and gift, clears snow, and builds a real snowman', async ({
+test('the minimal page renders only the requested copy over a blurred image and real falling snow', async ({
   page,
 }) => {
-  await page.clock.install({ time: new Date('2026-11-07T12:00:00Z') });
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
-  await page.setViewportSize({ width: 1440, height: 1000 });
-  await page.goto(`${site}?record=1`);
+  await page.goto(site);
+  await expect(page.locator('body')).toHaveText(/My Website\s*has now snow\.\s*fluri\.xyz/);
+  await expect(page.locator('h1')).toHaveText('My Websitehas now snow.');
+  await expect(page.getByRole('link', { name: 'Visit fluri.xyz' })).toHaveAttribute('href', '/');
+  expect(
+    await page
+      .locator('.christmas-background')
+      .evaluate((node) => (node as HTMLImageElement).naturalWidth),
+  ).toBeGreaterThan(0);
+  await expect(page.locator('.christmas-background')).toHaveCSS('filter', /blur\(/);
   await expect
     .poll(() =>
-      page.evaluate(() => window.__fluriChristmas?.weather.getMetrics().surfaceCount ?? 0),
+      page.evaluate(() => window.__fluriChristmas?.weather.getMetrics().particleCount ?? 0),
     )
-    .toBe(5);
-  await page.clock.pauseAt(new Date((await page.evaluate(() => Date.now())) + 100));
-  const frame = await page.locator('#christmas-world').boundingBox();
-  await page.evaluate(() => {
-    const story = window.__fluriChristmas!;
-    story.weather.updateConfig({
-      snow: { particleCount: 24 },
-      performance: { maxDPR: 1, maxFPS: 15 },
-    });
-    document.documentElement.dataset.ploughCompletions = '0';
-    document.documentElement.dataset.snowballsCreated = '0';
-    story.weather.on('snowball:created', () => {
-      document.documentElement.dataset.snowballsCreated = String(
-        Number(document.documentElement.dataset.snowballsCreated) + 1,
-      );
-    });
-    story.weather.on('plough:complete', (data) => {
-      document.documentElement.dataset.ploughCompletions = String(
-        Number(document.documentElement.dataset.ploughCompletions) + 1,
-      );
-      if (typeof data === 'object' && data !== null && 'mass' in data)
-        document.documentElement.dataset.ploughedMass = String(data.mass);
-    });
-  });
-  await page.clock.runFor(7000);
-  await expect(page.locator('#christmas-letter')).toHaveClass(/is-open/);
-  await page.clock.runFor(4000);
-  await expect(page.locator('#christmas-gift')).toHaveClass(/is-unwrapped/);
-  await page.clock.runFor(8000);
-  await expect(page.locator('html')).toHaveAttribute('data-plough-completions', '1');
-  expect(Number(await page.locator('html').getAttribute('data-ploughed-mass'))).toBeGreaterThan(0);
-  await page.clock.runFor(8000);
+    .toBeGreaterThan(0);
   expect(
-    await page.evaluate(() => window.__fluriChristmas?.weather.getMetrics().snowmanCount),
-  ).toBe(1);
-  expect(
-    Number(await page.locator('html').getAttribute('data-snowballs-created')),
-  ).toBeGreaterThanOrEqual(6);
-  await expect(page.locator('#garden-message')).toContainText('Snowman built.');
-  expect(await page.evaluate(() => [scrollX, scrollY])).toEqual([0, 0]);
-  expect(await page.locator('#christmas-world').boundingBox()).toEqual(frame);
-  await page.clock.runFor(10000);
-  expect(await page.evaluate(() => window.__fluriChristmas?.getState().elapsed)).toBeLessThan(3);
-  await expect(page.locator('#christmas-letter')).not.toHaveClass(/is-open/);
-  await expect(page.locator('#christmas-gift')).not.toHaveClass(/is-unwrapped/);
-  expect(
-    await page.evaluate(() => window.__fluriChristmas?.weather.getMetrics().snowmanCount),
+    await page.evaluate(() => window.__fluriChristmas?.weather.getMetrics().surfaceCount),
   ).toBe(0);
-  expect(await page.evaluate(() => [scrollX, scrollY])).toEqual([0, 0]);
-  expect(errors).toEqual([]);
-});
-
-test('the Christmas website fills the browser and omits recording labels and framing', async ({
-  page,
-}) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto(site);
-  await expect.poll(() => page.evaluate(() => Boolean(window.__fluriChristmas))).toBe(true);
   for (const [width, height] of [
     [1920, 1080],
     [1440, 900],
-    [1366, 768],
     [390, 844],
     [320, 568],
   ]) {
     await page.setViewportSize({ width: width!, height: height! });
-    const world = await page.locator('#christmas-world').boundingBox();
-    expect(world!.width).toBeCloseTo(width!, 0);
-    expect(world!.x).toBe(0);
-    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(
-      true,
-    );
+    const bounds = await page.locator('.christmas-message').boundingBox();
+    const center = bounds!.y + bounds!.height / 2;
+    expect(center).toBeCloseTo(height! / 2, 0);
+    expect(
+      await page.evaluate(
+        () =>
+          document.documentElement.scrollWidth <= innerWidth &&
+          document.documentElement.scrollHeight <= innerHeight,
+      ),
+    ).toBe(true);
   }
-  await expect(page.locator('.capture-frame,.capture-note,.station-label')).toHaveCount(0);
-  await expect(page.locator('body')).not.toContainText('9:16');
-  await expect(page.locator('body')).not.toContainText('Record your screen');
-  await expect(page.locator('.record-controls')).toBeHidden();
-  await expect(page.getByRole('heading', { name: 'Merry Christmas.' })).toBeVisible();
-  expect(await page.locator('body').evaluate((node) => getComputedStyle(node).cursor)).not.toBe(
-    'none',
-  );
-  await page.keyboard.press('Escape');
-  await expect(page.locator('.record-controls')).toBeVisible();
-  await page.keyboard.press('h');
-  await expect(page.locator('.record-controls')).toBeHidden();
-  await page.keyboard.press('r');
-  expect(await page.evaluate(() => window.__fluriChristmas?.getState().playing)).toBe(true);
+  expect(errors).toEqual([]);
 });
 
-test('the snowman garden and every manual interaction work on small screens', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
+test('reduced motion stops autoplay and the keyboard can explicitly enable or pause snow', async ({
+  page,
+}) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(`${site}?record=1`);
   await expect
-    .poll(() => page.evaluate(() => window.__fluriChristmas?.weather.getMetrics().surfaceCount))
-    .toBe(5);
-  expect(await page.evaluate(() => window.__fluriChristmas?.getState().playing)).toBe(false);
-  await page.locator('#letter-open').click();
-  await expect(page.locator('#christmas-letter')).toHaveClass(/is-open/);
-  await page.locator('#gift-open').click();
-  await expect(page.locator('#christmas-gift')).toHaveClass(/is-unwrapped/);
-  await page.locator('#snowball-now').click();
+    .poll(() => page.evaluate(() => window.__fluriChristmas?.weather.getMetrics().state))
+    .toBe('paused');
   expect(
-    await page.evaluate(() => window.__fluriChristmas?.weather.getMetrics().snowballCount),
-  ).toBe(1);
-  await page.locator('#snowman-now').click();
-  expect(
-    await page.evaluate(() => window.__fluriChristmas?.weather.getMetrics().snowmanCount),
-  ).toBe(1);
-  await page.locator('#garden-reset').click();
-  expect(
-    await page.evaluate(() => window.__fluriChristmas?.weather.getMetrics().snowmanCount),
+    await page.evaluate(() => window.__fluriChristmas?.weather.getMetrics().particleCount),
   ).toBe(0);
-  expect(
-    await page.evaluate(() => window.__fluriChristmas?.weather.getMetrics().snowballCount),
-  ).toBe(0);
-  await page.keyboard.press('Escape');
-  await page.locator('#tour-toggle').click();
-  expect(await page.evaluate(() => window.__fluriChristmas?.getState().playing)).toBe(true);
-  await page.locator('#tour-toggle').click();
+  await page.keyboard.press('Space');
+  await expect
+    .poll(() =>
+      page.evaluate(() => window.__fluriChristmas?.weather.getMetrics().particleCount ?? 0),
+    )
+    .toBeGreaterThan(0);
+  await page.keyboard.press('Space');
   expect(await page.evaluate(() => window.__fluriChristmas?.weather.getMetrics().state)).toBe(
     'paused',
   );

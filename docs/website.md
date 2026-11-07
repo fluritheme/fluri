@@ -71,4 +71,4 @@ Upload `assets/brand/github-social-preview.png` in the repository's **Settings �
 
 ## Christmas recording website
 
-`/christmas/` is a standalone, full-width responsive Christmas website with its own HTML, stylesheet, and entry module. It uses the real Fluri engine and Christmas lights, with an automatic letter/gift/plough/snowball/snowman sequence and a manual snowman garden. Extra controls are hidden initially. There is no forced recording frame or automatic scrolling. See [Christmas website](christmas-recording.md) for interactions, recording shortcuts, asset provenance, and customization.
+`/christmas/` is a minimal full-screen Christmas page with a blurred photograph, real Fluri snowfall, and the centered text “My Website”, “has now snow.”, and a smaller “fluri.xyz” link. It has no visible controls, recording frame, or automatic scrolling. See [Christmas website](christmas-recording.md) for source locations and recording notes.

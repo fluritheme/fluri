@@ -8,6 +8,7 @@ interface StoryState {
   chapter: string;
   recording: boolean;
   portrait: boolean;
+  duration: number;
 }
 declare global {
   interface Window {
@@ -16,58 +17,84 @@ declare global {
       replay(): void;
       pause(): void;
       play(): void;
+      buildSnowman(): void;
       getState(): StoryState;
     };
   }
 }
 const element = <T extends HTMLElement = HTMLElement>(id: string): T => {
   const found = document.getElementById(id);
-  if (!found) throw new Error(`Christmas story element is missing: ${id}`);
+  if (!found) throw new Error(`Christmas workshop element is missing: ${id}`);
   return found as T;
 };
-const root = document.documentElement;
 const world = element('christmas-world');
+const root = document.documentElement;
 const progress = element<HTMLProgressElement>('tour-progress');
 const toggle = element<HTMLButtonElement>('tour-toggle');
 const status = element('tour-status');
-const chapters = [
-  { id: 'arrival', label: 'The arrival', at: 0 },
-  { id: 'letter', label: 'A little letter', at: 8 },
-  { id: 'wonder', label: 'A little surprise', at: 15 },
-  { id: 'finale', label: 'Your little winter', at: 26 },
-] as const;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-const params = new URLSearchParams(location.search);
-let recording = params.get('record') === '1';
-let portrait = params.get('portrait') === '1';
-let elapsed = 0;
+const duration = 36;
+let recording = new URLSearchParams(location.search).get('record') === '1';
 let playing = !reducedMotion.matches;
-let activeChapter: string = 'arrival';
+let elapsed = 0;
+let activePhase = 'snow';
 let lastTime = 0;
 let frame = 0;
 let suspended = document.hidden;
 let disposed = false;
-let letterOpened = false;
-let giftOpened = false;
-let ploughSent = false;
-let scrollMove: { from: number; start: number; to: string } | undefined;
-const initialHint = 'Automatic 32-second story. H hides controls · R replays · Space pauses.';
-
-root.dataset.format = portrait ? 'portrait' : 'wide';
+let manualBall = 0;
+const fired = new Set<number>();
+const hint = 'Fixed 9:16 frame · No scrolling. H hides controls · R restarts · Space pauses.';
 root.classList.toggle('recording', recording);
-function writeURL(): void {
-  const url = new URL(location.href);
-  if (recording) url.searchParams.set('record', '1');
-  else url.searchParams.delete('record');
-  if (portrait) url.searchParams.set('portrait', '1');
-  else url.searchParams.delete('portrait');
-  history.replaceState(null, '', url);
+const weather = createWeather({
+  container: world,
+  preset: 'christmas-classic',
+  seed: 25122026,
+  dom: { detection: 'explicit', maxSurfaces: 8, include: ['[data-christmas-surface]'] },
+  snow: {
+    intensity: 0.65,
+    particleCount: 170,
+    color: '#fff9ed',
+    minSize: 0.8,
+    maxSize: 2.7,
+    glow: false,
+    gravity: 54,
+    turbulence: 0.28,
+    wind: { base: 0.05, gusts: true, variability: 0.1 },
+    accumulation: { maxDepth: 18, growthRate: 0.55, meltRate: 0, softness: 0.8 },
+  },
+  interactions: {
+    brush: { enabled: true, activation: 'hover', radius: 20, strength: 0.85 },
+    snowballs: { enabled: true, minRadius: 4, maxRadius: 30, maxCount: 12 },
+    snowman: { enabled: true },
+  },
+  performance: { adaptive: true, maxDPR: 1.5, maxFPS: 60 },
+  accessibility: { reducedMotion: 'respect', controls: false },
+});
+weather.use(
+  christmasPack({
+    lights: { warmth: 0.95, spacing: 24, color: '#ffd58a', twinkle: true },
+    garlands: false,
+    ornaments: false,
+    plough: false,
+  }),
+);
+function syncControls(): void {
+  toggle.textContent = playing ? 'Pause effects' : 'Play effects';
+  toggle.setAttribute('aria-pressed', String(playing));
+  progress.value = elapsed;
+  element('tour-time').textContent = `00:${String(Math.floor(elapsed)).padStart(2, '0')} / 00:36`;
 }
 function recordingMode(next: boolean): void {
   recording = next;
   root.classList.toggle('recording', next);
   element('record-toggle').setAttribute('aria-pressed', String(next));
-  writeURL();
+  const url = new URL(location.href);
+  if (next) url.searchParams.set('record', '1');
+  else url.searchParams.delete('record');
+  // Old portrait links now resolve to the same fixed 9:16 workshop.
+  url.searchParams.delete('portrait');
+  history.replaceState(null, '', url);
 }
 function setLetter(open: boolean): void {
   element('christmas-letter').classList.toggle('is-open', open);
@@ -82,60 +109,86 @@ function setGift(open: boolean): void {
   element('christmas-gift').classList.toggle('is-unwrapped', open);
   world.querySelector('.gift-message')?.setAttribute('aria-hidden', String(!open));
   element('gift-open').setAttribute('aria-expanded', String(open));
-  element('gift-open').innerHTML = open
-    ? 'Keep a little wonder <span aria-hidden="true">♡</span>'
-    : 'Unwrap a little joy <span aria-hidden="true">↗</span>';
+  element('gift-open').textContent = open ? 'Keep a little wonder ♡' : 'Unwrap a little joy ↗';
 }
-const weather = createWeather({
-  container: world,
-  preset: 'christmas-classic',
-  seed: 25122026,
-  dom: { detection: 'explicit', maxSurfaces: 12, include: ['[data-christmas-surface]'] },
-  snow: {
-    intensity: 0.66,
-    particleCount: 230,
-    color: '#fff9ed',
-    minSize: 0.9,
-    maxSize: 3.4,
-    glow: false,
-    gravity: 67,
-    turbulence: 0.28,
-    wind: { base: 0.09, gusts: true, variability: 0.13 },
-    accumulation: { maxDepth: 18, growthRate: 0.65, meltRate: 0, softness: 0.8 },
-  },
-  interactions: {
-    brush: { enabled: true, activation: 'hover', radius: 26, strength: 0.85 },
-    snowballs: { enabled: true, maxCount: 4 },
-  },
-  performance: { adaptive: true, maxDPR: 1.5, maxFPS: 60 },
-  accessibility: { reducedMotion: 'respect', controls: false },
-});
-weather.use(
-  christmasPack({
-    lights: { warmth: 0.95, spacing: 32, color: '#ffd58a', twinkle: true },
-    garlands: false,
-    ornaments: false,
-    plough: false,
-  }),
-);
+function sparkleAt(target: HTMLElement): void {
+  const bounds = target.getBoundingClientRect();
+  weather.trigger('sparkle', { x: bounds.left + bounds.width / 2, y: bounds.top });
+}
 function seedSnow(): void {
   weather.clearAccumulation();
-  weather.addSnow(7, '[data-christmas-surface]');
+  weather.addSnow(5, '[data-christmas-surface]');
+  weather.addSnow(7, '#plough-route');
+  weather.addSnow(6, '#snowman-ground');
+}
+function resetGarden(): void {
+  weather.trigger('snowburst', { surface: element('snowman-ground') });
+  weather.clearAccumulation('#snowman-ground');
+  weather.addSnow(12, '#snowman-ground');
+  manualBall = 0;
+  element('garden-message').innerHTML = 'Snow to gather.<br /><em>A friend to build.</em>';
+}
+function rollSnowball(index = manualBall++): void {
+  const surface = element('snowman-ground');
+  const bounds = surface.getBoundingClientRect();
+  const fraction = [0.3, 0.5, 0.7][index % 3] ?? 0.5;
+  weather.trigger('snowball', {
+    surface,
+    x: bounds.left + bounds.width * fraction,
+    y: bounds.top,
+    radius: Math.max(5, Math.min(20, bounds.width * (0.037 - (index % 3) * 0.007))),
+  });
+  element('garden-message').innerHTML = 'A little snowball.<br /><em>A little possibility.</em>';
+}
+function buildSnowman(): void {
+  const surface = element('snowman-ground');
+  // Clear the garden's existing actors, then assemble real package snowballs on its support.
+  weather.trigger('snowburst', { surface });
+  weather.addSnow(8, '#snowman-ground');
+  weather.trigger('snowman', {
+    surface,
+    radius: Math.max(10, Math.min(25, surface.getBoundingClientRect().width * 0.052)),
+  });
+}
+weather.on('snowman:created', () => {
+  element('garden-message').innerHTML = 'Hello, little friend.<br /><em>Made of winter.</em>';
+});
+function runPlough(): void {
+  const surface = element('plough-route');
   weather.addSnow(5, '#plough-route');
+  weather.trigger('plough', {
+    surface,
+    direction: 'right',
+    speed: Math.max(45, surface.getBoundingClientRect().width / 3.5),
+    style: 'festive',
+  });
 }
-function syncControls(): void {
-  toggle.textContent = playing ? 'Pause story' : 'Play story';
-  toggle.setAttribute('aria-pressed', String(playing));
-  element('tour-chapter').textContent =
-    chapters.find((chapter) => chapter.id === activeChapter)?.label ?? 'The arrival';
-  progress.value = elapsed;
-  element('tour-time').textContent = `00:${String(Math.floor(elapsed)).padStart(2, '0')} / 00:32`;
-}
-function pause(
-  message = 'Story paused. Explore at your own pace, or press Space to continue.',
-): void {
+const sequence: { at: number; id: string; label: string; action(): void }[] = [
+  { at: 2.5, id: 'breeze', label: 'A little winter breeze', action: () => weather.trigger('gust') },
+  { at: 5, id: 'letter', label: 'A letter opens', action: () => setLetter(true) },
+  {
+    at: 9,
+    id: 'gift',
+    label: 'A gift of little wonders',
+    action: () => {
+      setGift(true);
+      sparkleAt(element('christmas-gift'));
+    },
+  },
+  { at: 13, id: 'plough', label: 'Making way for Christmas', action: runPlough },
+  { at: 18, id: 'snowball', label: 'Gather a little snow', action: () => rollSnowball(0) },
+  { at: 20, id: 'snowball', label: 'One more little snowball', action: () => rollSnowball(1) },
+  { at: 22, id: 'snowball', label: 'Three little beginnings', action: () => rollSnowball(2) },
+  { at: 25, id: 'snowman', label: 'Hello, little friend', action: buildSnowman },
+  {
+    at: 30,
+    id: 'wonder',
+    label: 'A little Christmas magic',
+    action: () => sparkleAt(element('snow-garden-spark')),
+  },
+];
+function pause(message = 'Effects paused. Explore the workshop or press Space to continue.'): void {
   playing = false;
-  scrollMove = undefined;
   weather.pause();
   status.textContent = message;
   syncControls();
@@ -147,44 +200,29 @@ function play(): void {
   else weather.start();
   playing = true;
   lastTime = 0;
-  scrollMove = { from: scrollY, start: elapsed, to: activeChapter };
-  status.textContent = initialHint;
+  status.textContent = hint;
   syncControls();
 }
-function targetTop(id: string): number {
-  return Math.max(0, element(id).getBoundingClientRect().top + scrollY);
-}
-function goTo(id: string, instant = false): void {
-  activeChapter = id;
-  root.dataset.chapter = id;
-  if (instant || reducedMotion.matches) {
-    scrollTo({ top: targetTop(id), behavior: 'instant' });
-    scrollMove = undefined;
-  } else scrollMove = { from: scrollY, start: elapsed, to: id };
-  syncControls();
-}
-function runPlough(): void {
-  const route = element('plough-route');
-  const bounds = route.getBoundingClientRect();
-  if (bounds.bottom < 0 || bounds.top > innerHeight) return;
-  weather.addSnow(5, '#plough-route');
-  weather.trigger('plough', {
-    surface: route,
-    direction: 'right',
-    speed: Math.min(400, Math.max(80, bounds.width / 3.5)),
-    style: 'festive',
-  });
+function manual(action: () => void): void {
+  pause('Manual mode. The scene stays still; press Play effects to resume the sequence.');
+  if (reducedMotion.matches) weather.updateConfig({ accessibility: { reducedMotion: 'ignore' } });
+  weather.resume();
+  action();
 }
 function replay(): void {
   if (disposed) return;
   elapsed = 0;
-  letterOpened = giftOpened = ploughSent = false;
+  manualBall = 0;
+  fired.clear();
+  activePhase = 'snow';
+  element('tour-chapter').textContent = 'Let it snow';
+  root.dataset.phase = activePhase;
   setLetter(false);
   setGift(false);
   weather.stop();
   weather.start();
   seedSnow();
-  goTo('arrival', true);
+  element('garden-message').innerHTML = 'Snow to gather.<br /><em>A friend to build.</em>';
   play();
 }
 function tick(now: number): void {
@@ -193,31 +231,15 @@ function tick(now: number): void {
   lastTime = now;
   if (playing && !suspended) {
     elapsed += dt;
-    if (elapsed >= 32) replay();
-    const chapter = [...chapters].reverse().find((candidate) => elapsed >= candidate.at);
-    if (chapter && chapter.id !== activeChapter) goTo(chapter.id);
-    if (scrollMove) {
-      const t = Math.min(1, (elapsed - scrollMove.start) / 1.15);
-      const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      scrollTo({
-        top: scrollMove.from + (targetTop(scrollMove.to) - scrollMove.from) * eased,
-        behavior: 'instant',
-      });
-      if (t >= 1) scrollMove = undefined;
-    }
-    if (!letterOpened && elapsed >= 10) {
-      setLetter(true);
-      letterOpened = true;
-    }
-    if (!giftOpened && elapsed >= 17.5) {
-      setGift(true);
-      const box = element('christmas-gift').getBoundingClientRect();
-      weather.trigger('sparkle', { x: box.left + box.width / 2, y: box.top + 30 });
-      giftOpened = true;
-    }
-    if (!ploughSent && elapsed >= 21) {
-      runPlough();
-      ploughSent = true;
+    if (elapsed >= duration) replay();
+    for (const [index, step] of sequence.entries()) {
+      if (elapsed >= step.at && !fired.has(index)) {
+        fired.add(index);
+        activePhase = step.id;
+        root.dataset.phase = step.id;
+        element('tour-chapter').textContent = step.label;
+        step.action();
+      }
     }
     syncControls();
   }
@@ -225,56 +247,28 @@ function tick(now: number): void {
 }
 element('tour-toggle').addEventListener('click', () => (playing ? pause() : play()));
 element('tour-replay').addEventListener('click', replay);
-element('story-replay').addEventListener('click', replay);
 element('record-toggle').addEventListener('click', () => recordingMode(!recording));
-element('portrait-toggle').addEventListener('click', () => {
-  portrait = !portrait;
-  root.dataset.format = portrait ? 'portrait' : 'wide';
-  element('portrait-toggle').setAttribute('aria-pressed', String(portrait));
-  writeURL();
-  requestAnimationFrame(() => goTo(activeChapter, true));
-});
 element('fullscreen-toggle').addEventListener('click', () => {
   if (!document.fullscreenEnabled || typeof root.requestFullscreen !== 'function') {
-    status.textContent = 'Fullscreen is unavailable here. Use your browser’s fullscreen control.';
+    status.textContent = 'Use your browser’s fullscreen control, then crop to the center frame.';
     return;
   }
   void (document.fullscreenElement ? document.exitFullscreen() : root.requestFullscreen()).catch(
     () => {
-      status.textContent = 'Fullscreen is unavailable here. Use your browser’s fullscreen control.';
+      status.textContent = 'Fullscreen is unavailable here. You can still record the center frame.';
     },
   );
 });
-element('letter-open').addEventListener('click', () => {
-  pause();
-  setLetter(!element('christmas-letter').classList.contains('is-open'));
-});
-element('gift-open').addEventListener('click', () => {
-  pause();
-  setGift(!element('christmas-gift').classList.contains('is-unwrapped'));
-});
-element('plough-now').addEventListener('click', () => {
-  pause();
-  if (reducedMotion.matches) weather.updateConfig({ accessibility: { reducedMotion: 'ignore' } });
-  weather.resume();
-  runPlough();
-});
-for (const link of world.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')) {
-  link.addEventListener('click', (event) => {
-    const id = link.hash.slice(1);
-    if (!document.getElementById(id)) return;
-    event.preventDefault();
-    pause();
-    activeChapter = id;
-    element(id).scrollIntoView({ behavior: reducedMotion.matches ? 'instant' : 'smooth' });
-    syncControls();
-  });
-}
-function userNavigation(): void {
-  if (playing) pause('Story paused while you explore. Press Space or Play story to resume.');
-}
-addEventListener('wheel', userNavigation, { passive: true });
-addEventListener('touchmove', userNavigation, { passive: true });
+element('letter-open').addEventListener('click', () =>
+  manual(() => setLetter(!element('christmas-letter').classList.contains('is-open'))),
+);
+element('gift-open').addEventListener('click', () =>
+  manual(() => setGift(!element('christmas-gift').classList.contains('is-unwrapped'))),
+);
+element('plough-now').addEventListener('click', () => manual(runPlough));
+element('snowman-now').addEventListener('click', () => manual(buildSnowman));
+element('snowball-now').addEventListener('click', () => manual(() => rollSnowball()));
+element('garden-reset').addEventListener('click', () => manual(resetGarden));
 document.addEventListener('keydown', (event) => {
   if (
     event.target instanceof Element &&
@@ -291,8 +285,7 @@ document.addEventListener('keydown', (event) => {
     event.preventDefault();
     if (playing) pause();
     else play();
-  } else if (['PageDown', 'PageUp', 'Home', 'End', 'ArrowDown', 'ArrowUp'].includes(event.key))
-    userNavigation();
+  }
 });
 document.addEventListener('visibilitychange', () => {
   suspended = document.hidden;
@@ -302,12 +295,9 @@ document.addEventListener('visibilitychange', () => {
 });
 reducedMotion.addEventListener('change', () => {
   if (reducedMotion.matches) {
-    pause('Reduced motion is respected. Explore the story, or choose Play story to animate.');
+    pause('Reduced motion is respected. Choose Play effects to start the sequence.');
     weather.updateConfig({ accessibility: { reducedMotion: 'respect' } });
   }
-});
-addEventListener('resize', () => {
-  if (playing) scrollMove = { from: scrollY, start: elapsed, to: activeChapter };
 });
 addEventListener('pagehide', (event) => {
   if (event.persisted) {
@@ -332,28 +322,21 @@ window.__fluriChristmas = {
   replay,
   pause: () => pause(),
   play,
-  getState: () => ({ playing, elapsed, chapter: activeChapter, recording, portrait }),
+  buildSnowman,
+  getState: () => ({ playing, elapsed, chapter: activePhase, recording, portrait: true, duration }),
 };
 try {
   weather.start();
   seedSnow();
-  if (!playing)
-    pause('Reduced motion is respected. Explore the story, or choose Play story to animate.');
-  if (location.hash && chapters.some((chapter) => `#${chapter.id}` === location.hash)) {
-    pause();
-    activeChapter = location.hash.slice(1);
-    goTo(activeChapter, true);
-  } else scrollTo({ top: 0, behavior: 'instant' });
-  element('portrait-toggle').setAttribute('aria-pressed', String(portrait));
+  if (!playing) pause('Reduced motion is respected. Choose Play effects to animate the workshop.');
   element('record-toggle').setAttribute('aria-pressed', String(recording));
-  root.dataset.chapter = activeChapter;
+  root.dataset.phase = activePhase;
   syncControls();
   frame = requestAnimationFrame(tick);
 } catch {
   disposed = true;
   playing = false;
   weather.destroy();
-  status.textContent =
-    'The snow could not start. You can still explore the Christmas story. Reload to try again.';
+  status.textContent = 'The snow could not start. Reload the workshop to try again.';
   syncControls();
 }

@@ -3,17 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f4efe4" />
-    <title>A little Christmas, by Fluri — An interactive winter story</title>
+    <meta name="theme-color" content="#e7e2d7" />
+    <title>The Christmas workshop, by Fluri — A little winter in motion</title>
     <meta
       name="description"
-      content="Step into a little Christmas. A living, snowy website with an opening Christmas letter, a gift to unwrap, and a tiny snowplough. Made with the real Fluri snow engine."
+      content="A Christmas workshop with real Fluri snowfall, an opening letter, a gift, a tiny snowplough, and a snowman garden. One fixed 9:16 scene, ready to record."
     />
     <link rel="canonical" href="https://fluri.xyz/christmas/" />
-    <meta property="og:title" content="A little Christmas, by Fluri" />
+    <meta property="og:title" content="The Christmas workshop, by Fluri" />
     <meta
       property="og:description"
-      content="Some things are better with a little wonder. An interactive Christmas story, made with Fluri."
+      content="A little snow. A little play. A whole lot of Christmas. A fixed, interactive winter scene."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://fluri.xyz/christmas/" />
@@ -24,112 +24,61 @@
     <script type="module" src="/src/christmas-experience.ts"></script>
   </head>
   <body>
-    <a class="xmas-skip" href="#arrival">Skip to the Christmas story</a>
-    <main id="christmas-world">
-      <header class="xmas-header" data-weather-ignore>
-        <a class="xmas-brand" href="/" aria-label="Fluri home"
-          ><span aria-hidden="true">✳</span> fluri<span class="brand-dot">.</span></a
-        >
-        <span class="edition">THE CHRISTMAS EDITION</span>
-        <a class="xmas-header-link" href="/docs/"
-          >Made for the web <span aria-hidden="true">↗</span></a
-        >
-      </header>
-      <section
-        class="chapter arrival"
-        id="arrival"
-        data-christmas-chapter
-        aria-labelledby="arrival-title"
-      >
-        <div class="arrival-copy">
-          <p class="chapter-eyebrow">
-            <span class="eyebrow-line"></span> AN INVITATION TO SLOW DOWN
-          </p>
-          <h1 id="arrival-title">
-            Let a little<br /><em>Christmas</em> in<span class="red-period">.</span>
-          </h1>
+    <div class="capture-note" aria-hidden="true">
+      <span>FLURI · CHRISTMAS WORKSHOP</span
+      ><strong>One little scene.<br /><em>A little more magic.</em></strong>
+      <p>Record your screen.<br />Crop to the center frame.<br />Everything happens right here.</p>
+      <span class="capture-ratio">9 : 16</span>
+    </div>
+    <div class="capture-frame" id="capture-frame">
+      <main id="christmas-world" aria-label="Interactive Christmas workshop">
+        <header class="xmas-header">
+          <a class="xmas-brand" href="/" aria-label="Fluri home"
+            ><span aria-hidden="true">✳</span> fluri<span class="brand-dot">.</span></a
+          ><span class="edition">THE CHRISTMAS WORKSHOP</span
+          ><span class="header-star" aria-hidden="true">✧</span>
+        </header>
+        <section class="arrival" aria-labelledby="arrival-title">
+          <p class="chapter-eyebrow">A LITTLE SNOW. A LITTLE PLAY.</p>
+          <h1 id="arrival-title">A little<br /><em>Christmas</em><br />magic<span>.</span></h1>
           <p class="arrival-description">
-            The lights are on. The snow is settling.<br />There’s a little wonder waiting for you.
+            The lights are on.<br />Let the little things come to life.
           </p>
-          <a
-            class="xmas-button"
-            href="#letter"
-            data-christmas-surface
-            data-weather-surface
-            data-weather-snow-depth="10"
-            >Step into the season <span aria-hidden="true">↘</span></a
-          >
-          <div class="arrival-note">
-            <span class="tiny-star" aria-hidden="true">✴</span>
-            <p>For the small things<br /><em>that make it Christmas.</em></p>
-          </div>
-        </div>
-        <figure class="arrival-art">
-          <div
-            class="picture-frame"
-            data-christmas-surface
-            data-weather-surface
-            data-weather-snow-depth="12"
-            data-holiday-lights
-          >
-            <img
-              src="/art/christmas-cabin.jpg"
-              width="1024"
-              height="1536"
-              fetchpriority="high"
-              alt="A warmly lit alpine cabin beside a decorated Christmas tree, with gifts nestled in fresh snow."
-            />
-            <div class="picture-caption">
-              <span>48° NORTH · A LITTLE CLOSER TO WONDER</span><span aria-hidden="true">✧</span>
+          <figure class="arrival-art">
+            <div
+              class="picture-frame"
+              data-christmas-surface
+              data-weather-surface
+              data-weather-snow-depth="12"
+              data-holiday-lights
+            >
+              <img
+                src="/art/christmas-cabin.jpg"
+                width="1024"
+                height="1536"
+                fetchpriority="high"
+                alt="A warmly lit Christmas cabin and decorated tree in fresh snow."
+              />
             </div>
-          </div>
-          <figcaption class="christmas-seal">
-            <span>LET IT SNOW</span><strong aria-hidden="true">✳</strong><span>LET IT GLOW</span>
-          </figcaption>
-          <span class="art-coordinate">A QUIET MOMENT, BEAUTIFULLY KEPT.</span>
-        </figure>
-        <div class="chapter-foot">
-          <span>01 / THE ARRIVAL</span
-          ><a href="#letter">A letter for you <span aria-hidden="true">↓</span></a
-          ><span>SNOW, COURTESY OF FLURI</span>
-        </div>
-      </section>
-      <section
-        class="chapter letter-chapter"
-        id="letter"
-        data-christmas-chapter
-        aria-labelledby="letter-title"
-      >
-        <div class="letter-copy">
-          <p class="chapter-eyebrow">SENT WITH A LITTLE LOVE</p>
-          <h2 id="letter-title">The best things<br />aren’t <em>things.</em></h2>
-          <p>
-            They’re the familiar faces. The long way home.<br />The feeling that, for a moment, time
-            can wait.
-          </p>
-          <span class="drawn-spark" aria-hidden="true">✧</span>
-        </div>
-        <div class="letter-stage">
+            <figcaption>LET IT SNOW. LET IT GLOW.</figcaption>
+          </figure>
+          <span class="hero-star" aria-hidden="true">✴</span>
+        </section>
+        <section class="letter-station" aria-label="A Christmas letter">
+          <h2 class="station-label"><span>01</span> SENT WITH LOVE</h2>
           <div class="envelope" id="christmas-letter">
             <article class="letter-paper" aria-label="Your Christmas letter" aria-hidden="true">
               <p class="letter-to">Dear you,</p>
-              <p>
-                May your days be a little slower,<br />your home a little warmer,<br />and your
-                world a little softer.
-              </p>
-              <p class="letter-sign">
-                With a little wonder,<br /><em>Fluri</em> <span aria-hidden="true">♡</span>
-              </p>
+              <p>A little more wonder.<br />A little less hurry.<br />A very merry Christmas.</p>
+              <p class="letter-sign">With love, <em>Fluri</em> ♡</p>
             </article>
             <div
               class="envelope-back"
               data-christmas-surface
               data-weather-surface
-              data-weather-snow-depth="14"
+              data-weather-snow-depth="10"
             ></div>
-            <div class="envelope-front">
-              <span class="envelope-label">SOMETHING GOOD IS INSIDE</span>
-            </div>
+            <div class="envelope-front"><span>TO SOMEONE LOVELY</span></div>
             <div class="envelope-flap"></div>
             <button
               class="wax-seal"
@@ -141,44 +90,23 @@
               <span aria-hidden="true">✳</span>
             </button>
           </div>
-          <p class="interaction-note">
-            A little letter, just for you. <span aria-hidden="true">↗</span>
-          </p>
-        </div>
-        <div class="chapter-foot">
-          <span>02 / A LITTLE LETTER</span
-          ><a href="#wonder">Keep a little wonder <span aria-hidden="true">↓</span></a
-          ><span>OPEN HEART. WARM HANDS.</span>
-        </div>
-      </section>
-      <section
-        class="chapter wonder-chapter"
-        id="wonder"
-        data-christmas-chapter
-        aria-labelledby="wonder-title"
-      >
-        <div class="wonder-top">
-          <p class="chapter-eyebrow">GOOD THINGS COME IN LITTLE MOMENTS</p>
-          <h2 id="wonder-title">Leave a little room<br />for <em>surprise.</em></h2>
-          <p>Snow on the edges. Joy in the details.<br />And someone to clear the way.</p>
-        </div>
-        <div class="gift-scene">
-          <span class="gift-spark gift-spark-one" aria-hidden="true">✧</span
-          ><span class="gift-spark gift-spark-two" aria-hidden="true">✧</span>
+          <p class="station-caption">A little letter, just for you.</p>
+        </section>
+        <section class="gift-station" aria-label="A Christmas gift">
+          <h2 class="station-label"><span>02</span> KEEP A LITTLE WONDER</h2>
           <div class="christmas-gift" id="christmas-gift">
             <div class="gift-message" aria-hidden="true">
               <span aria-hidden="true">♡</span
               ><strong>A little joy.<br /><em>All yours.</em></strong>
             </div>
             <div class="gift-base">
-              <span class="gift-ribbon"></span
-              ><span class="gift-label">TO: YOU<br />FROM: A LITTLE WONDER</span>
+              <span class="gift-ribbon"></span><span class="gift-label">FOR YOU ♡</span>
             </div>
             <div
               class="gift-lid"
               data-christmas-surface
               data-weather-surface
-              data-weather-snow-depth="13"
+              data-weather-snow-depth="10"
             >
               <span class="gift-bow bow-left"></span><span class="gift-bow bow-right"></span>
             </div>
@@ -188,89 +116,84 @@
               aria-expanded="false"
               aria-controls="christmas-gift"
             >
-              Unwrap a little joy <span aria-hidden="true">↗</span>
+              Unwrap a little joy ↗
             </button>
           </div>
-          <div class="small-gift" aria-hidden="true"><span></span></div>
-        </div>
-        <div
-          id="plough-route"
-          class="christmas-shelf"
-          data-christmas-surface
-          data-weather-surface
-          data-weather-snow-depth="18"
-          data-plough-route
-          data-holiday-lights
-        >
-          <span><span aria-hidden="true">✳</span> A LITTLE HELP ALONG THE WAY</span
-          ><button id="plough-now" aria-label="Send the Christmas snowplough">
-            Make way <span aria-hidden="true">→</span>
-          </button>
-        </div>
-        <div class="chapter-foot">
-          <span>03 / A LITTLE SURPRISE</span
-          ><a href="#finale">One last little thing <span aria-hidden="true">↓</span></a
-          ><span>SMALL DETAILS. BIG FEELINGS.</span>
-        </div>
-      </section>
-      <section
-        class="chapter finale-chapter"
-        id="finale"
-        data-christmas-chapter
-        aria-labelledby="finale-title"
-      >
-        <div class="finale-mark" aria-hidden="true">✳</div>
-        <p class="chapter-eyebrow">FROM OUR LITTLE CORNER OF THE WEB</p>
-        <h2 id="finale-title">Make it merry.<br /><em>Make it yours.</em></h2>
-        <p>A little Christmas for any website.<br />Made with Fluri. Shared with you.</p>
-        <a
-          class="xmas-button finale-button"
-          href="/docs/"
-          data-christmas-surface
-          data-weather-surface
-          data-holiday-lights
-          >Bring a little winter <span aria-hidden="true">↗</span></a
-        >
-        <a class="finale-domain" href="/">fluri.xyz <span aria-hidden="true">↗</span></a>
-        <div class="finale-signature">
-          <span>OPEN SOURCE</span><span aria-hidden="true">✧</span><span>MADE WITH WONDER</span>
-        </div>
-        <div class="chapter-foot">
-          <span>04 / YOUR LITTLE WINTER</span
-          ><button id="story-replay">
-            One more little moment <span aria-hidden="true">↺</span></button
-          ><a href="/privacy/">Privacy &amp; details ↗</a>
-        </div>
-      </section>
-    </main>
-    <aside
-      class="record-controls"
-      aria-label="Christmas story recording controls"
-      data-weather-ignore
-    >
+        </section>
+        <section class="plough-station" aria-label="A snowy lane for the Christmas snowplough">
+          <span class="lane-caption">A LITTLE HELP ALONG THE WAY</span>
+          <div
+            id="plough-route"
+            class="christmas-shelf"
+            data-christmas-surface
+            data-weather-surface
+            data-weather-snow-depth="17"
+            data-plough-route
+            data-holiday-lights
+          >
+            <span><span aria-hidden="true">✳</span> MAKE WAY FOR CHRISTMAS</span
+            ><button id="plough-now" aria-label="Send the Christmas snowplough">Make way →</button>
+          </div>
+        </section>
+        <section class="garden-station" aria-labelledby="garden-title">
+          <div class="garden-heading">
+            <h2 class="station-label" id="garden-title"><span>03</span> A LITTLE FRIEND TO MAKE</h2>
+            <button id="snowman-now" aria-label="Build a snowman in the snow garden">
+              Build a snowman <span aria-hidden="true">↗</span>
+            </button>
+          </div>
+          <div class="snow-garden">
+            <span id="snow-garden-spark" class="garden-moon" aria-hidden="true">✧</span
+            ><svg class="garden-pines" viewBox="0 0 100 120" fill="none" aria-hidden="true">
+              <path d="M28 2 7 40h10L0 70h16L3 98h49L39 70h15L39 40h10L28 2Z" fill="#426555" />
+              <path d="M71 21 55 50h8L48 76h11L48 101h45L83 76h10L80 50h8L71 21Z" fill="#73907b" />
+              <path d="M28 98v22M71 99v21" stroke="#b9c0a0" stroke-width="4" />
+              <path d="m13 31 15-29 16 29-16-9-15 9ZM60 43l11-22 12 22-12-6-11 6Z" fill="#eeeadd" />
+            </svg>
+            <p class="garden-whisper" id="garden-message">
+              Snow to gather.<br /><em>A friend to build.</em>
+            </p>
+            <div
+              id="snowman-ground"
+              class="snowman-ground"
+              data-christmas-surface
+              data-weather-surface
+              data-weather-snow-depth="18"
+              data-weather-material="sticky"
+            ></div>
+            <div class="garden-tools">
+              <button id="snowball-now">Roll a snowball</button><span aria-hidden="true">·</span
+              ><button id="garden-reset">Fresh snow ↺</button>
+            </div>
+          </div>
+        </section>
+        <footer class="scene-footer">
+          <p>Small details. <em>A little wonder.</em></p>
+          <a href="/">fluri.xyz <span aria-hidden="true">↗</span></a
+          ><span>MADE WITH REAL FLURI SNOW</span>
+        </footer>
+      </main>
+    </div>
+    <aside class="record-controls" aria-label="Christmas recording controls" data-weather-ignore>
       <div class="tour-caption">
-        <span class="live-dot"></span><span id="tour-chapter">The arrival</span
-        ><span id="tour-time">00:00 / 00:32</span>
+        <span class="live-dot"></span><span id="tour-chapter">Let it snow</span
+        ><span id="tour-time">00:00 / 00:36</span>
       </div>
-      <progress id="tour-progress" max="32" value="0" aria-label="Story progress"></progress>
+      <progress id="tour-progress" max="36" value="0" aria-label="Sequence progress"></progress>
       <div class="tour-buttons">
-        <button id="tour-toggle" aria-pressed="true">Pause story</button
-        ><button id="tour-replay" aria-label="Replay story">↺ Replay</button
-        ><span class="controls-divider"></span
-        ><button id="portrait-toggle" aria-pressed="false">Portrait</button
+        <button id="tour-toggle" aria-pressed="true">Pause effects</button
+        ><button id="tour-replay">↺ Restart</button
         ><button id="fullscreen-toggle">Fullscreen</button
-        ><button id="record-toggle" class="record-button" aria-pressed="false">
-          Clean view <span aria-hidden="true">↗</span>
-        </button>
+        ><button id="record-toggle" class="record-button" aria-pressed="false">Clean view ↗</button>
       </div>
       <p id="tour-status" role="status" aria-live="polite">
-        An automatic 32-second story. H hides controls · R replays · Space pauses.
+        Fixed 9:16 frame · No scrolling.<br />H hides controls · R restarts · Space pauses.
       </p>
+      <a class="record-help" href="/reference/christmas-recording.md">Recording guide ↗</a>
     </aside>
     <noscript
       ><p class="no-script">
-        The Christmas story is here to explore. Enable JavaScript for live Fluri snow, opening
-        gifts, and the automatic tour.
+        Enable JavaScript for live snowfall, automatic interactions, and the snowman garden.
       </p></noscript
     >
   </body>

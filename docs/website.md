@@ -71,4 +71,4 @@ Upload `assets/brand/github-social-preview.png` in the repository's **Settings â
 
 ## Christmas recording website
 
-`/christmas/` is a standalone Christmas website with its own HTML, stylesheet, and entry module. It uses the real Fluri engine and Christmas lights, plus an automatic 32-second letter/gift/plough sequence. `?record=1` hides the controls and pointer; `?portrait=1` provides a narrow desktop preview. See [Christmas recording](christmas-recording.md) for the sequence, keyboard shortcuts, asset provenance, and reel recording instructions.
+`/christmas/` is a standalone Christmas website with its own HTML, stylesheet, and entry module. It uses the real Fluri engine and Christmas lights in one fixed 9:16 scene, with a 36-second automatic letter/gift/plough/snowball/snowman sequence and a manual snowman garden. `?record=1` hides the controls and pointer and fits the recording frame to the viewport height. The page never scrolls; legacy `?portrait=1` links open the same fixed layout. See [Christmas recording](christmas-recording.md) for the sequence, keyboard shortcuts, asset provenance, and reel recording instructions.

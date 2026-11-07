@@ -34,7 +34,7 @@ const toggle = element<HTMLButtonElement>('tour-toggle');
 const status = element('tour-status');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const duration = 36;
-let recording = new URLSearchParams(location.search).get('record') === '1';
+let recording = new URLSearchParams(location.search).get('controls') !== '1';
 let playing = !reducedMotion.matches;
 let elapsed = 0;
 let activePhase = 'snow';
@@ -44,8 +44,9 @@ let suspended = document.hidden;
 let disposed = false;
 let manualBall = 0;
 const fired = new Set<number>();
-const hint = 'Fixed 9:16 frame · No scrolling. H hides controls · R restarts · Space pauses.';
+const hint = 'H toggles controls. R restarts the effects. Space pauses.';
 root.classList.toggle('recording', recording);
+root.classList.toggle('show-controls', !recording);
 const weather = createWeather({
   container: world,
   preset: 'christmas-classic',
@@ -80,7 +81,7 @@ weather.use(
   }),
 );
 function syncControls(): void {
-  toggle.textContent = playing ? 'Pause effects' : 'Play effects';
+  toggle.textContent = playing ? 'Pause snow' : 'Let it snow';
   toggle.setAttribute('aria-pressed', String(playing));
   progress.value = elapsed;
   element('tour-time').textContent = `00:${String(Math.floor(elapsed)).padStart(2, '0')} / 00:36`;
@@ -88,11 +89,12 @@ function syncControls(): void {
 function recordingMode(next: boolean): void {
   recording = next;
   root.classList.toggle('recording', next);
+  root.classList.toggle('show-controls', !next);
   element('record-toggle').setAttribute('aria-pressed', String(next));
   const url = new URL(location.href);
   if (next) url.searchParams.set('record', '1');
   else url.searchParams.delete('record');
-  // Old portrait links now resolve to the same fixed 9:16 workshop.
+  // Legacy portrait links now open the standard website.
   url.searchParams.delete('portrait');
   history.replaceState(null, '', url);
 }
@@ -109,7 +111,7 @@ function setGift(open: boolean): void {
   element('christmas-gift').classList.toggle('is-unwrapped', open);
   world.querySelector('.gift-message')?.setAttribute('aria-hidden', String(!open));
   element('gift-open').setAttribute('aria-expanded', String(open));
-  element('gift-open').textContent = open ? 'Keep a little wonder ♡' : 'Unwrap a little joy ↗';
+  element('gift-open').textContent = open ? 'Close gift ↙' : 'Open gift ↗';
 }
 function sparkleAt(target: HTMLElement): void {
   const bounds = target.getBoundingClientRect();
@@ -122,11 +124,11 @@ function seedSnow(): void {
   weather.addSnow(6, '#snowman-ground');
 }
 function resetGarden(): void {
-  weather.trigger('snowburst', { surface: element('snowman-ground') });
+  weather.trigger('snowburst');
   weather.clearAccumulation('#snowman-ground');
   weather.addSnow(12, '#snowman-ground');
   manualBall = 0;
-  element('garden-message').innerHTML = 'Snow to gather.<br /><em>A friend to build.</em>';
+  element('garden-message').textContent = 'Snowman garden.';
 }
 function rollSnowball(index = manualBall++): void {
   const surface = element('snowman-ground');
@@ -138,12 +140,12 @@ function rollSnowball(index = manualBall++): void {
     y: bounds.top,
     radius: Math.max(5, Math.min(20, bounds.width * (0.037 - (index % 3) * 0.007))),
   });
-  element('garden-message').innerHTML = 'A little snowball.<br /><em>A little possibility.</em>';
+  element('garden-message').textContent = 'Snowball created.';
 }
 function buildSnowman(): void {
   const surface = element('snowman-ground');
   // Clear the garden's existing actors, then assemble real package snowballs on its support.
-  weather.trigger('snowburst', { surface });
+  weather.trigger('snowburst');
   weather.addSnow(8, '#snowman-ground');
   weather.trigger('snowman', {
     surface,
@@ -151,7 +153,7 @@ function buildSnowman(): void {
   });
 }
 weather.on('snowman:created', () => {
-  element('garden-message').innerHTML = 'Hello, little friend.<br /><em>Made of winter.</em>';
+  element('garden-message').textContent = 'Snowman built.';
 });
 function runPlough(): void {
   const surface = element('plough-route');
@@ -159,7 +161,7 @@ function runPlough(): void {
   weather.trigger('plough', {
     surface,
     direction: 'right',
-    speed: Math.max(45, surface.getBoundingClientRect().width / 3.5),
+    speed: Math.min(500, Math.max(45, surface.getBoundingClientRect().width / 3.5)),
     style: 'festive',
   });
 }
@@ -222,7 +224,7 @@ function replay(): void {
   weather.stop();
   weather.start();
   seedSnow();
-  element('garden-message').innerHTML = 'Snow to gather.<br /><em>A friend to build.</em>';
+  element('garden-message').textContent = 'Snowman garden.';
   play();
 }
 function tick(now: number): void {
@@ -250,12 +252,12 @@ element('tour-replay').addEventListener('click', replay);
 element('record-toggle').addEventListener('click', () => recordingMode(!recording));
 element('fullscreen-toggle').addEventListener('click', () => {
   if (!document.fullscreenEnabled || typeof root.requestFullscreen !== 'function') {
-    status.textContent = 'Use your browser’s fullscreen control, then crop to the center frame.';
+    status.textContent = 'Use your browser’s fullscreen control.';
     return;
   }
   void (document.fullscreenElement ? document.exitFullscreen() : root.requestFullscreen()).catch(
     () => {
-      status.textContent = 'Fullscreen is unavailable here. You can still record the center frame.';
+      status.textContent = 'Fullscreen is unavailable in this browser.';
     },
   );
 });
@@ -269,6 +271,12 @@ element('plough-now').addEventListener('click', () => manual(runPlough));
 element('snowman-now').addEventListener('click', () => manual(buildSnowman));
 element('snowball-now').addEventListener('click', () => manual(() => rollSnowball()));
 element('garden-reset').addEventListener('click', () => manual(resetGarden));
+element('more-snow').addEventListener('click', () =>
+  manual(() => {
+    weather.addSnow(3, '[data-christmas-surface]');
+    weather.trigger('gust');
+  }),
+);
 document.addEventListener('keydown', (event) => {
   if (
     event.target instanceof Element &&
@@ -323,7 +331,14 @@ window.__fluriChristmas = {
   pause: () => pause(),
   play,
   buildSnowman,
-  getState: () => ({ playing, elapsed, chapter: activePhase, recording, portrait: true, duration }),
+  getState: () => ({
+    playing,
+    elapsed,
+    chapter: activePhase,
+    recording,
+    portrait: false,
+    duration,
+  }),
 };
 try {
   weather.start();

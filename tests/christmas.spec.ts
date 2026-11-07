@@ -4,12 +4,13 @@ import type {} from '../apps/website/src/christmas-experience';
 const site = 'http://127.0.0.1:4173/christmas/';
 test.setTimeout(90_000);
 
-test('one fixed frame automatically opens the letter and gift, clears snow, and builds a real snowman', async ({
+test('the website automatically opens the letter and gift, clears snow, and builds a real snowman', async ({
   page,
 }) => {
   await page.clock.install({ time: new Date('2026-11-07T12:00:00Z') });
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
+  await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto(`${site}?record=1`);
   await expect
     .poll(() =>
@@ -17,7 +18,7 @@ test('one fixed frame automatically opens the letter and gift, clears snow, and 
     )
     .toBe(5);
   await page.clock.pauseAt(new Date((await page.evaluate(() => Date.now())) + 100));
-  const frame = await page.locator('#capture-frame').boundingBox();
+  const frame = await page.locator('#christmas-world').boundingBox();
   await page.evaluate(() => {
     const story = window.__fluriChristmas!;
     story.weather.updateConfig({
@@ -53,9 +54,9 @@ test('one fixed frame automatically opens the letter and gift, clears snow, and 
   expect(
     Number(await page.locator('html').getAttribute('data-snowballs-created')),
   ).toBeGreaterThanOrEqual(6);
-  await expect(page.locator('#garden-message')).toContainText('Hello, little friend.');
+  await expect(page.locator('#garden-message')).toContainText('Snowman built.');
   expect(await page.evaluate(() => [scrollX, scrollY])).toEqual([0, 0]);
-  expect(await page.locator('#capture-frame').boundingBox()).toEqual(frame);
+  expect(await page.locator('#christmas-world').boundingBox()).toEqual(frame);
   await page.clock.runFor(10000);
   expect(await page.evaluate(() => window.__fluriChristmas?.getState().elapsed)).toBeLessThan(3);
   await expect(page.locator('#christmas-letter')).not.toHaveClass(/is-open/);
@@ -67,11 +68,11 @@ test('one fixed frame automatically opens the letter and gift, clears snow, and 
   expect(errors).toEqual([]);
 });
 
-test('PC recording always fits one 9:16 crop and never scrolls or hides a station', async ({
+test('the Christmas website fills the browser and omits recording labels and framing', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto(`${site}?record=1&portrait=1`);
+  await page.goto(site);
   await expect.poll(() => page.evaluate(() => Boolean(window.__fluriChristmas))).toBe(true);
   for (const [width, height] of [
     [1920, 1080],
@@ -81,39 +82,21 @@ test('PC recording always fits one 9:16 crop and never scrolls or hides a statio
     [320, 568],
   ]) {
     await page.setViewportSize({ width: width!, height: height! });
-    const frame = await page.locator('#capture-frame').boundingBox();
-    expect(frame).not.toBeNull();
-    expect(frame!.width / frame!.height).toBeCloseTo(9 / 16, 3);
-    expect(frame!.x).toBeGreaterThanOrEqual(-1);
-    expect(frame!.y).toBeGreaterThanOrEqual(-1);
-    expect(frame!.x + frame!.width).toBeLessThanOrEqual(width! + 1);
-    expect(frame!.y + frame!.height).toBeLessThanOrEqual(height! + 1);
-    for (const selector of [
-      '.arrival',
-      '.letter-station',
-      '.gift-station',
-      '#plough-route',
-      '.garden-station',
-      '.scene-footer',
-    ]) {
-      const station = await page.locator(selector).boundingBox();
-      expect(station, selector).not.toBeNull();
-      expect(station!.y, selector).toBeGreaterThanOrEqual(frame!.y - 1);
-      expect(station!.y + station!.height, selector).toBeLessThanOrEqual(
-        frame!.y + frame!.height + 1,
-      );
-    }
-    expect(
-      await page.evaluate(
-        () =>
-          document.documentElement.scrollWidth <= innerWidth + 1 &&
-          document.documentElement.scrollHeight <= innerHeight + 1,
-      ),
-    ).toBe(true);
+    const world = await page.locator('#christmas-world').boundingBox();
+    expect(world!.width).toBeCloseTo(width!, 0);
+    expect(world!.x).toBe(0);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(
+      true,
+    );
   }
-  await page.mouse.wheel(0, 900);
-  await page.keyboard.press('PageDown');
-  expect(await page.evaluate(() => [scrollX, scrollY])).toEqual([0, 0]);
+  await expect(page.locator('.capture-frame,.capture-note,.station-label')).toHaveCount(0);
+  await expect(page.locator('body')).not.toContainText('9:16');
+  await expect(page.locator('body')).not.toContainText('Record your screen');
+  await expect(page.locator('.record-controls')).toBeHidden();
+  await expect(page.getByRole('heading', { name: 'Merry Christmas.' })).toBeVisible();
+  expect(await page.locator('body').evaluate((node) => getComputedStyle(node).cursor)).not.toBe(
+    'none',
+  );
   await page.keyboard.press('Escape');
   await expect(page.locator('.record-controls')).toBeVisible();
   await page.keyboard.press('h');

@@ -36,7 +36,7 @@ export function structuredData(
           'Framework independent TypeScript snow animation library with DOM-aware snow accumulation, pointer interactions, snowballs, adaptive Canvas 2D rendering, and optional Christmas effects.',
         codeRepository: 'https://github.com/fluritheme/fluri',
         programmingLanguage: 'TypeScript',
-        runtimePlatform: 'Web browser',
+        runtimePlatform: 'Web browser supporting Canvas 2D and ES2022',
         version,
         license: 'https://opensource.org/license/mit',
         author: { '@id': `${origin}/about/#operator` },
@@ -48,8 +48,6 @@ export function structuredData(
           'Christmas website effects',
           'interactive snow physics',
         ],
-        softwareRequirements:
-          'A browser supporting Canvas 2D and ES2022; see browser support documentation.',
       },
       {
         '@type': path === 'docs/' ? 'TechArticle' : 'WebPage',

@@ -46,7 +46,7 @@ The portal also supports manual daily submission with a reporting key. Never sen
 
 Website-owner participation does not replace any visitor consent your measurement requires. Collect source statistics lawfully, provide appropriate notices, and obtain consent where required. Cookie-free measurement is not automatically exempt. Sending anonymized totals server-to-server avoids adding a Fluri tracking request to visitors' browsers, but does not make an unlawful source collection lawful. Fluri currently supplies no visitor analytics module, cross-site identifiers, or consent-management tool.
 
-See the [EDPB guidance on the technical scope of Article 5(3)](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en), the [CNIL audience-measurement guidance](https://www.cnil.fr/en/cookies-and-other-tracking-devices/cookies-solutions-tools-measure-audience), and the website's [privacy policy](https://fluri.xyz/privacy/). Requirements depend on the actual implementation and jurisdiction; these tools are not a universal legal certification.
+See the [EDPB guidance on the technical scope of Article 5(3)](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en), the [CNIL audience-measurement guidance](https://www.cnil.fr/fr/cookies-solutions-pour-les-outils-de-mesure-daudience), and the website's [privacy policy](https://fluri.xyz/privacy/). Requirements depend on the actual implementation and jurisdiction; these tools are not a universal legal certification.
 
 ## Community listing
 

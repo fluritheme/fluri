@@ -928,14 +928,19 @@ test('pointer release on ignored controls or beyond a scoped scene releases the 
 test('creates physical snowballs and a snowman, and ploughs an explicit route', async ({
   page,
 }) => {
+  test.setTimeout(90_000);
   await page.clock.install();
   await page.clock.pauseAt(new Date((await page.evaluate(() => Date.now())) + 100));
   await page.locator('#lower').scrollIntoViewIfNeeded();
   await page.evaluate(() => {
     window.weather.updateConfig({
-      snow: { particleCount: 0 },
+      snow: { enabled: false, particleCount: 0 },
+      performance: { maxFPS: 20, maxDPR: 1, adaptive: false },
       interactions: { brush: { enabled: false } },
     });
+    // Reset timestamps and clear ambient particles before replaying fixed-step actor physics.
+    window.weather.stop();
+    window.weather.start();
     window.weather.addSnow(18, '#lower');
     window.weather.trigger('snowball', { selector: '#lower', radius: 12 });
   });

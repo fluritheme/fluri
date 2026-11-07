@@ -225,7 +225,10 @@ test('an opaque DOM cover prevents invisible supports from collecting snow, and 
 test('real animated surface acceleration sheds existing snow and lands it on a lower DOM shelf', async ({
   page,
 }, testInfo) => {
+  test.setTimeout(90_000);
+  await page.clock.install();
   await controlledScene(page);
+  await page.clock.pauseAt(new Date((await page.evaluate(() => Date.now())) + 100));
   await page.evaluate(() => {
     window.weather.updateConfig({
       snow: { accumulation: { sliding: true, transferToLowerSurfaces: true } },
@@ -265,25 +268,28 @@ test('real animated surface acceleration sheds existing snow and lands it on a l
     () => window.captureSurfaces().find((surface) => surface.elementId === 'cap-upper')?.mass ?? 0,
   );
   expect(before).toBeGreaterThan(1000);
-  await page.evaluate(
-    () =>
-      new Promise<void>((resolve) => {
-        const card = document.querySelector<HTMLElement>('#cap-upper');
-        if (!card) throw new Error('Moving support is missing');
-        let started = 0;
-        const animate = (timestamp: number): void => {
-          if (!started) started = timestamp;
-          const elapsed = (timestamp - started) / 1000;
-          card.style.transform = `translate(${Math.sin(elapsed * 20) * 5}px, ${Math.sin(elapsed * 27) * 8}px)`;
-          if (elapsed < 0.65) requestAnimationFrame(animate);
-          else {
-            card.style.transform = '';
-            resolve();
-          }
-        };
-        requestAnimationFrame(animate);
-      }),
-  );
+  await page.evaluate(() => {
+    const card = document.querySelector<HTMLElement>('#cap-upper');
+    if (!card) throw new Error('Moving support is missing');
+    Reflect.set(window, '__shakeComplete', false);
+    let started = 0;
+    const animate = (timestamp: number): void => {
+      if (!started) started = timestamp;
+      const elapsed = (timestamp - started) / 1000;
+      card.style.transform = `translate(${Math.sin(elapsed * 20) * 5}px, ${Math.sin(elapsed * 27) * 8}px)`;
+      if (elapsed < 0.65) requestAnimationFrame(animate);
+      else {
+        card.style.transform = '';
+        Reflect.set(window, '__shakeComplete', true);
+      }
+    };
+    requestAnimationFrame(animate);
+  });
+  // Replay native RAF callbacks at a fixed cadence, so support acceleration and parcel
+  // trajectories do not depend on the host machine's scheduling phase.
+  await page.clock.runFor(1000);
+  expect(await page.evaluate(() => Reflect.get(window, '__shakeComplete'))).toBe(true);
+  await page.clock.runFor(3000);
   try {
     await expect
       .poll(

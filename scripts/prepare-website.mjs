@@ -61,6 +61,7 @@ const urls = [
     .filter((page) => page.path !== '404.html' && page.path !== 'dashboard/')
     .map((page) => page.path),
   'playground/',
+  'christmas/',
 ];
 await writeFile(
   new URL('public/sitemap.xml', website),

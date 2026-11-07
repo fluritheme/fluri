@@ -20,7 +20,7 @@ Open `http://127.0.0.1:4173/` for the complete production layout, including pack
 - `apps/website/src/style.css` defines the color, typography, spacing, responsive layouts, and accessible interaction styles. Start with the custom properties in `:root` to change the palette.
 - `apps/shared/brand.css` holds the palette, body font, and display font shared by the website and playground. Change these tokens to customize both together.
 - `apps/website/src/main.ts` connects navigation, keyboard tabs, clipboard actions, preset filtering, motion preferences, and real snow previews.
-- `apps/website/public/art/` contains original self-contained SVG illustrations and a 1200×630 social card PNG. No external fonts, stock imagery, or image-service requests are needed.
+- `apps/website/public/art/` contains original self-contained SVG illustrations, a 1200×630 social card PNG, and the generated Christmas cabin artwork. No external fonts, stock imagery, or image-service requests are needed at runtime.
 
 `scripts/prepare-website.mjs` renders the HTML entry points before Vite runs. Edit the content source rather than the generated HTML. Every route has its own complete, readable HTML, title, description, canonical URL, and social metadata. Content and legal notices work without JavaScript. The core snow library loads only when a live preview needs it.
 
@@ -68,3 +68,7 @@ Unique page descriptions, canonical URLs, Open Graph and Twitter metadata, and J
 ## GitHub social preview
 
 Upload `assets/brand/github-social-preview.png` in the repository's **Settings → General → Social preview**. The original artwork is 1280 × 640 pixels and matches the website and README. Its editable SVG is next to the PNG. Regenerate both from the README artwork with `node scripts/render-social-preview.mjs` after installing the workspace and Playwright Chromium. This is a repository preview image; it does not replace the website's separate 1200 × 630 Open Graph card.
+
+## Christmas recording website
+
+`/christmas/` is a standalone Christmas website with its own HTML, stylesheet, and entry module. It uses the real Fluri engine and Christmas lights, plus an automatic 32-second letter/gift/plough sequence. `?record=1` hides the controls and pointer; `?portrait=1` provides a narrow desktop preview. See [Christmas recording](christmas-recording.md) for the sequence, keyboard shortcuts, asset provenance, and reel recording instructions.

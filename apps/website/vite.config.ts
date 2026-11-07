@@ -36,7 +36,6 @@ export default defineConfig({
       input: Object.fromEntries(
         [
           'index.html',
-          'christmas/index.html',
           'participate/index.html',
           'dashboard/index.html',
           'community/index.html',

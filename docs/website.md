@@ -64,3 +64,7 @@ The website checks cover real snow controls, presets, keyboard navigation and co
 `/participate/` provides registration, DNS verification, sharing choices, one-time keys, reporting, export, and deletion. `/community/` loads only verified, owner-permitted, operator-approved name/domain listings. `/dashboard/` requires a separate operator session; private data is loaded after authentication and never built into HTML. The dashboard is excluded from the sitemap and marked noindex. Empty states show real lack of data rather than invented installations.
 
 Unique page descriptions, canonical URLs, Open Graph and Twitter metadata, and JSON-LD are generated from the page content. `src/seo.ts` describes the source project, license, operator, and page relationships without ratings or inflated usage claims. `/llms.txt` indexes public documentation and limitations for text-based readers. These help machines understand the product; rankings and AI recommendations remain outside the project's control. Public metadata uses `fluri.xyz` exclusively.
+
+## GitHub social preview
+
+Upload `assets/brand/github-social-preview.png` in the repository's **Settings → General → Social preview**. The original artwork is 1280 × 640 pixels and matches the website and README. Its editable SVG is next to the PNG. Regenerate both from the README artwork with `node scripts/render-social-preview.mjs` after installing the workspace and Playwright Chromium. This is a repository preview image; it does not replace the website's separate 1200 × 630 Open Graph card.

@@ -1,4 +1,5 @@
-export {};
+import { renderGrowth } from './growth';
+import type { growthStatistics } from '../../../workers/growth';
 interface Site {
   id: string;
   domain: string;
@@ -349,6 +350,7 @@ async function loadDashboard() {
   const result = await api<Dashboard>('/api/dashboard');
   $('dashboard-login')!.hidden = true;
   const panel = $('dashboard-content')!;
+  const previousGrowth = $('growth-statistics');
   panel.hidden = false;
   dashboardVisible = true;
   const labels: [string, string, string][] = [
@@ -366,7 +368,7 @@ async function loadDashboard() {
         `${20 + (((Date.parse(d.date) - Date.parse(new Date(Date.now() - 29 * 86400000).toISOString().slice(0, 10))) / 86400000) * 560) / 29},${150 - (130 * d.impressions) / max}`,
     )
     .join(' ');
-  panel.innerHTML = `<div class="service-toolbar"><h2>Your private forecast</h2><div class="service-toolbar-actions"><button id="refresh-dashboard" class="service-small-button">Refresh</button><button id="export-dashboard" class="service-small-button">Export data</button><button id="logout-dashboard" class="service-small-button">Sign out</button></div></div><div class="dashboard-metrics">${labels.map(([key, label, help]) => `<article class="metric-card"><p>${label}</p><strong>${number(result.metrics[key] ?? 0)}</strong><small>${help}</small></article>`).join('')}</div><div class="dashboard-grid"><section class="service-card"><h3>Daily effect impressions</h3><p>UTC daily totals over the last 30 days. Missing reports are outside our coverage.</p>${
+  panel.innerHTML = `<div class="service-toolbar"><h2>Your private forecast</h2><div class="service-toolbar-actions"><button id="refresh-dashboard" class="service-small-button">Refresh</button><button id="export-dashboard" class="service-small-button">Export data</button><button id="logout-dashboard" class="service-small-button">Sign out</button></div></div><section id="growth-statistics" aria-label="Growth statistics"><p class="service-empty">Loading website and npm statistics…</p></section><div class="dashboard-metrics">${labels.map(([key, label, help]) => `<article class="metric-card"><p>${label}</p><strong>${number(result.metrics[key] ?? 0)}</strong><small>${help}</small></article>`).join('')}</div><div class="dashboard-grid"><section class="service-card"><h3>Daily effect impressions</h3><p>UTC daily totals over the last 30 days. Missing reports are outside our coverage.</p>${
     result.daily.length
       ? `<svg class="impression-chart" viewBox="0 0 600 170" role="img" aria-label="Daily impression totals; exact values in the table below"><path class="chart-rule" d="M20 150H580"/><polyline class="chart-line" points="${points}"/></svg>${table(
           result.daily.map((d) => ({ ...d, version: '' })),
@@ -374,6 +376,7 @@ async function loadDashboard() {
         )}`
       : '<p class="service-empty">No impression reports yet.</p>'
   }</section><section class="service-card"><h3>Reported Fluri versions</h3>${result.versions.length ? `<ul class="version-list">${result.versions.map((v) => `<li><strong>${escape(v.version || 'Not reported')}</strong><span>${number(v.sites)} sites · ${number(v.impressions)} impressions</span></li>`).join('')}</ul>` : '<p class="service-empty">Versions will appear with daily reports.</p>'}<p class="fine-print">Owner supplied data can be incomplete or inaccurate. These are not unique visitors, all installations, or independently verified exposure counts.</p></section></div><section class="service-card dashboard-sites"><h3>Participating websites</h3>${result.sites.length ? `<div class="service-table-wrap"><table class="service-table"><thead><tr><th>Website</th><th>Ownership</th><th>Reporting</th><th>Community permission</th><th>Review</th></tr></thead><tbody>${result.sites.map((s) => `<tr><td><strong>${escape(s.displayName)}</strong><a class="site-contact" href="https://${escape(s.domain)}/" target="_blank" rel="noopener noreferrer">${escape(s.domain)} ↗</a><span class="site-contact">${escape(s.contactEmail)}</span></td><td>${s.verifiedAt ? `Verified ${date(s.verifiedAt)}` : 'Pending'}</td><td>${s.analyticsEnabled ? 'Enabled' : 'Off'}<span class="site-contact">Last report: ${date(s.lastReportedAt)}</span></td><td>${s.showcasePermission ? 'Owner permitted' : 'No permission'}<span class="site-contact">${s.showcaseApprovedAt ? 'Approved' : 'Not approved'}</span></td><td><div class="table-actions"><button class="service-small-button" data-site="${s.id}" data-action="showcase" ${!s.verifiedAt || !s.showcasePermission ? 'disabled' : ''}>${s.showcaseApprovedAt ? 'Remove listing' : 'Approve listing'}</button><button class="service-small-button" data-site="${s.id}" data-action="live" ${!s.verifiedAt ? 'disabled' : ''}>${s.liveConfirmedAt ? 'Clear live review' : 'Confirm live review'}</button><button class="service-small-button danger" data-site="${s.id}" data-action="delete">Delete</button></div><span class="site-contact">Live review: ${date(s.liveConfirmedAt)}</span></td></tr>`).join('')}</tbody></table></div>` : '<p class="service-empty"><strong>A fresh forecast.</strong>No websites have registered yet.</p>'}</section><p class="fine-print">Updates refresh every minute while this tab is visible. Review a website before marking its Fluri integration live; DNS ownership alone does not prove installation.</p>`;
+  if (previousGrowth) $('growth-statistics')!.replaceWith(previousGrowth);
   bind('refresh-dashboard', loadDashboard, 'dashboard-notice');
   bind(
     'export-dashboard',
@@ -423,6 +426,32 @@ async function loadDashboard() {
         }
       })();
     });
+  try {
+    const growth = await api<Awaited<ReturnType<typeof growthStatistics>>>('/api/dashboard/growth');
+    const element = $('growth-statistics');
+    if (dashboardVisible && element) {
+      const openCharts = new Set(
+        [...element.querySelectorAll<HTMLDetailsElement>('details[open][data-chart]')].map(
+          (item) => item.dataset.chart,
+        ),
+      );
+      element.innerHTML = renderGrowth(growth);
+      for (const details of element.querySelectorAll<HTMLDetailsElement>('details[data-chart]'))
+        details.open = openCharts.has(details.dataset.chart);
+    }
+  } catch (error) {
+    const growth = $('growth-statistics');
+    if (growth) {
+      growth.replaceChildren();
+      const message = document.createElement('p');
+      message.className = 'service-empty';
+      message.textContent =
+        error instanceof Error
+          ? error.message
+          : 'Could not load growth statistics. Use Refresh to retry.';
+      growth.append(message);
+    }
+  }
 }
 submit(
   'dashboard-login-form',

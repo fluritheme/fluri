@@ -68,6 +68,9 @@ beforeEach(async () => {
   sql = new DatabaseSync(':memory:');
   sql.exec('PRAGMA foreign_keys=ON');
   sql.exec(readFileSync(new URL('../migrations/0001_participation.sql', import.meta.url), 'utf8'));
+  sql.exec(
+    readFileSync(new URL('../migrations/0002_website_traffic.sql', import.meta.url), 'utf8'),
+  );
   const db: Database = {
     prepare: (query) => statement(query),
     batch: async (statements) => {
@@ -274,6 +277,24 @@ describe('participation privacy and permissions', () => {
       200,
     );
     expect((await request('/api/dashboard', 'GET', undefined, undefined, cookie)).status).toBe(401);
+  });
+  it('protects website and npm statistics with the administrator session and exports growth data', async () => {
+    const fetcher = vi.fn().mockResolvedValue(new Response(null, { status: 503 }));
+    vi.stubGlobal('fetch', fetcher);
+    expect((await request('/api/dashboard/growth')).status).toBe(401);
+    expect(fetcher).not.toHaveBeenCalled();
+    const owner = await register();
+    expect(
+      (await request('/api/dashboard/growth', 'GET', undefined, owner.managementToken)).status,
+    ).toBe(401);
+    const cookie = await login();
+    const response = await request('/api/dashboard/growth', 'GET', undefined, undefined, cookie);
+    expect(response.status).toBe(200);
+    expect(response.headers.get('Cache-Control')).toBe('no-store');
+    expect((await response.json()).website.views30d).toBe(0);
+    const exported = await request('/api/dashboard/export', 'GET', undefined, undefined, cookie);
+    expect(exported.headers.get('Content-Disposition')).toContain('attachment');
+    expect((await exported.json()).growth.packages).toHaveLength(2);
   });
   it('fails closed on rate limits and malformed requests', async () => {
     env.API_LIMIT.limit = async () => ({ success: false });

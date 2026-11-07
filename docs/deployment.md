@@ -26,6 +26,16 @@ The manual release workflow performs checks by default and publishes only when t
 
 MIT licensing is confirmed by the project owner. The selected Fluri product/package name is user-supplied; it does not constitute trademark clearance.
 
+## First-party website traffic and package statistics
+
+The private dashboard at `https://fluri.xyz/dashboard/` includes website traffic and official npm download totals in addition to owner-submitted participation reports. `/api/dashboard/growth` uses the existing administrator session and returns no public traffic feed. The dashboard refreshes once per minute while visible; its JSON export includes the growth data. GitHub's private repository traffic report is linked separately; GitHub credentials are not embedded in the Worker.
+
+`workers/growth.ts` counts successful GET requests for an allowlisted set of public HTML pages on the production domain. Cloudflare runs the Worker before static assets; `ASSETS.fetch` still serves the files. Requests for assets, API routes, the dashboard, missing pages, redirects, HEAD, known bots, previews and prefetches are excluded. Do Not Track and Global Privacy Control signals opt out. Only daily counts by fixed page path and broad allowlisted referral category are stored. Unknown external referrers become “Other websites”; full URLs, query strings, arbitrary domains, IPs, user agents and per-visitor events are never persisted. These are approximate page requests, not unique visitors, sessions or visible-snow impressions. Repeat requests count again, browser caching can avoid requests, and bot filtering is incomplete. Request counts start with deployment; no historical traffic is reconstructed.
+
+Apply migration `0002_website_traffic.sql` before deploying this version. Website aggregation is asynchronous through `waitUntil`, and a database failure must not interrupt page delivery. Daily retention cleanup removes traffic dates older than the latest 90 UTC calendar days. The existing retention workflow must remain enabled. The accompanying privacy policy explains the purpose, legitimate-interest basis, opt-out signals and retention. No analytics cookies, browser beacon, fingerprinting or third-party measurement service is added.
+
+Each npm package is queried separately using the official last-month range API. The dashboard shows the last 30 and 7 available days, the latest reported day, daily counts and the actual reporting period. Published packages with no report show “Stats pending”, independently of a real reported zero. Available statistics are cached for an hour, pending/unpublished results for five minutes, and failures for one minute. Upstream failures do not prevent website statistics or participation administration from working. npm normally processes the previous day's counts after UTC midnight; README image proxies can add further delay. npm download counts include automated installs and do not expose package-page visitor counts or identify websites using the library.
+
 ## Participation service and private dashboard
 
 `workers/participation.ts` provides optional owner registration, DNS verification, aggregate reporting, and private administration. The core package is independent of this service. Read [the participation guide](participation.md) for permissions, measurement definitions, endpoints, and retention.

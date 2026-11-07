@@ -155,6 +155,7 @@
             <a href="#at-a-glance">A little winter. A small data footprint.</a
             ><a href="#who-is-responsible">Who is responsible</a
             ><a href="#information-and-purpose">Information and purpose</a
+            ><a href="#website-traffic">Traffic on fluri.xyz</a
             ><a href="#website-participation">Optional website participation</a
             ><a href="#public-community">A public listing is a separate choice</a
             ><a href="#local-preferences">Preferences on your device</a
@@ -177,8 +178,10 @@
             <p>
               Website owners can separately choose to register a domain, submit daily aggregate
               counts from their own systems, and request a public community listing. Registration
-              and reporting are optional; they are not requirements of the software license. This
-              notice covers those services, hosting, correspondence, and browser storage.
+              and reporting are optional; they are not requirements of the software license. On
+              fluri.xyz itself, we also count public page requests in daily aggregates, as described
+              below. This notice covers those services, hosting, correspondence, and browser
+              storage.
             </p>
           </section>
           <section id="who-is-responsible">
@@ -224,6 +227,36 @@
               request it.
             </p>
           </section>
+          <section id="website-traffic">
+            <h2>Traffic on fluri.xyz</h2>
+            <p>
+              Our server counts successful requests for a fixed list of public HTML pages to
+              understand which pages are useful and how visitors discover Fluri. From the ordinary
+              request headers, we derive a broad referral category such as LinkedIn, GitHub, npm,
+              Google, internal navigation, direct / unknown, or other websites. Full referrer URLs,
+              query strings, arbitrary referring domains, IP addresses, user-agent strings, visitor
+              identifiers and individual event records are not stored in this traffic database. A
+              browser user-agent header is used transiently to filter common bots; it is not
+              retained. We do not send these requests to a third-party analytics service or install
+              analytics cookies, pixels, fingerprinting code, or browser storage.
+            </p>
+            <p>
+              Only the UTC date, fixed public page path, broad source category, aggregate count and
+              latest update time are stored, with up to 90 days of daily totals. The dashboard and
+              API are excluded. Requests carrying Do Not Track or Global Privacy Control are
+              excluded. We do not identify or deduplicate people, measure time on page, or join
+              browsing across websites. Referrers may be missing or inaccurate, repeat opens count
+              again, browser caching can avoid a request, and bot filtering is imperfect.
+            </p>
+            <p>
+              Where the GDPR applies, the limited processing of ordinary request metadata for these
+              aggregate statistics is based on our legitimate interest in understanding and
+              improving this website while minimising data and respecting opt-out signals. You can
+              object by contacting us or enabling a supported Do Not Track or Global Privacy Control
+              signal. This first-party request counting is separate from optional reports by
+              independent website owners, and does not change what the Fluri library collects.
+            </p>
+          </section>
           <section id="website-participation">
             <h2>Optional website participation</h2>
             <h3>Registration and management</h3>
@@ -250,9 +283,9 @@
               their own backend. We use these totals to understand participating use and maintain
               the private project dashboard. The reporting API accepts totals rather than
               visitor-level events. We do not store visitor IP addresses, browser identifiers,
-              fingerprints, individual browsing histories, or page URLs in the participation
-              database. Our hosting provider still processes technical information when a backend
-              contacts our API.
+              fingerprints, individual browsing histories, or page URLs in participation reports.
+              Our hosting provider still processes technical information when a backend contacts our
+              API.
             </p>
             <p>
               Reports describe owner-reported effect impressions: an enabled Fluri effect was
@@ -326,9 +359,11 @@
               required by law or necessary to protect legal rights.
             </p>
             <p>
-              README download badges use aggregate package statistics from npm; they do not measure
-              installations or visitors on websites using Fluri. Following an external link takes
-              you to that provider’s service and privacy policy.
+              The private dashboard and README download badges fetch public aggregate package
+              statistics from npm on our server; visitors do not send analytics events to npm
+              through this feature. These totals do not measure installations or visitors on
+              websites using Fluri. Following an external link takes you to that provider’s service
+              and privacy policy.
             </p>
           </section>
           <section id="retention">
@@ -340,13 +375,14 @@
               session revocation.
             </p>
             <p>
-              Daily aggregate reports are retained for up to 395 days. A daily cleanup removes older
-              reports and unverified registrations older than 30 days. Verified registration,
-              contact, credential-hash, and permission records remain while the owner keeps the
-              registration active. Turning reporting off revokes its reporting credential and stops
-              new reports; existing totals remain until their retention period ends or the
-              registration is deleted. Owners can delete a registration and its reports through the
-              portal, or contact us for help.
+              First-party website traffic totals are retained for up to 90 days and removed by daily
+              cleanup. Daily owner-submitted aggregate reports are retained for up to 395 days. A
+              daily cleanup removes older reports and unverified registrations older than 30 days.
+              Verified registration, contact, credential-hash, and permission records remain while
+              the owner keeps the registration active. Turning reporting off revokes its reporting
+              credential and stops new reports; existing totals remain until their retention period
+              ends or the registration is deleted. Owners can delete a registration and its reports
+              through the portal, or contact us for help.
             </p>
             <p>
               Deleting a registration removes it from the active database and current public

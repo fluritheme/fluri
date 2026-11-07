@@ -404,6 +404,75 @@
 .dashboard-grid > .service-card {
   margin: 0;
 }
+.growth-heading {
+  margin: 32px 0 24px;
+  max-width: 720px;
+}
+.growth-heading h2 {
+  font-size: clamp(25px, 3vw, 36px);
+  line-height: 1.2;
+  letter-spacing: -1px;
+  margin: 12px 0;
+}
+.growth-heading > p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+.npm-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.npm-stat-card {
+  margin-bottom: 0;
+}
+.npm-stat-card .service-toolbar {
+  align-items: flex-start;
+  margin-bottom: 22px;
+}
+.npm-stat-card h3 {
+  font-size: 16px;
+  overflow-wrap: anywhere;
+  margin: 0;
+}
+.npm-stat-card h3 a {
+  color: var(--teal);
+}
+.npm-totals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 28px 0 0;
+}
+.npm-totals dt {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.npm-totals dd {
+  margin: 0;
+  font-size: clamp(22px, 2.5vw, 32px);
+  line-height: 1.2;
+  letter-spacing: -1px;
+  font-variant-numeric: tabular-nums;
+}
+.growth-daily .service-table-wrap {
+  max-height: 300px;
+  overflow-y: auto;
+}
+.github-traffic {
+  margin-top: 24px;
+}
+.github-traffic .text-link {
+  font-size: 14px;
+}
+.participation-heading {
+  border-top: 1px solid var(--line);
+  padding-top: 40px;
+  max-width: none;
+}
 .trend-caption {
   display: flex;
   justify-content: space-between;
@@ -644,6 +713,9 @@
     gap: 35px;
   }
   .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  .npm-stat-grid {
     grid-template-columns: 1fr;
   }
   .community-grid {

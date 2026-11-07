@@ -103,6 +103,117 @@ test('dashboard login recovers from invalid keys, non-JSON errors, and connectio
   expect(errors).toEqual([]);
 });
 
+test('dashboard separates website traffic, genuine zero npm downloads and pending reports on mobile and desktop', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  const today = new Date().toISOString().slice(0, 10);
+  const start = new Date(Date.parse(today) - 29 * 86400000).toISOString().slice(0, 10);
+  const checkedAt = new Date().toISOString();
+  await page.route('**/api/dashboard', (route) =>
+    route.fulfill({
+      json: {
+        metrics: {},
+        sites: [],
+        daily: [],
+        versions: [],
+      },
+    }),
+  );
+  let fail = false;
+  await page.route('**/api/dashboard/growth', (route) =>
+    fail
+      ? route.fulfill({
+          status: 503,
+          json: { error: 'Growth statistics are temporarily unavailable.' },
+        })
+      : route.fulfill({
+          json: {
+            updatedAt: checkedAt,
+            website: {
+              start,
+              end: today,
+              startedAt: checkedAt,
+              lastReceivedAt: checkedAt,
+              viewsToday: 8,
+              views7d: 8,
+              views30d: 8,
+              daily: [{ date: today, views: 8 }],
+              pages: [{ path: '/', views: 8 }],
+              referrers: [{ source: 'GitHub', views: 8 }],
+            },
+            packages: [
+              {
+                package: '@fluritheme/fluri',
+                status: 'available',
+                checkedAt,
+                start,
+                end: today,
+                downloads30d: 0,
+                downloads7d: 0,
+                latestDay: 0,
+                daily: Array.from({ length: 30 }, (_, i) => ({
+                  date: new Date(Date.parse(start) + i * 86400000).toISOString().slice(0, 10),
+                  downloads: 0,
+                })),
+              },
+              {
+                package: '@fluritheme/fluri-react',
+                status: 'pending',
+                checkedAt,
+                start: null,
+                end: null,
+                downloads30d: null,
+                downloads7d: null,
+                latestDay: null,
+                daily: [],
+              },
+            ],
+          },
+        }),
+  );
+  await page.goto(`${site}/dashboard/`);
+  await expect(page.getByRole('heading', { name: 'npm downloads', exact: true })).toBeVisible();
+  await expect(page.locator('.npm-stat-card').first().locator('dd')).toHaveText(['0', '0', '0']);
+  await expect(page.locator('.npm-stat-card').last()).toContainText('Stats pending');
+  await expect(page.getByRole('heading', { name: 'Where requests came from' })).toBeVisible();
+  await expect(page.locator('#growth-statistics')).toContainText('100.0%');
+  const dailyCounts = page.locator('.growth-traffic details');
+  await dailyCounts.locator('summary').click();
+  await expect(dailyCounts).toHaveAttribute('open', '');
+  await expect(dailyCounts).toContainText('Not collected');
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await expect(page.locator('.growth-traffic details')).toHaveAttribute('open', '');
+  await page.locator('.growth-traffic details summary').click();
+  await expect(page.getByRole('link', { name: 'Open GitHub traffic report' })).toHaveAttribute(
+    'href',
+    'https://github.com/fluritheme/fluri/graphs/traffic',
+  );
+  for (const width of [320, 390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 1000 });
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1),
+      `${width}px dashboard`,
+    ).toBe(true);
+  }
+  if (test.info().project.name === 'chromium') {
+    await page.screenshot({ path: '/tmp/fluri-dashboard-growth-desktop.png', fullPage: true });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.screenshot({ path: '/tmp/fluri-dashboard-growth-mobile.png', fullPage: true });
+  }
+  fail = true;
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await expect(page.locator('#growth-statistics')).toContainText(
+    'Growth statistics are temporarily unavailable.',
+  );
+  await expect(
+    page.getByRole('heading', { name: 'Participating websites', exact: true }),
+  ).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Sign out' })).toBeEnabled();
+  expect(errors).toEqual([]);
+});
+
 test('live homepage controls change real snow, move its surface, and persist the pause preference', async ({
   page,
 }) => {

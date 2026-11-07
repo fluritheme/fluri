@@ -1,3 +1,5 @@
+import { growthStatistics } from './growth';
+
 export interface Statement {
   bind(...values: (string | number | null)[]): Statement;
   first<T>(): Promise<T | null>;
@@ -239,6 +241,9 @@ export async function cleanup(env: ParticipationEnvironment): Promise<void> {
       'DELETE FROM sites WHERE verified_at IS NULL AND created_at < ?',
     ).bind(cutoff(30)),
     env.PARTICIPATION_DB.prepare('DELETE FROM admin_sessions WHERE expires_at <= ?').bind(iso()),
+    env.PARTICIPATION_DB.prepare('DELETE FROM website_daily WHERE date < ?').bind(
+      cutoff(89).slice(0, 10),
+    ),
   ]);
 }
 async function dashboard(env: ParticipationEnvironment) {
@@ -438,12 +443,17 @@ export async function participationAPI(
       }
       if ((path === '/api/dashboard' || path === '/api/dashboard/export') && method === 'GET') {
         return json(
-          await dashboard(env),
+          path.endsWith('/export')
+            ? { ...(await dashboard(env)), growth: await growthStatistics(db) }
+            : await dashboard(env),
           200,
           path.endsWith('/export')
             ? { 'Content-Disposition': 'attachment; filename="fluri-dashboard.json"' }
             : {},
         );
+      }
+      if (path === '/api/dashboard/growth' && method === 'GET') {
+        return json(await growthStatistics(db));
       }
       const id = path.match(/^\/api\/dashboard\/sites\/([a-f0-9-]{36})$/)?.[1];
       if (id) {

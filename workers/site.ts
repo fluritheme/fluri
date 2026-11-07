@@ -1,4 +1,5 @@
 import { cleanup, participationAPI, type ParticipationEnvironment } from './participation';
+import { pageObservation, recordPageView } from './growth';
 
 interface SiteEnvironment extends Partial<ParticipationEnvironment> {
   ASSETS: { fetch(request: Request): Promise<Response> };
@@ -106,7 +107,11 @@ export default {
   async scheduled(_event: unknown, env: SiteEnvironment): Promise<void> {
     if (isParticipationEnvironment(env)) await cleanup(env);
   },
-  async fetch(request: Request, env: SiteEnvironment): Promise<Response> {
+  async fetch(
+    request: Request,
+    env: SiteEnvironment,
+    context?: { waitUntil(promise: Promise<unknown>): void },
+  ): Promise<Response> {
     const url = new URL(request.url);
     if (url.pathname.startsWith('/api/')) {
       return isParticipationEnvironment(env)
@@ -117,7 +122,18 @@ export default {
           );
     }
     const packageName = packages.get(url.pathname);
-    if (!packageName) return env.ASSETS.fetch(request);
+    if (!packageName) {
+      const response = await env.ASSETS.fetch(request);
+      const observation = pageObservation(request, response);
+      if (observation && env.PARTICIPATION_DB) {
+        const record = recordPageView(env.PARTICIPATION_DB, observation).catch(() => {
+          console.error('Website traffic aggregation failed.');
+        });
+        if (context) context.waitUntil(record);
+        else await record;
+      }
+      return response;
+    }
     if (request.method !== 'GET' && request.method !== 'HEAD') {
       return new Response('Method not allowed', { status: 405, headers: { Allow: 'GET, HEAD' } });
     }

@@ -167,9 +167,9 @@
             <span class="doc-kicker">GETTING STARTED</span>
             <h2>Your first snowfall.</h2>
             <p>
-              Fluri’s packages are prepared for their first npm release. You can use the built
-              package archives from this site today. Download them, then install the local files in
-              your project.
+              Install Fluri from npm. The core works with JavaScript and TypeScript; add the
+              optional adapter for React and Next.js. Versioned package archives are also available
+              below.
             </p>
             <div class="download-row">
               <a class="button button-dark" href="/downloads/fluritheme-fluri-0.1.0.tgz" download
@@ -180,21 +180,21 @@
             </div>
             <div class="code-block">
               <div class="code-bar">
-                <span>Install the downloaded core</span
+                <span>Install from npm</span
                 ><button
                   class="copy-button"
                   data-copy-target="install-local"
-                  aria-label="Copy Install the downloaded core"
+                  aria-label="Copy Install from npm"
                 >
                   Copy <span aria-hidden="true">▢</span>
                 </button>
               </div>
-              <pre><code id="install-local">npm install ./fluritheme-fluri-0.1.0.tgz</code></pre>
+              <pre><code id="install-local">npm install @fluritheme/fluri</code></pre>
             </div>
             <p>
-              After registry publication, the package name is <code>@fluritheme/fluri</code>. The
-              optional adapter is <code>@fluritheme/fluri-react</code>. These downloads contain
-              compiled ESM, TypeScript declarations, README, and MIT licensing.
+              The core package is <code>@fluritheme/fluri</code>. The optional adapter is
+              <code>@fluritheme/fluri-react</code>. These downloads contain compiled ESM, TypeScript
+              declarations, README, and MIT licensing.
             </p>
             <div class="code-block">
               <div class="code-bar">
@@ -236,7 +236,7 @@ window.addEventListener(&#39;pagehide&#39;, () =&gt; {
               The core uses browser APIs. Use the React adapter for automatic lifecycle cleanup, or
               pair the controller with your framework’s mount and unmount hooks.
             </p>
-            <p>For React, install both archives with React already in your application:</p>
+            <p>For React, install both packages with React already in your application:</p>
             <div class="code-block">
               <div class="code-bar">
                 <span>Install the React adapter</span
@@ -248,7 +248,7 @@ window.addEventListener(&#39;pagehide&#39;, () =&gt; {
                   Copy <span aria-hidden="true">▢</span>
                 </button>
               </div>
-              <pre><code id="install-react">npm install ./fluritheme-fluri-0.1.0.tgz ./fluritheme-fluri-react-0.1.0.tgz</code></pre>
+              <pre><code id="install-react">npm install @fluritheme/fluri @fluritheme/fluri-react</code></pre>
             </div>
             <div class="integration-panel" data-code-tabs>
               <div class="integration-tabs" role="tablist" aria-label="Framework examples">

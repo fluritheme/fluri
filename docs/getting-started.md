@@ -2,6 +2,10 @@
 
 Install `@fluritheme/fluri` and call `createWeather()` after the body exists. Fluri has no backend, user account, or required service credentials.
 
+```sh
+npm install @fluritheme/fluri
+```
+
 ```ts
 import { createWeather } from '@fluritheme/fluri';
 const weather = createWeather({ autoStart: true, preset: 'gentle-snow' });
@@ -35,6 +39,10 @@ window.addEventListener('pagehide', () => weather.destroy(), { once: true });
 ```
 
 The npm output is ESM and imports its declared dependency. It is intended for a bundler or correctly configured import map; it is not an unbundled CDN script tag.
+
+### CDN distribution
+
+The npm release is also distributed by [jsDelivr](https://www.jsdelivr.com/package/npm/@fluritheme/fluri) and [UNPKG](https://unpkg.com/@fluritheme/fluri@0.1.0/). Pin an exact version in production. These services mirror the npm package; they do not require a separate Fluri release or account. Raw package files still contain bare dependency imports, so browser integration needs an import map or a CDN service that transforms ESM dependencies. Installing from npm with a bundler is the recommended integration.
 
 ## React / Next.js
 

@@ -1,13 +1,19 @@
 # Changelog
 
-## Unreleased — 2026-11-07
+## 0.1.0 — 2026-11-07
+
+First public npm release of `@fluritheme/fluri` and `@fluritheme/fluri-react`.
+
+- Added optional owner-verified website registration, daily aggregate reporting, a private operator dashboard, and a separately approved public community listing. The engine sends no automatic telemetry.
+
+### Surface attachment and accessibility
 
 - Mounted eligible scoped previews natively inside their scenes so card-edge snow scrolls with its support between JavaScript paints; retained safe viewport fallbacks and bounded canvas sizes.
 - Added original illustrated README artwork, clean feature badges, npm-compatible hosted images and document links, and focused core/React package discovery metadata.
 - Added cached solid-background contrast detection so pale flakes and accumulated snow remain visible on white pages without replacing custom snow colors.
 - Improved snowball gathering around the nearest snowy contour and limited browser selection suppression to accepted Shift gestures, with explicit cancellation and cleanup.
 
-## Unreleased — 2026-11-06
+### Website, interactions, and performance
 
 - Added the multi-page promotional website, live preset collection, documentation, package downloads, and operator-specific legal notices; deployed with Cloudflare Workers Static Assets.
 - Unified the playground and website palette, typography, branding, and navigation through shared design tokens.
@@ -23,7 +29,7 @@
 - Rebuilt the playground around a mobile-first surface workshop, accessible modal settings sheet, large touch controls, dedicated drag/resize handles, and real shake interaction.
 - Added regression checks for actual raster silhouettes, brush transfer, occluded supports, native mobile scrolling, focus behavior, and physical resize budgets.
 
-## 0.1.0 — 2026-11-05
+### Engine and integrations
 
 Initial Fluri implementation under the owner-selected `@fluritheme/fluri` package name and MIT license.
 
@@ -35,4 +41,4 @@ Initial Fluri implementation under the owner-selected `@fluritheme/fluri` packag
 - Reduced-motion policy, hidden-tab suspension, accessible optional controls, and a separate React lifecycle adapter.
 - Responsive playground and product website, configuration persistence/export, real stress scenes, unit/browser tests, CI, MIT licensing, documentation, and release inspection tools.
 
-Browser compositor approximations and unsupported experimental features are documented in docs/limitations.md. Registry publication is a separate owner-operated release step.
+Browser compositor approximations and unsupported experimental features are documented in docs/limitations.md. Future registry publication remains a separate owner-operated release step.

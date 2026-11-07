@@ -12,7 +12,7 @@ The README download badges at `/readme/npm-downloads.svg` and `/readme/npm-downl
 
 ## npm release
 
-Publishing is owner-operated and has not been performed by the development workflow. You need write access to the npm `@fluritheme` scope. Verify package availability and ownership before publication; local package naming does not reserve it.
+Publishing is owner-operated. Use the npm `fluritheme` account or another publisher explicitly authorized for these packages. Check the current registry version before publishing; npm versions are immutable.
 
 1. Review the version, changelog, license, published file list, and npm account/scope permissions.
 2. Verify the package homepage `https://fluri.xyz/`, source repository [fluritheme/fluri](https://github.com/fluritheme/fluri), and [issue tracker](https://github.com/fluritheme/fluri/issues). Both package manifests identify their directory within the shared repository.

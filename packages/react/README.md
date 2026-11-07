@@ -31,7 +31,7 @@ The core stays framework independent. This adapter brings its snowfall, surface 
 npm install @fluritheme/fluri @fluritheme/fluri-react
 ```
 
-Peer dependencies: **React 18 or 19** and **`@fluritheme/fluri` ^0.1.0**. React DOM is not a dependency of the adapter. Before registry publication, install both archives from the [package downloads](https://fluri.xyz/docs/#quick-start).
+Peer dependencies: **React 18 or 19** and **`@fluritheme/fluri` ^0.1.0**. React DOM is not a dependency of the adapter. Package archives are also available in the [documentation](https://fluri.xyz/docs/#quick-start).
 
 ## One component. A little winter.
 

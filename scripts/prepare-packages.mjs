@@ -28,8 +28,6 @@ readme = readme.replace(
   (_match, label, path) =>
     `[${label}](${path === 'LICENSE' ? `${origin}/license/` : `${origin}/reference/${path.replace(/^docs\//, '')}`})`,
 );
-// The release-state note belongs to the checkout; the npm README is shown only after publication.
-readme = readme.replace(/\*\*Before the first npm release:\*\*[^\n]*\n\n/, '');
 readme +=
   '\nFull Markdown reference files and artwork are also included in the installed package.\n';
 await writeFile(new URL('README.md', core), readme);

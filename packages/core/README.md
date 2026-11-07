@@ -49,6 +49,8 @@ Use a light dusting on a portfolio, a playful snowfall on a landing page, or war
 npm install @fluritheme/fluri
 ```
 
+Also available on [jsDelivr](https://www.jsdelivr.com/package/npm/@fluritheme/fluri) and [UNPKG](https://unpkg.com/@fluritheme/fluri@0.1.0/). npm is the recommended way to integrate Fluri with your build tool; raw CDN files require an import map or an ESM transformation service to resolve dependencies.
+
 Mark the elements that should collect snow:
 
 ```html

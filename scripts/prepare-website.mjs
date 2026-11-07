@@ -90,9 +90,11 @@ await writeFile(
 
 > Open-source TypeScript snow animation library for websites. Snow accumulates on supported DOM edges and responds to pointer interactions. MIT licensed.
 
-Fluri is a visual effect, not a weather forecast service. The core works independently of frameworks; a separate React adapter supports React and Next.js. Defaults include no visitor telemetry or network requests. Adaptive quality and reduced-motion controls are available; performance and supported geometry have documented limits. Registry availability is stated in the getting-started guide.
+Fluri is a visual effect, not a weather forecast service. The core works independently of frameworks; a separate React adapter supports React and Next.js. Defaults include no visitor telemetry or network requests. Adaptive quality and reduced-motion controls are available; performance and supported geometry have documented limits.
 
 Package names: @fluritheme/fluri (core) and @fluritheme/fluri-react (optional React adapter).
+
+Install with npm. Package files are also distributed by jsDelivr and UNPKG; raw ESM files need dependency resolution through a bundler, import map, or ESM transformation service.
 
 ## Product and source
 - [Overview](${origin}/): Live preview and product capabilities.

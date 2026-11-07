@@ -928,6 +928,8 @@ test('pointer release on ignored controls or beyond a scoped scene releases the 
 test('creates physical snowballs and a snowman, and ploughs an explicit route', async ({
   page,
 }) => {
+  await page.clock.install();
+  await page.clock.pauseAt(new Date((await page.evaluate(() => Date.now())) + 100));
   await page.locator('#lower').scrollIntoViewIfNeeded();
   await page.evaluate(() => {
     window.weather.updateConfig({
@@ -950,6 +952,7 @@ test('creates physical snowballs and a snowman, and ploughs an explicit route', 
   const massBefore = await page.evaluate(
     () => window.captureSurfaces().find((surface) => surface.elementId === 'lower')?.mass ?? 0,
   );
+  await page.clock.runFor(5_000);
   await expect
     .poll(
       () => page.evaluate(() => window.eventLog.some((event) => event.name === 'plough:complete')),

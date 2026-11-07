@@ -3,6 +3,9 @@ import type {} from '../apps/website/src/main.js';
 
 const site = 'http://127.0.0.1:4173';
 const clockStart = new Date('2026-11-06T12:00:00Z');
+// Software-rasterized WebKit executes the same virtual frames more slowly than native builds.
+// The cadence and mass assertions below still use the complete simulated time interval.
+test.setTimeout(90_000);
 
 test('the hero occasionally ploughs real snow and its cadence pauses with the preview', async ({
   page,
@@ -17,7 +20,10 @@ test('the hero occasionally ploughs real snow and its cadence pauses with the pr
   const initialMass = await page.evaluate(() => {
     const weather = window.__fluriSite;
     if (!weather) throw new Error('The real hero engine did not start');
-    weather.updateConfig({ snow: { enabled: false, accumulation: { meltRate: 0 } } });
+    weather.updateConfig({
+      snow: { enabled: false, accumulation: { meltRate: 0 } },
+      performance: { maxFPS: 20, maxDPR: 1, adaptive: false },
+    });
     // Stop also clears flakes already in flight, which disabling emission alone does not.
     weather.stop();
     weather.start();
@@ -102,7 +108,12 @@ test('the collection preview does not schedule automatic snowplough passes', asy
   await page.evaluate(() => {
     const weather = window.__fluriSite;
     if (!weather) throw new Error('The real showcase engine did not start');
-    weather.updateConfig({ snow: { enabled: false } });
+    weather.updateConfig({
+      snow: { enabled: false },
+      performance: { maxFPS: 20, maxDPR: 1, adaptive: false },
+    });
+    weather.stop();
+    weather.start();
     weather.addSnow(8, '.catching-shelf');
     document.documentElement.dataset.ploughStarts = '0';
     weather.on('plough:start', () => {

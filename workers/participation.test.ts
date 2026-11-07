@@ -93,6 +93,16 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 describe('participation privacy and permissions', () => {
+  it('rejects a one-character dashboard key as JSON and permits a subsequent valid login', async () => {
+    const response = await request('/api/dashboard/login', 'POST', { password: 'x' });
+    expect(response.status).toBe(401);
+    expect(response.headers.get('Content-Type')).toContain('application/json');
+    expect(await response.json()).toEqual({ error: 'Invalid dashboard access key.' });
+    expect(response.headers.has('Set-Cookie')).toBe(false);
+    const cookie = await login();
+    expect((await request('/api/dashboard', 'GET', undefined, undefined, cookie)).status).toBe(200);
+  });
+
   it('stores hashed secrets, exports only owner fields, and never exposes private details publicly', async () => {
     const owner = await register();
     const stored = sql.prepare('SELECT * FROM sites').get()!;

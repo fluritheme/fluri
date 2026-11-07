@@ -56,6 +56,53 @@ test('every promotional and legal page contains its own prerendered content and 
   }
 });
 
+test('dashboard login recovers from invalid keys, non-JSON errors, and connection failures', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.route('**/api/dashboard', (route) =>
+    route.fulfill({ status: 401, json: { error: 'Sign in to the dashboard.' } }),
+  );
+  let failure: { status: number; body: string; contentType: string } | null = null;
+  await page.route('**/api/dashboard/login', (route) =>
+    failure ? route.fulfill(failure) : route.abort('failed'),
+  );
+  await page.goto(`${site}/dashboard/`);
+  const field = page.getByLabel('Dashboard access key');
+  const button = page.getByRole('button', { name: 'Open dashboard' });
+  const notice = page.locator('#dashboard-notice');
+  await field.fill('x');
+  for (const [status, body, expected] of [
+    [401, '<html>Authentication failed</html>', 'Invalid dashboard access key.'],
+    [503, '<html>Upstream unavailable</html>', 'The service is temporarily unavailable.'],
+    [429, '', 'Too many requests. Wait a minute'],
+    [200, '<html>Unexpected fallback page</html>', 'The service returned an unexpected response.'],
+  ] as const) {
+    failure = { status, body, contentType: 'text/html' };
+    await button.click();
+    await expect(notice).toContainText(expected);
+    await expect(button).toBeEnabled();
+    await expect(field).toBeVisible();
+    await expect(page.locator('#dashboard-content')).toBeHidden();
+  }
+  failure = null;
+  await button.click();
+  await expect(notice).toContainText('Could not connect to Fluri.');
+  await expect(button).toBeEnabled();
+  failure = {
+    status: 401,
+    body: JSON.stringify({ error: 'Invalid dashboard access key.' }),
+    contentType: 'application/json',
+  };
+  await button.click();
+  await expect(notice).toHaveText('Invalid dashboard access key.');
+  await expect(button).toBeEnabled();
+  await page.getByRole('link', { name: 'Documentation', exact: true }).click();
+  await expect(page).toHaveURL(`${site}/docs/`);
+  expect(errors).toEqual([]);
+});
+
 test('live homepage controls change real snow, move its surface, and persist the pause preference', async ({
   page,
 }) => {

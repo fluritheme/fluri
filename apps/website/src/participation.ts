@@ -56,22 +56,51 @@ async function api<T>(path: string, method = 'GET', data?: unknown, token?: stri
   const headers: Record<string, string> = {};
   if (data !== undefined) headers['Content-Type'] = 'application/json';
   if (token) headers.Authorization = `Bearer ${token}`;
-  const response = await fetch(path, {
-    method,
-    headers,
-    ...(data !== undefined ? { body: JSON.stringify(data) } : {}),
-  });
-  const result = (await response.json()) as T & { error?: string };
-  if (!response.ok) {
-    if (response.status === 401 && path.startsWith('/api/dashboard') && $('dashboard-content')) {
-      dashboardVisible = false;
-      $('dashboard-content')!.replaceChildren();
-      $('dashboard-content')!.hidden = true;
-      $('dashboard-login')!.hidden = false;
-    }
-    throw new Error(result.error || 'The request could not be completed.');
+  let response: Response;
+  try {
+    response = await fetch(path, {
+      method,
+      headers,
+      signal: AbortSignal.timeout(15000),
+      ...(data !== undefined ? { body: JSON.stringify(data) } : {}),
+    });
+  } catch {
+    throw new Error('Could not connect to Fluri. Check your connection and try again.');
   }
-  return result;
+  if (response.status === 401 && path.startsWith('/api/dashboard') && $('dashboard-content')) {
+    dashboardVisible = false;
+    $('dashboard-content')!.replaceChildren();
+    $('dashboard-content')!.hidden = true;
+    $('dashboard-login')!.hidden = false;
+  }
+  const fallback =
+    response.status === 401
+      ? path === '/api/dashboard/login'
+        ? 'Invalid dashboard access key.'
+        : 'Your session has ended. Sign in again.'
+      : response.status === 429
+        ? 'Too many requests. Wait a minute and try again.'
+        : response.status === 403
+          ? 'The request was blocked. Reload the page and try again.'
+          : response.status >= 500
+            ? 'The service is temporarily unavailable. Please try again shortly.'
+            : 'The service returned an unexpected response. Reload the page and try again.';
+  let result: unknown;
+  try {
+    result = await response.json();
+  } catch {
+    throw new Error(fallback);
+  }
+  if (typeof result !== 'object' || result === null || Array.isArray(result))
+    throw new Error(fallback);
+  if (!response.ok) {
+    throw new Error(
+      'error' in result && typeof result.error === 'string' && result.error.trim()
+        ? result.error
+        : fallback,
+    );
+  }
+  return result as T;
 }
 function submit(
   id: string,

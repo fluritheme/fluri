@@ -4,7 +4,7 @@
   "compatibility_date": "2026-11-06",
   "workers_dev": false,
   "preview_urls": false,
-  "routes": [{ "pattern": "fluri.xyz", "custom_domain": true }],
+  "routes": [{ "pattern": "winter.fluri.xyz", "custom_domain": true }],
   "d1_databases": [
     {
       "binding": "PARTICIPATION_DB",

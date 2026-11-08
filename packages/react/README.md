@@ -1,7 +1,7 @@
 <div align="center">
 
-<a href="https://fluri.xyz/">
-  <img src="https://fluri.xyz/readme/banner.png" alt="Fluri — A little winter for the web." width="100%" />
+<a href="https://winter.fluri.xyz/">
+  <img src="https://winter.fluri.xyz/readme/banner.png" alt="Fluri — A little winter for the web." width="100%" />
 </a>
 
 # Fluri for React ❄️
@@ -11,9 +11,9 @@
 DOM-aware snow accumulation. Playful interactions.<br />
 A lifecycle that fits React and Next.js.
 
-<a href="https://www.npmjs.com/package/@fluritheme/fluri-react"><img src="https://fluri.xyz/readme/npm-downloads-react.svg" alt="npm downloads for @fluritheme/fluri-react over the last 30 days" height="24" /></a>
+<a href="https://www.npmjs.com/package/@fluritheme/fluri-react"><img src="https://winter.fluri.xyz/readme/npm-downloads-react.svg" alt="npm downloads for @fluritheme/fluri-react over the last 30 days" height="24" /></a>
 
-[Live playground](https://fluri.xyz/playground/) · [Documentation](https://fluri.xyz/docs/#frameworks) · [Preset showcase](https://fluri.xyz/showcase/) · [GitHub](https://github.com/fluritheme/fluri/tree/main/packages/react)
+[Live playground](https://winter.fluri.xyz/playground/) · [Documentation](https://winter.fluri.xyz/docs/#frameworks) · [Preset showcase](https://winter.fluri.xyz/showcase/) · [GitHub](https://github.com/fluritheme/fluri/tree/main/packages/react)
 
 </div>
 
@@ -23,7 +23,7 @@ A lifecycle that fits React and Next.js.
 
 The core stays framework independent. This adapter brings its snowfall, surface accumulation, snowballs, and optional Christmas decorations to React projects without managing the engine lifecycle yourself.
 
-<img src="https://fluri.xyz/readme/features.png" alt="Snow follows interface edges, responds to brushing, and supports adjustable snowfall and wind." width="100%" />
+<img src="https://winter.fluri.xyz/readme/features.png" alt="Snow follows interface edges, responds to brushing, and supports adjustable snowfall and wind." width="100%" />
 
 ## Install
 
@@ -31,7 +31,7 @@ The core stays framework independent. This adapter brings its snowfall, surface 
 npm install @fluritheme/fluri @fluritheme/fluri-react
 ```
 
-Peer dependencies: **React 18 or 19** and **`@fluritheme/fluri` ^0.1.0**. React DOM is not a dependency of the adapter. Package archives are also available in the [documentation](https://fluri.xyz/docs/#quick-start).
+Peer dependencies: **React 18 or 19** and **`@fluritheme/fluri` ^0.1.0**. React DOM is not a dependency of the adapter. Package archives are also available in the [documentation](https://winter.fluri.xyz/docs/#quick-start).
 
 ## One component. A little winter.
 
@@ -107,8 +107,8 @@ The engine releases registered plugins when the instance is destroyed. `onReady`
 - **Runtime changes:** the adapter applies option patches after renders. Use the controller for imperative actions such as `trigger()`, `pause()`, and `clearAccumulation()`.
 - **Considerate motion:** the core respects reduced-motion preferences by default, suspends in hidden tabs, and offers adaptive performance budgets. Test your own layout and target devices.
 
-[Complete configuration](https://fluri.xyz/docs/) · [API reference](https://fluri.xyz/reference/api-reference.md) · [Browser limits](https://fluri.xyz/reference/limitations.md)
+[Complete configuration](https://winter.fluri.xyz/docs/) · [API reference](https://winter.fluri.xyz/reference/api-reference.md) · [Browser limits](https://winter.fluri.xyz/reference/limitations.md)
 
 ## License
 
-[MIT](https://fluri.xyz/license/). Built by [Frantisek Gejdos](https://fluri.xyz/about/).
+[MIT](https://winter.fluri.xyz/license/). Built by [Frantisek Gejdos](https://fluri.xyz/#founder).

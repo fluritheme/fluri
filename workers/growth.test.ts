@@ -16,7 +16,7 @@ let db: Database;
 const html = () =>
   new Response('<h1>Fluri</h1>', { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
 const browser = (path = '/', headers: Record<string, string> = {}) =>
-  new Request(`https://fluri.xyz${path}`, {
+  new Request(`https://winter.fluri.xyz${path}`, {
     headers: { 'User-Agent': 'Mozilla/5.0 Safari/605.1.15', Accept: 'text/html', ...headers },
   });
 function statement(query: string, values: (string | number | null)[] = []): Statement {
@@ -104,7 +104,9 @@ describe('first-party traffic privacy and aggregation', () => {
 
   it('excludes failed responses, redirects, HEAD, non-HTML and non-production hosts', () => {
     expect(pageObservation(browser(), new Response('missing', { status: 404 }))).toBeNull();
-    expect(pageObservation(browser(), Response.redirect('https://fluri.xyz/docs/'))).toBeNull();
+    expect(
+      pageObservation(browser(), Response.redirect('https://winter.fluri.xyz/docs/')),
+    ).toBeNull();
     expect(
       pageObservation(
         browser(),
@@ -120,7 +122,7 @@ describe('first-party traffic privacy and aggregation', () => {
   it.each([
     [null, 'Direct / unknown'],
     ['not a url', 'Direct / unknown'],
-    ['https://fluri.xyz/playground/?private=yes', 'Internal navigation'],
+    ['https://winter.fluri.xyz/playground/?private=yes', 'Internal navigation'],
     ['https://personal-name.example.org/private/path', 'Other websites'],
     ['https://linkedin.com.attacker.org/', 'Other websites'],
     ['javascript:alert(1)', 'Direct / unknown'],

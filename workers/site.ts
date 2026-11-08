@@ -121,6 +121,18 @@ export default {
             { status: 503, headers: { 'Cache-Control': 'no-store' } },
           );
     }
+    const historicalDownloads: Record<string, string> = {
+      '/downloads/fluritheme-fluri-0.1.0.tgz':
+        'https://registry.npmjs.org/@fluritheme/fluri/-/fluri-0.1.0.tgz',
+      '/downloads/fluritheme-fluri-react-0.1.0.tgz':
+        'https://registry.npmjs.org/@fluritheme/fluri-react/-/fluri-react-0.1.0.tgz',
+    };
+    const historical = historicalDownloads[url.pathname];
+    if (historical && (request.method === 'GET' || request.method === 'HEAD'))
+      return new Response(null, {
+        status: 302,
+        headers: { Location: historical, 'Cache-Control': 'public, max-age=86400' },
+      });
     const packageName = packages.get(url.pathname);
     if (!packageName) {
       const response = await env.ASSETS.fetch(request);

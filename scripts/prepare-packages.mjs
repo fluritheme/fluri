@@ -7,7 +7,7 @@ await cp(new URL('assets/', root), new URL('assets/', core), { recursive: true }
 for (const file of ['LICENSE', 'CHANGELOG.md', 'CONTRIBUTING.md', 'SECURITY.md'])
   await cp(new URL(file, root), new URL(file, core));
 await cp(new URL('LICENSE', root), new URL('packages/react/LICENSE', root));
-const originURL = new URL(process.env.FLURI_SITE_ORIGIN ?? 'https://fluri.xyz');
+const originURL = new URL(process.env.FLURI_SITE_ORIGIN ?? 'https://winter.fluri.xyz');
 if (
   originURL.protocol !== 'https:' ||
   originURL.pathname !== '/' ||

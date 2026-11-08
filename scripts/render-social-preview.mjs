@@ -1,31 +1,28 @@
-import { readFile, writeFile } from 'node:fs/promises';
+import { writeFile, mkdir } from 'node:fs/promises';
 import { chromium } from '@playwright/test';
-
-const source = new URL('../assets/readme/banner.svg', import.meta.url);
-let svg = (await readFile(source, 'utf8')).trimEnd();
-svg = svg
-  .replace('height="500" viewBox="0 0 1280 500"', 'height="640" viewBox="0 0 1280 640"')
-  .replace('<rect width="1280" height="500" rx="24"/>', '<rect width="1280" height="640"/>')
-  .replace('x2="1280" y2="500"', 'x2="1280" y2="640"')
-  .replace('M0 0h1280v500H0Z', 'M0 0h1280v640H0Z')
-  .replace('<rect x=".5" y=".5" width="1279" height="499" rx="23.5" stroke="#d4e3e9"/>', '');
-const footer = `<path d="M60 532H1220" stroke="#bfd3dc"/><rect x="60" y="560" width="400" height="44" rx="10" fill="#f6fafb" stroke="#bfd3dc"/><text x="82" y="588" fill="#276471" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="18">npm install @fluritheme/fluri</text><text x="1220" y="590" text-anchor="end" fill="#426d7d" font-family="system-ui,-apple-system,sans-serif" font-size="23" font-weight="600" letter-spacing="-.5">fluri.xyz ↗</text>`;
-svg = svg.slice(0, -6) + footer + '</svg>';
-await writeFile(new URL('../assets/brand/github-social-preview.svg', import.meta.url), svg);
+const root = new URL('../', import.meta.url);
+function art(width, height) {
+  const scale = width / 1280;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 1280 ${height / scale}"><rect width="1280" height="${height / scale}" fill="#4935f5"/><g fill="#fff" font-family="Arial,Helvetica,sans-serif"><text x="58" y="61" font-size="12" letter-spacing="1">WINTER / BY FLURI THEMES</text><text x="1220" y="61" text-anchor="end" font-size="12" letter-spacing="1">CHANGE THE FORECAST.</text><path d="M58 89H1220" stroke="#fff" opacity=".35"/><text x="50" y="335" font-size="265" font-weight="700" letter-spacing="-21">winter.</text><text x="62" y="404" font-size="26" font-weight="500">Real snow. Real surfaces. A little winter for your website.</text>${height / scale > 550 ? '<path d="M58 484H1220" stroke="#fff" opacity=".35"/><text x="62" y="552" font-family="monospace" font-size="20">npm i @fluritheme/fluri</text><text x="1220" y="552" text-anchor="end" font-size="24">winter.fluri.xyz ↗</text>' : '<text x="1220" y="462" text-anchor="end" font-size="18">winter.fluri.xyz ↗</text>'}</g><g fill="#fff" opacity=".65"><circle cx="946" cy="150" r="4"/><circle cx="1100" cy="221" r="6"/><circle cx="854" cy="389" r="3"/><circle cx="1170" cy="405" r="3"/><circle cx="760" cy="117" r="2"/><circle cx="998" cy="348" r="2"/></g></svg>`;
+}
 const browser = await chromium.launch();
 try {
-  const page = await browser.newPage({
-    viewport: { width: 1280, height: 640 },
-    deviceScaleFactor: 1,
-  });
-  await page.setContent(
-    `<style>html,body{margin:0;width:1280px;height:640px;overflow:hidden}svg{display:block}</style>${svg}`,
-  );
-  await page.evaluate(() => document.fonts.ready);
-  await page.screenshot({
-    path: new URL('../assets/brand/github-social-preview.png', import.meta.url).pathname,
-  });
+  for (const [name, w, h] of [
+    ['assets/readme/banner', 1280, 500],
+    ['assets/brand/github-social-preview', 1280, 640],
+    ['apps/website/public/art/social-card', 1200, 630],
+  ]) {
+    await mkdir(new URL(name.slice(0, name.lastIndexOf('/')) + '/', root), { recursive: true });
+    const svg = art(w, h);
+    await writeFile(new URL(name + '.svg', root), svg);
+    const page = await browser.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 1 });
+    await page.setContent(
+      `<style>html,body{margin:0;width:${w}px;height:${h}px;overflow:hidden}svg{display:block}</style>${svg}`,
+    );
+    await page.screenshot({ path: new URL(name + '.png', root).pathname });
+    await page.close();
+  }
 } finally {
   await browser.close();
 }
-console.log('Rendered GitHub social preview: 1280 × 640 PNG.');
+console.log('Rendered Winter README, GitHub and website social artwork.');

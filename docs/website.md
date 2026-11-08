@@ -2,7 +2,7 @@
 
 The production website is deployed with Cloudflare Workers Static Assets. It includes Home, Features, an interactive Showcase, Documentation, About, Changelog, Privacy, Terms, Cookies & Storage, the MIT License, a custom 404 page, and the existing playground.
 
-Public website: [fluri.xyz](https://fluri.xyz/).
+Public website: [winter.fluri.xyz](https://winter.fluri.xyz/).
 
 ## Local development
 
@@ -46,7 +46,7 @@ pnpm deploy
 
 `pnpm deploy` builds before running the pinned Wrangler CLI. It requires an authenticated Cloudflare account with Worker deployment permissions. The configuration names the Worker `fluri`; the authenticated account supplies deployment access. Set up a separate database and secrets when moving the project to another account. Credentials are managed by Wrangler, never committed to the project.
 
-The default production origin is `https://fluri.xyz`. Configure the `fluri.xyz` custom domain for the Worker in Cloudflare before directing public traffic there. To build for another HTTPS origin, set `FLURI_SITE_ORIGIN` before rebuilding. The generator validates the origin and updates canonical/social URLs, `sitemap.xml`, and `robots.txt`. It accepts an origin without a path, query, or credentials.
+The default production origin is `https://winter.fluri.xyz`. Configure the `winter.fluri.xyz` custom domain for the Worker in Cloudflare before directing public traffic there. To build for another HTTPS origin, set `FLURI_SITE_ORIGIN` before rebuilding. The generator validates the origin and updates canonical/social URLs, `sitemap.xml`, and `robots.txt`. It accepts an origin without a path, query, or credentials.
 
 Security headers are declared in `apps/website/public/_headers`, including CSP, content-type protection, framing restrictions, and disabled camera/microphone/geolocation permissions. Hashed assets receive immutable caching. Downloads receive attachment headers. The application does not enable Worker invocation logs; Cloudflare may independently process security and operational request data as described in the privacy notice.
 
@@ -63,7 +63,7 @@ The website checks cover real snow controls, presets, keyboard navigation and co
 
 `/participate/` provides registration, DNS verification, sharing choices, one-time keys, reporting, export, and deletion. `/community/` loads only verified, owner-permitted, operator-approved name/domain listings. `/dashboard/` requires a separate operator session; private data is loaded after authentication and never built into HTML. The dashboard is excluded from the sitemap and marked noindex. Empty states show real lack of data rather than invented installations.
 
-Unique page descriptions, canonical URLs, Open Graph and Twitter metadata, and JSON-LD are generated from the page content. `src/seo.ts` describes the source project, license, operator, and page relationships without ratings or inflated usage claims. `/llms.txt` indexes public documentation and limitations for text-based readers. These help machines understand the product; rankings and AI recommendations remain outside the project's control. Public metadata uses `fluri.xyz` exclusively.
+Unique page descriptions, canonical URLs, Open Graph and Twitter metadata, and JSON-LD are generated from the page content. `src/seo.ts` describes the source project, license, operator, and page relationships without ratings or inflated usage claims. `/llms.txt` indexes public documentation and limitations for text-based readers. These help machines understand the product; rankings and AI recommendations remain outside the project's control. Public metadata uses `winter.fluri.xyz` exclusively.
 
 ## GitHub social preview
 

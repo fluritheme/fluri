@@ -1954,3 +1954,184 @@ body {
     font-size: 25px;
   }
 }
+
+/* The Winter workshop shares the product's purple/dark visual language. */
+.header {
+  background: #4935f5;
+  color: #fff;
+  border-color: #7b6dff;
+}
+.header a,
+.header-context,
+.header .brand {
+  color: #fff;
+}
+button,
+input,
+select,
+textarea {
+  border-radius: 2px;
+}
+.panel,
+.controls-panel,
+.inspector-panel,
+.demo-card {
+  border-radius: 0;
+}
+::selection {
+  background: #d8d8dc;
+  color: #11121a;
+}
+
+/* A full Winter workshop, not a different visual product. */
+.header .brand {
+  font-size: 30px;
+  font-weight: 650;
+  letter-spacing: -1.7px;
+}
+.header .brand-period {
+  color: #fff;
+}
+.header-nav a,
+.header-context,
+.header-right {
+  color: #fff;
+}
+.header .btn-primary {
+  background: #fff;
+  color: #3520c8;
+  border-color: #fff;
+}
+.sidebar {
+  background: #15151f;
+  border-color: #3a3554;
+}
+.sidebar-title .eyebrow {
+  color: #bdb0ff;
+  font-family: ui-monospace, monospace;
+  letter-spacing: 1px;
+}
+.panel-nav {
+  border-color: #3a3554;
+}
+.panel-tab {
+  border-radius: 0;
+}
+.panel-tab[aria-selected='true'] {
+  background: #4935f5;
+  border-color: #8a7bff;
+  color: #fff;
+}
+.panel-tab:hover {
+  background: #302550;
+  color: #fff;
+}
+.panel-heading {
+  font-size: 23px;
+  font-weight: 550;
+  letter-spacing: -0.8px;
+}
+.preset-button,
+.preset-card,
+.preset-tile {
+  border-radius: 0;
+}
+.btn {
+  border-radius: 0;
+}
+.btn-primary {
+  background: #4935f5;
+  color: #fff;
+  border-color: #8a7bff;
+}
+.preview-toolbar {
+  background: #1d1b2a;
+  border-color: #403657;
+}
+.preview-area {
+  background: #101018;
+}
+.scene {
+  background: #4935f5;
+  color: #fff;
+  border: 1px solid #7868ff;
+  border-radius: 0;
+}
+.scene-intro .scene-kicker,
+.scene-intro h2,
+.scene-intro p {
+  color: #fff;
+}
+.scene-intro h2 {
+  font-size: clamp(32px, 4vw, 62px);
+  font-weight: 550;
+  letter-spacing: -0.055em;
+  line-height: 1.05;
+}
+.scene-card {
+  background: #2818af;
+  border: 1px solid #a79bff;
+  border-radius: 0;
+  color: #fff;
+  box-shadow: none;
+}
+.scene-card h3,
+.scene-card p,
+.scene-card .receiving-icon {
+  color: #fff;
+}
+.scene-card .drag-handle {
+  background: #ffffff12;
+  border: 1px solid #b6aaff;
+  color: #fff;
+  border-radius: 0;
+}
+.scene-card .resize-handle {
+  color: #fff;
+}
+.scene-status,
+.scene-footer,
+.live-metrics,
+.scene-hints {
+  color: #ddd5ff;
+}
+input[type='range'] {
+  accent-color: #b4a6ff;
+}
+select {
+  color: #fff;
+  background: #252136;
+  border-color: #65557d;
+}
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #c6baff;
+  outline-offset: 4px;
+}
+@media (max-width: 640px) {
+  .header .brand {
+    font-size: 27px;
+  }
+  .site-primary-nav.is-open,
+  .header-nav.is-open {
+    background: #3220bf;
+  }
+  .scene-intro h2 {
+    font-size: 31px;
+  }
+}
+
+.snow-shelf {
+  background: #3525bc;
+  color: #fff;
+  border: 1px solid #a79bff;
+  border-radius: 0;
+}
+.scene-wrap,
+.scene-shell,
+.scene-frame {
+  border-radius: 0;
+}

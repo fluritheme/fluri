@@ -27,14 +27,14 @@ async function request(
   data?: unknown,
   token?: string,
   cookie?: string,
-  origin = 'https://fluri.xyz',
+  origin = 'https://winter.fluri.xyz',
 ) {
   const headers: Record<string, string> = { Origin: origin };
   if (data !== undefined) headers['Content-Type'] = 'application/json';
   if (token) headers.Authorization = `Bearer ${token}`;
   if (cookie) headers.Cookie = cookie;
   return participationAPI(
-    new Request(`https://fluri.xyz${path}`, {
+    new Request(`https://winter.fluri.xyz${path}`, {
       method,
       headers,
       ...(data === undefined ? {} : { body: JSON.stringify(data) }),

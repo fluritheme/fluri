@@ -1,0 +1,608 @@
+/* Winter's second home: bold purple, live snowfall, and a sharp typographic system. */
+@font-face {
+  font-family: 'Fluri DM';
+  src: url('/fonts/dm-sans-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+:root {
+  color-scheme: dark;
+  --fluri-paper: #11121a;
+  --fluri-white: #1d1e2a;
+  --fluri-ink: #f8f8ff;
+  --fluri-muted: #b5b6cc;
+  --fluri-line: #38394f;
+  --fluri-teal: #c7beff;
+  --fluri-night: #0c0d14;
+  --fluri-ice: #423d65;
+  --fluri-wash: #262539;
+  --fluri-display: 'Fluri DM', Arial, sans-serif;
+  --fluri-body: 'Fluri DM', Arial, sans-serif;
+  --winter-purple: #4935f5;
+}
+body {
+  font-family: 'Fluri DM', Arial, sans-serif;
+}
+h1,
+h2 {
+  font-family: 'Fluri DM', Arial, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.065em;
+}
+em {
+  font-family: inherit;
+  font-style: normal;
+  font-weight: inherit;
+  color: #bfb4ff;
+}
+::selection {
+  background: #d8d8dc;
+  color: #11121a;
+}
+.site-header {
+  background: var(--winter-purple);
+  color: #fff;
+  position: relative;
+  border-bottom: 1px solid #ffffff45;
+  backdrop-filter: none;
+}
+.site-header .brand {
+  color: #fff;
+  font-size: 34px;
+  letter-spacing: -2px;
+}
+.site-header .brand-period {
+  color: #fff;
+}
+.primary-nav a,
+.header-playground {
+  color: #fff;
+}
+.primary-nav a:hover,
+.primary-nav a[aria-current='page'] {
+  color: #fff;
+  border-color: #fff;
+}
+.menu-toggle {
+  background: transparent;
+  border-color: #ffffff70;
+}
+.menu-toggle span {
+  background: #fff;
+}
+.button {
+  border-radius: 0;
+  font-weight: 550;
+}
+.button-dark {
+  background: #fff;
+  color: #3221ce;
+  border-color: #fff;
+}
+.button-dark:hover {
+  background: #ded8ff;
+  color: #2114a3;
+}
+.button-outline {
+  border-color: #77738b;
+  background: transparent;
+  color: #fff;
+}
+.button-outline:hover {
+  background: #302b50;
+  color: #fff;
+}
+.eyebrow {
+  color: #c4baff;
+  font-family: ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+.section {
+  padding-block: 80px;
+}
+.section-heading h2 {
+  font-size: clamp(38px, 5.2vw, 76px);
+  line-height: 1.02;
+}
+.winter-hero {
+  background: var(--winter-purple);
+  color: #fff;
+  padding-top: 30px;
+  overflow: hidden;
+}
+.winter-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+  font:
+    9px/1.6 ui-monospace,
+    monospace;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #ffffff50;
+}
+.winter-snow-scene {
+  position: relative;
+  width: min(1320px, calc(100% - 104px));
+  height: auto;
+  min-height: 630px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+  padding-top: 35px;
+}
+.winter-snow-scene h1 {
+  font-size: clamp(130px, 21vw, 330px);
+  line-height: 0.95;
+  letter-spacing: -0.08em;
+  font-weight: 650;
+  margin: 0 0 45px;
+  position: relative;
+  z-index: 1;
+}
+.winter-hero-story {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 60px;
+  position: relative;
+  z-index: 2;
+  margin-bottom: 65px;
+  align-items: start;
+}
+.winter-hero-story h2 {
+  font-size: clamp(21px, 2.7vw, 39px);
+  line-height: 1.16;
+  letter-spacing: -1.2px;
+  margin-bottom: 27px;
+  font-weight: 600;
+}
+.winter-hero-story > div > p {
+  max-width: 560px;
+  font-size: 18px;
+  line-height: 1.7;
+  color: #fff;
+}
+.winter-snow-scene .winter-live-surface {
+  position: relative;
+  left: auto;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  width: 100%;
+  max-width: 400px;
+  min-height: 170px;
+  background: transparent;
+  color: #fff;
+  border: 1px solid #ffffff80;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 22px;
+}
+.winter-live-surface .tiny-label {
+  color: #e9e6ff;
+  font: 7px monospace;
+}
+.winter-live-surface .drag-handle {
+  color: #fff;
+  background: #ffffff15;
+  border: 1px solid #ffffff68;
+  border-radius: 0;
+  font: 9px monospace;
+  padding: 8px 11px;
+}
+.winter-live-surface h3 {
+  color: #fff;
+  font-size: 25px;
+  margin-top: 23px;
+}
+.winter-live-surface p {
+  color: #e1ddff;
+  font-size: 12px;
+}
+.winter-snow-scene .winter-main-link {
+  position: relative;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  width: 100%;
+  height: auto;
+  min-height: 110px;
+  border-radius: 0;
+  background: var(--winter-purple);
+  border: 1px solid #ffffff88;
+  color: #fff;
+  box-shadow: none;
+  padding: 0;
+}
+.winter-main-link a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+  min-height: 110px;
+  padding: 25px 30px;
+  font-size: 32px;
+  font-weight: 550;
+  letter-spacing: -1px;
+}
+.winter-main-link a > span {
+  font-size: 60px;
+  line-height: 1;
+}
+.winter-main-link a:hover {
+  background: #ffffff12;
+}
+.winter-tools {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding-block: 24px;
+  position: relative;
+  z-index: 2;
+}
+.winter-tools .demo-tools {
+  display: flex;
+  gap: 24px;
+}
+.winter-tools button {
+  background: transparent;
+  color: #fff;
+  border: 0;
+  font: 9px monospace;
+  padding: 10px 0;
+  border-radius: 0;
+}
+.winter-bottomline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+  padding-block: 20px 28px;
+  border-top: 1px solid #ffffff50;
+  font: 8px/1.7 monospace;
+  position: relative;
+  z-index: 2;
+}
+.winter-bottomline .status-dot {
+  background: #fff;
+}
+.winter-bottomline button {
+  background: transparent;
+  color: #fff;
+  font: 11px monospace;
+  padding: 9px 0;
+}
+.framework-band {
+  border-color: var(--line);
+  color: #d2d0e1;
+}
+.framework-band > p {
+  color: #b4a9ff;
+}
+.feature-illustration {
+  display: none;
+}
+.feature-triptych > article {
+  border-color: var(--line);
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+.feature-content {
+  padding: 30px 25px;
+}
+.feature-content h3 {
+  font-size: 25px;
+}
+.night-section {
+  background: #23203d;
+}
+.night-layout {
+  display: block;
+}
+.night-art {
+  display: none;
+}
+.night-copy {
+  padding: 15px 0;
+  max-width: 950px;
+}
+.night-copy h2 {
+  font-size: clamp(44px, 6.5vw, 94px);
+  color: #fff;
+  line-height: 1.03;
+}
+.night-copy > p {
+  color: #c7c1e3;
+}
+.mood-chips span {
+  color: #e8e3ff;
+  background: transparent;
+  border: 1px solid #766998;
+  border-radius: 0;
+}
+.integration-panel,
+.code-block {
+  background: #181724;
+  border: 1px solid #48415f;
+  border-radius: 0;
+  box-shadow: none;
+}
+.integration-tabs {
+  background: #25213a;
+  border-color: #48415f;
+}
+.integration-tabs button {
+  color: #bdb7d2;
+}
+.integration-tabs button[aria-selected='true'] {
+  background: #4935f5;
+  color: #fff;
+  border-radius: 0;
+}
+.code-bar {
+  background: #232033;
+  color: #c9c1e3;
+  border-color: #48415f;
+}
+.code-block pre {
+  color: #f5f1ff;
+}
+.copy-button {
+  background: transparent;
+  color: #d1c5ff;
+}
+.principles,
+.principle-list article,
+.faq-list details {
+  border-color: var(--line);
+}
+.faq-list details {
+  background: transparent;
+  border-radius: 0;
+}
+.closing {
+  border-color: var(--line);
+}
+.site-footer {
+  background: #08090e;
+  color: #e6e2f1;
+  border-top: 1px solid #38334c;
+}
+.site-footer .brand {
+  color: #fff;
+}
+.site-footer a {
+  color: #c2bdd1;
+}
+.site-footer a:hover {
+  color: #fff;
+}
+.footer-bottom {
+  border-color: #38334c;
+}
+.page-heading {
+  padding-top: 64px;
+  padding-bottom: 55px;
+}
+.page-heading h1 {
+  font-size: clamp(55px, 8vw, 120px);
+  line-height: 1.02;
+}
+.page-intro {
+  color: #b5b6cc;
+}
+.docs-sidebar a {
+  color: #bcb6d1;
+}
+.docs-sidebar a:hover {
+  color: #fff;
+}
+.prose h2,
+.docs-content h2 {
+  color: #fff;
+}
+.prose a,
+.docs-content a {
+  color: #c7beff;
+}
+.service-card,
+.metric-card,
+.portal-switch,
+.service-details {
+  border-radius: 0;
+  box-shadow: none;
+}
+.service-form input,
+.service-form select,
+.service-form textarea {
+  background: #181724;
+  color: #fff;
+  border-color: #5c536d;
+  border-radius: 0;
+}
+.service-table th,
+.service-table td {
+  border-color: var(--line);
+}
+.portal-switch button[aria-pressed='true'],
+.service-tab[aria-selected='true'] {
+  background: #4935f5;
+  color: #fff;
+  border-radius: 0;
+}
+.scene-art {
+  display: none;
+}
+.snow-scene:not(.winter-snow-scene) {
+  background: #4935f5;
+  border-radius: 0;
+}
+.scene-label,
+.scene-label strong,
+.scene-small {
+  color: #fff;
+}
+.scene-label strong {
+  font-family: 'Fluri DM', Arial, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  letter-spacing: -2px;
+}
+.live-demo {
+  border-radius: 0;
+  border-color: #615480;
+  box-shadow: none;
+}
+.demo-topline,
+.demo-bottom {
+  background: #252137;
+  color: #e3dfff;
+  border-color: #615480;
+}
+.demo-instruction {
+  background: #1e1b2b;
+  color: #c1b9d2;
+}
+.snow-card:not(.winter-live-surface) {
+  background: #f7f5ff;
+  color: #241e3b;
+  border-radius: 0;
+}
+.snow-card:not(.winter-live-surface) h3,
+.snow-card:not(.winter-live-surface) p {
+  color: #241e3b;
+}
+.preset-choice {
+  border-radius: 0;
+}
+.preset-choice:hover,
+.preset-choice[aria-pressed='true'] {
+  background: #312951;
+  border-color: #8c79cc;
+  color: #fff;
+}
+.contact-panel,
+.community-footnote,
+.signup-panel,
+.docs-callout,
+.download-panel {
+  background: #211e32;
+  color: #f6f1ff;
+  border-color: #504764;
+  border-radius: 0;
+}
+.about-story img {
+  border-radius: 0;
+}
+@media (max-width: 900px) {
+  .winter-hero-story {
+    gap: 35px;
+  }
+  .winter-hero-story > div > p {
+    font-size: 15px;
+  }
+  .winter-live-surface h3 {
+    font-size: 22px;
+  }
+  .winter-main-link a {
+    font-size: 26px;
+  }
+}
+@media (max-width: 640px) {
+  .container,
+  .winter-snow-scene {
+    width: calc(100% - 40px);
+  }
+  .winter-hero {
+    padding-top: 23px;
+  }
+  .winter-meta {
+    font-size: 7px;
+    padding-bottom: 20px;
+  }
+  .winter-meta > a {
+    display: none;
+  }
+  .winter-snow-scene {
+    padding-top: 35px;
+    min-height: 0;
+  }
+  .winter-snow-scene h1 {
+    font-size: 23vw;
+    margin-bottom: 35px;
+  }
+  .winter-hero-story {
+    grid-template-columns: 1fr;
+    gap: 42px;
+    margin-bottom: 45px;
+  }
+  .winter-hero-story h2 {
+    font-size: 25px;
+    letter-spacing: -0.8px;
+    margin-bottom: 24px;
+  }
+  .winter-hero-story > div > p {
+    font-size: 17px;
+    line-height: 1.7;
+  }
+  .winter-snow-scene .winter-live-surface {
+    min-height: 150px;
+    max-width: none;
+    padding: 19px;
+  }
+  .winter-main-link a {
+    min-height: 100px;
+    padding: 22px 20px;
+    font-size: 23px;
+  }
+  .winter-main-link a > span {
+    font-size: 49px;
+  }
+  .winter-tools .demo-tools {
+    gap: 17px;
+  }
+  .winter-tools button {
+    font-size: 7px;
+  }
+  .winter-bottomline {
+    flex-wrap: wrap;
+    gap: 13px 20px;
+    font-size: 7px;
+  }
+  .winter-bottomline > button {
+    font-size: 10px;
+  }
+  .section {
+    padding-block: 55px;
+  }
+  .section-heading h2 {
+    font-size: 43px;
+  }
+  .page-heading {
+    padding-top: 45px;
+    padding-bottom: 35px;
+  }
+  .page-heading h1 {
+    font-size: 55px;
+  }
+  .primary-nav.is-open {
+    background: #3625c5;
+    border-color: #7567ee;
+  }
+  .primary-nav a {
+    color: #fff;
+  }
+  .night-copy h2 {
+    font-size: 50px;
+  }
+}
+
+@media (max-width: 640px) {
+  .winter-snow-scene .winter-live-surface {
+    width: calc(100% - 36px);
+    margin-inline: 18px;
+  }
+}

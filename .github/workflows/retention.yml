@@ -19,7 +19,7 @@ jobs:
         run: |
           test -n "$FLURI_MAINTENANCE_KEY"
           curl --fail-with-body --silent --show-error --retry 3 --retry-all-errors --max-time 30 \
-            --request POST 'https://fluri.xyz/api/maintenance/cleanup' \
+            --request POST 'https://winter.fluri.xyz/api/maintenance/cleanup' \
             --header "Authorization: Bearer $FLURI_MAINTENANCE_KEY" \
             --header 'Content-Type: application/json' \
             --data '{}'

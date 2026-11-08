@@ -15,7 +15,7 @@ The README download badges at `/readme/npm-downloads.svg` and `/readme/npm-downl
 Publishing is owner-operated. Use the npm `fluritheme` account or another publisher explicitly authorized for these packages. Check the current registry version before publishing; npm versions are immutable.
 
 1. Review the version, changelog, license, published file list, and npm account/scope permissions.
-2. Verify the package homepage `https://fluri.xyz/`, source repository [fluritheme/fluri](https://github.com/fluritheme/fluri), and [issue tracker](https://github.com/fluritheme/fluri/issues). Both package manifests identify their directory within the shared repository.
+2. Verify the package homepage `https://winter.fluri.xyz/`, source repository [fluritheme/fluri](https://github.com/fluritheme/fluri), and [issue tracker](https://github.com/fluritheme/fluri/issues). Both package manifests identify their directory within the shared repository.
 3. Run `pnpm check`, `pnpm test:browser`, `pnpm format:check`, `pnpm audit --audit-level high`, `pnpm measure`, and `pnpm release:check`.
 4. Use `pnpm --filter @fluritheme/fluri pack` to create the core archive, inspect it, and install that archive into a clean consumer project.
 5. Publish core publicly, then the optional React adapter. `pnpm publish` resolves its workspace development linkage to the versioned peer contract.
@@ -28,7 +28,7 @@ MIT licensing is confirmed by the project owner. The selected Fluri product/pack
 
 ## First-party website traffic and package statistics
 
-The private dashboard at `https://fluri.xyz/dashboard/` includes website traffic and official npm download totals in addition to owner-submitted participation reports. `/api/dashboard/growth` uses the existing administrator session and returns no public traffic feed. The dashboard refreshes once per minute while visible; its JSON export includes the growth data. GitHub's private repository traffic report is linked separately; GitHub credentials are not embedded in the Worker.
+The private dashboard at `https://winter.fluri.xyz/dashboard/` includes website traffic and official npm download totals in addition to owner-submitted participation reports. `/api/dashboard/growth` uses the existing administrator session and returns no public traffic feed. The dashboard refreshes once per minute while visible; its JSON export includes the growth data. GitHub's private repository traffic report is linked separately; GitHub credentials are not embedded in the Worker.
 
 `workers/growth.ts` counts successful GET requests for an allowlisted set of public HTML pages on the production domain. Cloudflare runs the Worker before static assets; `ASSETS.fetch` still serves the files. Requests for assets, API routes, the dashboard, missing pages, redirects, HEAD, known bots, previews and prefetches are excluded. Do Not Track and Global Privacy Control signals opt out. Only daily counts by fixed page path and broad allowlisted referral category are stored. Unknown external referrers become “Other websites”; full URLs, query strings, arbitrary domains, IPs, user agents and per-visitor events are never persisted. These are approximate page requests, not unique visitors, sessions or visible-snow impressions. Repeat requests count again, browser caching can avoid requests, and bot filtering is incomplete. Request counts start with deployment; no historical traffic is reconstructed.
 
@@ -54,8 +54,14 @@ No visitor analytics module is shipped. The registration form's contact data, ag
 
 ## Canonical domain and discovery
 
-All public metadata uses `https://fluri.xyz`. The custom-domain Worker route is configured explicitly and the default platform subdomain is disabled. Activate the domain's assigned Cloudflare nameservers and wait for DNS and certificate issuance before relying on public links. The public sitemap excludes the private dashboard; robots rules disallow the dashboard and API. Canonical URLs, unique descriptions, Open Graph/Twitter previews, and JSON-LD describe the actual product and source repository. `/llms.txt` provides a concise reference index; it is an informational convention, not a guarantee of AI indexing or recommendations. Do not add fake ratings, installation totals, or keyword stuffing.
+All public metadata uses `https://winter.fluri.xyz`. The custom-domain Worker route is configured explicitly and the default platform subdomain is disabled. Activate the domain's assigned Cloudflare nameservers and wait for DNS and certificate issuance before relying on public links. The public sitemap excludes the private dashboard; robots rules disallow the dashboard and API. Canonical URLs, unique descriptions, Open Graph/Twitter previews, and JSON-LD describe the actual product and source repository. `/llms.txt` provides a concise reference index; it is an informational convention, not a guarantee of AI indexing or recommendations. Do not add fake ratings, installation totals, or keyword stuffing.
 
 ## Repository safety
 
 The repository omits `.env*`, `.dev.vars*`, private keys, local databases, dependency trees, archives, Cloudflare state, and browser test output. No deployed credentials belong in GitHub Actions artifacts. npm publication remains a separate owner-operated step; pushing to GitHub does not publish packages. Configure protected branches and the `npm` environment's required reviewers before enabling package publication. The release workflow defaults to checks only.
+
+## Fluri Themes domain migration
+
+The Winter product lives on `winter.fluri.xyz`; the separate Fluri Themes collection and founder site lives on `fluri.xyz`. Keep the existing `fluri` Worker, participation database, secrets and rate limits. The brand Worker `fluri-themes` calls it through the `WINTER` service binding for legacy `/api/*` requests, preserving original request metadata and same-origin validation. GET/HEAD product pages redirect to Winter. The host-only administrator cookie requires signing in on the new hostname with the existing access key. The migration retains all existing data.
+
+Deploy the transition configuration with both hostnames first, then transfer the apex directly to the brand Worker. The final checked-in Winter configuration must declare only `winter.fluri.xyz`, preventing future deployments from taking the apex back. Published historical package downloads are retained through fixed npm registry redirects. Preserved public hashed bundles in `apps/website/public/assets` serve previously opened tabs; they are compatibility artifacts, not current source.

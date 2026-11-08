@@ -16,3 +16,6 @@ apps/website/public/downloads
 apps/website/public/reference
 apps/website/public/readme
 apps/website/public/art
+
+# Preserve original hashes of compatibility bundles.
+apps/website/public/assets/

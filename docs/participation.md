@@ -4,7 +4,7 @@ Fluri runs locally by default. Installing the core or React package does not reg
 
 ## Register and verify
 
-Open [Share your website](https://fluri.xyz/participate/), enter a domain you control, a website name and contact email, and accept the participation terms. Choose aggregate reporting and public listing permission independently. Save the management key securely: it is displayed once, stored only as a hash on the server, and never persisted in browser storage by the portal. It grants access to that registration, including export and deletion. If lost, contact fluritheme@gmail.com for a manual ownership review; email possession alone is not proof of domain ownership.
+Open [Share your website](https://winter.fluri.xyz/participate/), enter a domain you control, a website name and contact email, and accept the participation terms. Choose aggregate reporting and public listing permission independently. Save the management key securely: it is displayed once, stored only as a hash on the server, and never persisted in browser storage by the portal. It grants access to that registration, including export and deletion. If lost, contact fluritheme@gmail.com for a manual ownership review; email possession alone is not proof of domain ownership.
 
 Create the exact TXT record shown by the portal at `_fluri-verification` under your registered domain, then choose **Check DNS record**. The service queries Cloudflare's public DNS resolver. Propagation can take time. Verification proves control of a domain, not that Fluri is installed or that submitted statistics are independently verified. Use the management key in the portal to update contact and sharing settings.
 
@@ -24,7 +24,7 @@ const date = process.env.FLURI_REPORT_DATE;
 if (!Number.isSafeInteger(impressions) || impressions < 0 || !date) {
   throw new Error('Provide the measured daily total and UTC report date.');
 }
-const response = await fetch('https://fluri.xyz/api/participation/report', {
+const response = await fetch('https://winter.fluri.xyz/api/participation/report', {
   method: 'POST',
   headers: {
     Authorization: `Bearer ${process.env.FLURI_REPORTING_KEY}`,
@@ -46,7 +46,7 @@ The portal also supports manual daily submission with a reporting key. Never sen
 
 Website-owner participation does not replace any visitor consent your measurement requires. Collect source statistics lawfully, provide appropriate notices, and obtain consent where required. Cookie-free measurement is not automatically exempt. Sending anonymized totals server-to-server avoids adding a Fluri tracking request to visitors' browsers, but does not make an unlawful source collection lawful. Fluri currently supplies no visitor analytics module, cross-site identifiers, or consent-management tool.
 
-See the [EDPB guidance on the technical scope of Article 5(3)](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en), the [CNIL audience-measurement guidance](https://www.cnil.fr/fr/cookies-solutions-pour-les-outils-de-mesure-daudience), and the website's [privacy policy](https://fluri.xyz/privacy/). Requirements depend on the actual implementation and jurisdiction; these tools are not a universal legal certification.
+See the [EDPB guidance on the technical scope of Article 5(3)](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en), the [CNIL audience-measurement guidance](https://www.cnil.fr/fr/cookies-solutions-pour-les-outils-de-mesure-daudience), and the website's [privacy policy](https://winter.fluri.xyz/privacy/). Requirements depend on the actual implementation and jurisdiction; these tools are not a universal legal certification.
 
 ## Community listing
 
@@ -54,7 +54,7 @@ Public display of your website name and HTTPS domain link requires separate owne
 
 ## Private operator dashboard
 
-[The dashboard](https://fluri.xyz/dashboard/) requires a separate operator access key. Successful login creates an eight-hour HttpOnly, Secure, SameSite=Strict cookie. The dashboard and API responses are not cached or indexed. It refreshes while visible, at one-minute intervals; owner submissions may be daily or less frequent.
+[The dashboard](https://winter.fluri.xyz/dashboard/) requires a separate operator access key. Successful login creates an eight-hour HttpOnly, Secure, SameSite=Strict cookie. The dashboard and API responses are not cached or indexed. It refreshes while visible, at one-minute intervals; owner submissions may be daily or less frequent.
 
 - **Registered websites:** registrations in the database, including domains awaiting verification.
 - **Verified domains:** domains whose TXT ownership check succeeded.

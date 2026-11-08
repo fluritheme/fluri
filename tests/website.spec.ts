@@ -51,7 +51,7 @@ test('every promotional and legal page contains its own prerendered content and 
       expect(structured).toBeTruthy();
       const graph = JSON.parse(structured ?? '{}') as { '@graph': { '@type': string }[] };
       expect(graph['@graph'].some((item) => item['@type'] === 'SoftwareSourceCode')).toBe(true);
-      expect(html).toContain('https://fluri.xyz/');
+      expect(html).toContain('https://winter.fluri.xyz/');
     }
   }
 });
@@ -398,7 +398,7 @@ test('public discovery files expose useful documentation and exclude private are
   request,
 }) => {
   const sitemap = await (await request.get(`${site}/sitemap.xml`)).text();
-  expect(sitemap).toContain('https://fluri.xyz/community/');
+  expect(sitemap).toContain('https://winter.fluri.xyz/community/');
   expect(sitemap).not.toContain('/dashboard/');
   expect(sitemap).not.toContain('/api/');
   const robots = await (await request.get(`${site}/robots.txt`)).text();

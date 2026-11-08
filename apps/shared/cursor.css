@@ -1,0 +1,87 @@
+@media (hover: hover) and (pointer: fine) {
+  body,
+  a,
+  button {
+    cursor:
+      url('/cursor.svg') 6 5,
+      auto;
+  }
+  html.custom-cursor,
+  html.custom-cursor * {
+    cursor: none !important;
+  }
+  .custom-pointer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    z-index: 2147483647;
+    mix-blend-mode: difference;
+  }
+  .custom-pointer:before {
+    content: '';
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    border: 1.5px solid #fff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition:
+      width 0.16s,
+      height 0.16s,
+      background 0.16s;
+  }
+  .custom-pointer:after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #fff;
+    transform: translate(-50%, -50%);
+  }
+  .custom-pointer > span {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    color: #000;
+    font:
+      25px/1 DM,
+      Arial,
+      sans-serif;
+    opacity: 0;
+  }
+  .custom-pointer[data-interactive='true']:before {
+    width: 62px;
+    height: 62px;
+    background: #fff;
+  }
+  .custom-pointer[data-interactive='true']:after {
+    display: none;
+  }
+  .custom-pointer[data-interactive='true'] > span {
+    opacity: 1;
+  }
+  .custom-pointer[hidden] {
+    display: none;
+  }
+}
+@media (hover: none), (pointer: coarse) {
+  .custom-pointer {
+    display: none !important;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .custom-pointer {
+    width: 42px;
+    height: 42px;
+  }
+  .custom-pointer:before,
+  .custom-pointer:after,
+  .custom-pointer > span {
+    left: 50%;
+    top: 50%;
+  }
+}

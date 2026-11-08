@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
-Sitemap: https://fluri.xyz/sitemap.xml
+Sitemap: https://winter.fluri.xyz/sitemap.xml

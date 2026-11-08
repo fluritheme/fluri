@@ -75,7 +75,7 @@ export function pageObservation(request: Request, response: Response) {
   const path = url.pathname.endsWith('/') ? url.pathname : `${url.pathname}/`;
   const agent = request.headers.get('user-agent') ?? '';
   if (
-    url.hostname !== 'fluri.xyz' ||
+    url.hostname !== 'winter.fluri.xyz' ||
     url.protocol !== 'https:' ||
     request.method !== 'GET' ||
     !paths.has(path) ||
@@ -231,7 +231,7 @@ export async function npmStatistics(packageName: string): Promise<PackageStatist
   if (!packageNames.some((name) => name === packageName)) throw new Error('Unsupported package.');
   let cache: Cache | undefined;
   const key = new Request(
-    `https://fluri.xyz/internal/npm-statistics/${encodeURIComponent(packageName)}`,
+    `https://winter.fluri.xyz/internal/npm-statistics/${encodeURIComponent(packageName)}`,
   );
   try {
     cache = await caches.open('fluri-npm-statistics-v1');

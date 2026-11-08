@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.1 — 2026-11-08
+
+- Move the Winter website, documentation, playground, private dashboard and hosted references to winter.fluri.xyz.
+- Redesign Winter and its playground with vivid purple scenes, dark controls, a larger desktop cursor and updated README and social previews.
+- Keep the existing package names and runtime API. Update package homepages, README links and founder attribution for the Fluri Themes collection.
+- Preserve historical package downloads and existing participation data, API access and dashboard credentials during the domain migration.
+
 ## 0.1.0 — 2026-11-07
 
 First public npm release of `@fluritheme/fluri` and `@fluritheme/fluri-react`.

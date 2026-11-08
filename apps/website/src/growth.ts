@@ -70,7 +70,7 @@ function npmCard(stats: PackageStatistics): string {
 
 export function renderGrowth(result: Growth): string {
   const site = result.website;
-  return `<div class="growth-heading"><span class="eyebrow">GROWTH & DISCOVERY</span><h2>How Fluri is finding its people.</h2><p>Website traffic and package downloads, with a clear source for every number.</p></div><div class="dashboard-metrics">${metric('Website requests · today', site.viewsToday, 'Public HTML pages · UTC today')}${metric('Website requests · 7 days', site.views7d, 'Includes repeat page opens')}${metric('Website requests · 30 days', site.views30d, 'Approximate traffic, not unique people')}</div><div class="dashboard-grid growth-traffic"><section class="service-card"><h3>Daily website traffic</h3><p>Successful public page requests on fluri.xyz. Common bots and prefetches are filtered; some automated traffic can remain.</p>${
+  return `<div class="growth-heading"><span class="eyebrow">GROWTH & DISCOVERY</span><h2>How Fluri is finding its people.</h2><p>Website traffic and package downloads, with a clear source for every number.</p></div><div class="dashboard-metrics">${metric('Website requests · today', site.viewsToday, 'Public HTML pages · UTC today')}${metric('Website requests · 7 days', site.views7d, 'Includes repeat page opens')}${metric('Website requests · 30 days', site.views30d, 'Approximate traffic, not unique people')}</div><div class="dashboard-grid growth-traffic"><section class="service-card"><h3>Daily website traffic</h3><p>Successful public page requests on winter.fluri.xyz. Common bots and prefetches are filtered; some automated traffic can remain.</p>${
     site.startedAt
       ? chart(
           site.daily.map((row) => ({ date: row.date, value: row.views })),

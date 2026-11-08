@@ -131,3 +131,22 @@ describe('README npm download badges', () => {
     expect(rejected.headers.get('Allow')).toBe('GET, HEAD');
   });
 });
+
+describe('winter domain migration', () => {
+  it('preserves published historical package downloads without an arbitrary redirect', async () => {
+    const env = { ASSETS: { fetch: async () => new Response('missing', { status: 404 }) } };
+    const archived = await worker.fetch(
+      new Request('https://winter.fluri.xyz/downloads/fluritheme-fluri-0.1.0.tgz'),
+      env,
+    );
+    expect(archived.status).toBe(302);
+    expect(archived.headers.get('Location')).toBe(
+      'https://registry.npmjs.org/@fluritheme/fluri/-/fluri-0.1.0.tgz',
+    );
+    const unknown = await worker.fetch(
+      new Request('https://winter.fluri.xyz/downloads/other.tgz'),
+      env,
+    );
+    expect(unknown.status).toBe(404);
+  });
+});

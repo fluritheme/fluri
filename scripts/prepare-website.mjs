@@ -26,7 +26,7 @@ async function loadContent(file) {
 const { renderWebsite, escapeHTML } = await loadContent('src/pages.ts');
 const { legalPages, mitLicenseText, legalUpdatedAt } = await loadContent('src/legal.ts');
 const { version } = JSON.parse(await readFile(new URL('packages/core/package.json', root), 'utf8'));
-const originURL = new URL(process.env.FLURI_SITE_ORIGIN ?? 'https://fluri.xyz');
+const originURL = new URL(process.env.FLURI_SITE_ORIGIN ?? 'https://winter.fluri.xyz');
 if (
   originURL.protocol !== 'https:' ||
   originURL.pathname !== '/' ||

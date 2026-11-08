@@ -1,6 +1,8 @@
 import type { PluginContext, PresetName, WeatherController } from '@fluritheme/fluri';
 import './style.css';
 import './participation';
+import './winter-theme.css';
+import '../../shared/cursor';
 
 declare global {
   interface Window {
@@ -364,13 +366,18 @@ let drag: { id: number; x: number; y: number; startX: number; startY: number } |
 function positionCard(): void {
   if (!scene || !card) return;
   const inset = 7;
+  const sceneBox = scene.getBoundingClientRect();
+  const cardBox = card.getBoundingClientRect();
+  // The hero surface may be nested in a flow layout; offsets must use the scene's coordinate space.
+  const baseX = cardBox.left - sceneBox.left - cardX;
+  const baseY = cardBox.top - sceneBox.top - cardY;
   cardX = Math.max(
-    -card.offsetLeft + inset,
-    Math.min(scene.clientWidth - card.offsetLeft - card.offsetWidth - inset, cardX),
+    -baseX + inset,
+    Math.min(scene.clientWidth - baseX - card.offsetWidth - inset, cardX),
   );
   cardY = Math.max(
-    -card.offsetTop + inset,
-    Math.min(scene.clientHeight - card.offsetTop - card.offsetHeight - 60, cardY),
+    -baseY + inset,
+    Math.min(scene.clientHeight - baseY - card.offsetHeight - 60, cardY),
   );
   card.style.transform = `translate(${cardX}px, ${cardY}px)`;
 }

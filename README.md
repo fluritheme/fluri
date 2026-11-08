@@ -1,10 +1,10 @@
 <div align="center">
 
-<a href="https://fluri.xyz/">
-  <img src="assets/readme/banner.png" alt="Fluri — A little winter for the web. Snow settles on a card above an original alpine winter landscape." width="100%" />
+<a href="https://winter.fluri.xyz/">
+  <img src="assets/readme/banner.png" alt="Winter by Fluri Themes — Change the forecast." width="100%" />
 </a>
 
-# Fluri ❄️
+# Winter by Fluri ❄️
 
 **Interactive snowfall that feels at home on your website.**
 
@@ -16,9 +16,9 @@ Built with TypeScript. Made for your interface.
 <img src="assets/readme/badges/frameworks.svg" alt="Framework independent" height="24" />
 <img src="assets/readme/badges/canvas.svg" alt="Renderer: Canvas 2D" height="24" />
 
-<a href="https://www.npmjs.com/package/@fluritheme/fluri"><img src="https://fluri.xyz/readme/npm-downloads.svg" alt="npm downloads for @fluritheme/fluri over the last 30 days" height="24" /></a>
+<a href="https://www.npmjs.com/package/@fluritheme/fluri"><img src="https://winter.fluri.xyz/readme/npm-downloads.svg" alt="npm downloads for @fluritheme/fluri over the last 30 days" height="24" /></a>
 
-**[Live playground](https://fluri.xyz/playground/) · [Explore the presets](https://fluri.xyz/showcase/) · [Documentation](https://fluri.xyz/docs/)**
+**[Live playground](https://winter.fluri.xyz/playground/) · [Explore the presets](https://winter.fluri.xyz/showcase/) · [Documentation](https://winter.fluri.xyz/docs/)**
 
 [Quick start](#quick-start) · [Features](#why-fluri) · [React & Next.js](#react-and-nextjs) · [API](#runtime-controls) · [Contributing](CONTRIBUTING.md)
 
@@ -41,7 +41,9 @@ Use a light dusting on a portfolio, a playful snowfall on a landing page, or war
 - **Local by default.** The engine needs no account, API key, geolocation, analytics, cookies, or external weather service.
 - **Christmas, on purpose.** Optional lights, garlands, ornaments, gifts, frost, icicles, wreaths, candy canes, and sparkles on explicitly marked elements.
 
-[Try the live engine →](https://fluri.xyz/playground/)
+<a href="https://winter.fluri.xyz/playground/"><img src="assets/readme/playground.png" alt="The Winter playground: purple live snow scene, draggable surfaces and a panel of snowfall, wind and interaction controls." width="100%" /></a>
+
+[Try the live engine →](https://winter.fluri.xyz/playground/)
 
 ## Quick start
 
@@ -49,7 +51,7 @@ Use a light dusting on a portfolio, a playful snowfall on a landing page, or war
 npm install @fluritheme/fluri
 ```
 
-Also available on [jsDelivr](https://www.jsdelivr.com/package/npm/@fluritheme/fluri) and [UNPKG](https://unpkg.com/@fluritheme/fluri@0.1.0/). npm is the recommended way to integrate Fluri with your build tool; raw CDN files require an import map or an ESM transformation service to resolve dependencies.
+Also available on [jsDelivr](https://www.jsdelivr.com/package/npm/@fluritheme/fluri) and [UNPKG](https://unpkg.com/@fluritheme/fluri@0.1.1/). npm is the recommended way to integrate Fluri with your build tool; raw CDN files require an import map or an ESM transformation service to resolve dependencies.
 
 Mark the elements that should collect snow:
 
@@ -121,7 +123,7 @@ if (element) {
 | `frosted-glass` — sparse crystals        | `snowstorm` — wind and denser snowfall | `north-pole` — deeper snow and snowballs            |
 |                                          |                                        | `playful` — snowballs, snowmen, and pointer airflow |
 
-[Preview every preset →](https://fluri.xyz/showcase/)
+[Preview every preset →](https://winter.fluri.xyz/showcase/)
 
 Presets configure the weather. Attach the optional Christmas module to add decorations.
 
@@ -264,13 +266,13 @@ pnpm release:check
 
 ## Keep exploring
 
-[Website](https://fluri.xyz/) · [Showcase](https://fluri.xyz/showcase/) · [Playground](https://fluri.xyz/playground/) · [Docs](https://fluri.xyz/docs/) · [GitHub](https://github.com/fluritheme/fluri)
+[Website](https://winter.fluri.xyz/) · [Showcase](https://winter.fluri.xyz/showcase/) · [Playground](https://winter.fluri.xyz/playground/) · [Docs](https://winter.fluri.xyz/docs/) · [GitHub](https://github.com/fluritheme/fluri)
 
 [Customization](docs/customization.md) · [Physics & layers](docs/physics-and-layers.md) · [Troubleshooting](docs/troubleshooting.md) · [Changelog](CHANGELOG.md)
 
 ## Website participation
 
-Owners can [register a website](https://fluri.xyz/participate/), verify their domain, and independently choose a public community listing or private aggregate reporting. The library has no automatic telemetry. [Read the participation and privacy guide](docs/participation.md).
+Owners can [register a website](https://winter.fluri.xyz/participate/), verify their domain, and independently choose a public community listing or private aggregate reporting. The library has no automatic telemetry. [Read the participation and privacy guide](docs/participation.md).
 
 ## Contribute & share
 

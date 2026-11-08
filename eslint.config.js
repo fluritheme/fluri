@@ -5,6 +5,8 @@ export default ts.config(
   {
     ignores: [
       '**/dist/**',
+      // Byte-identical public bundles retained only for pre-migration open tabs.
+      'apps/website/public/assets/**',
       '.wrangler/**',
       '**/.next/**',
       'node_modules/**',

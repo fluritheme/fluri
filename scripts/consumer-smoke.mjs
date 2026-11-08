@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { mkdtemp, mkdir, writeFile } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -7,11 +7,17 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const destination = await mkdtemp(join(tmpdir(), 'fluri-consumer-'));
 const archives = join(destination, 'archives');
 await mkdir(archives);
-for (const name of ['core', 'react'])
+const packedArchives = [];
+for (const name of ['core', 'react']) {
+  const manifest = JSON.parse(await readFile(join(root, 'packages', name, 'package.json'), 'utf8'));
+  packedArchives.push(
+    join(archives, `${manifest.name.replace('@', '').replace('/', '-')}-${manifest.version}.tgz`),
+  );
   execFileSync('pnpm', ['pack', '--pack-destination', archives], {
     cwd: join(root, 'packages', name),
     stdio: 'pipe',
   });
+}
 await writeFile(
   join(destination, 'package.json'),
   JSON.stringify({ name: 'fluri-consumer-verification', private: true, type: 'module' }),
@@ -23,8 +29,7 @@ execFileSync(
     '--ignore-scripts',
     '--no-audit',
     '--no-fund',
-    join(archives, 'fluritheme-fluri-0.1.0.tgz'),
-    join(archives, 'fluritheme-fluri-react-0.1.0.tgz'),
+    ...packedArchives,
     'react@19.3.1',
     'react-dom@19.3.1',
     '@types/react@19.3.0',

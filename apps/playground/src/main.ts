@@ -1,3 +1,4 @@
+import '../../shared/cursor';
 import {
   createWeather,
   presetNames,
@@ -31,8 +32,8 @@ const tabs = [
 ];
 app.innerHTML = `
 <header class="header" data-weather-ignore>
- <div class="header-left"><a class="brand" href="${website}" aria-label="Fluri home">${mark}fluri<span class="brand-period">.</span></a></div>
- <nav class="header-nav" id="site-primary-nav" aria-label="Main navigation"><a href="${website}features/">Features</a><a href="${website}showcase/">Showcase</a><a href="${website}docs/">Docs</a><a href="${website}about/">About</a><a class="playground-current" href="./" aria-current="page">Playground</a></nav>
+ <div class="header-left"><a class="brand" href="${website}" aria-label="Winter home">${mark}winter<span class="brand-period">.</span></a></div>
+ <nav class="header-nav" id="site-primary-nav" aria-label="Main navigation"><a href="${website}features/">Features</a><a href="${website}showcase/">Showcase</a><a href="${website}docs/">Docs</a><a href="${website}about/">About</a><a href="https://fluri.xyz/">All themes ↗</a><a class="playground-current" href="./" aria-current="page">Playground</a></nav>
  <div class="header-right"><button class="btn btn-primary" id="export-top">Export config <span aria-hidden="true">↗</span></button><button type="button" class="site-menu-toggle" id="site-menu-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="site-primary-nav"><span></span><span></span></button></div>
 </header>
 <div class="workspace">

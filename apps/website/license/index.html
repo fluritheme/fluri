@@ -9,7 +9,7 @@
       content="Free to use, adapt, and share. Read the complete license that accompanies Fluri."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Fluri" />
+    <meta property="og:site_name" content="Winter by Fluri" />
     <meta property="og:title" content="The MIT license" />
     <meta
       property="og:description"
@@ -21,10 +21,10 @@
       name="twitter:description"
       content="Free to use, adapt, and share. Read the complete license that accompanies Fluri."
     />
-    <meta name="twitter:image" content="https://fluri.xyz/art/social-card.png" />
-    <link rel="canonical" href="https://fluri.xyz/license/" />
-    <meta property="og:url" content="https://fluri.xyz/license/" />
-    <meta property="og:image" content="https://fluri.xyz/art/social-card.png" />
+    <meta name="twitter:image" content="https://winter.fluri.xyz/art/social-card.png" />
+    <link rel="canonical" href="https://winter.fluri.xyz/license/" />
+    <meta property="og:url" content="https://winter.fluri.xyz/license/" />
+    <meta property="og:image" content="https://winter.fluri.xyz/art/social-card.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Fluri — A little winter for the web" />
@@ -34,32 +34,32 @@
         "@graph": [
           {
             "@type": "WebSite",
-            "@id": "https://fluri.xyz/#website",
-            "url": "https://fluri.xyz/",
-            "name": "Fluri",
+            "@id": "https://winter.fluri.xyz/#website",
+            "url": "https://winter.fluri.xyz/",
+            "name": "Winter by Fluri",
             "description": "Interactive snowfall and DOM-aware snow accumulation for JavaScript and TypeScript websites.",
             "inLanguage": "en"
           },
           {
             "@type": "Person",
-            "@id": "https://fluri.xyz/about/#operator",
+            "@id": "https://fluri.xyz/#founder",
             "name": "Frantisek Gejdos",
-            "url": "https://fluri.xyz/about/",
+            "url": "https://fluri.xyz/#founder",
             "email": "fluritheme@gmail.com",
             "homeLocation": { "@type": "Country", "name": "Slovakia" }
           },
           {
             "@type": "SoftwareSourceCode",
-            "@id": "https://fluri.xyz/#software",
+            "@id": "https://winter.fluri.xyz/#software",
             "name": "Fluri",
-            "url": "https://fluri.xyz/",
+            "url": "https://winter.fluri.xyz/",
             "description": "Framework independent TypeScript snow animation library with DOM-aware snow accumulation, pointer interactions, snowballs, adaptive Canvas 2D rendering, and optional Christmas effects.",
             "codeRepository": "https://github.com/fluritheme/fluri",
             "programmingLanguage": "TypeScript",
             "runtimePlatform": "Web browser supporting Canvas 2D and ES2022",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "license": "https://opensource.org/license/mit",
-            "author": { "@id": "https://fluri.xyz/about/#operator" },
+            "author": { "@id": "https://fluri.xyz/#founder" },
             "keywords": [
               "JavaScript snow animation",
               "TypeScript snowfall",
@@ -71,23 +71,28 @@
           },
           {
             "@type": "WebPage",
-            "@id": "https://fluri.xyz/license/#page",
-            "url": "https://fluri.xyz/license/",
+            "@id": "https://winter.fluri.xyz/license/#page",
+            "url": "https://winter.fluri.xyz/license/",
             "name": "The MIT license",
             "description": "Free to use, adapt, and share. Read the complete license that accompanies Fluri.",
             "inLanguage": "en",
-            "isPartOf": { "@id": "https://fluri.xyz/#website" },
-            "about": { "@id": "https://fluri.xyz/#software" }
+            "isPartOf": { "@id": "https://winter.fluri.xyz/#website" },
+            "about": { "@id": "https://winter.fluri.xyz/#software" }
           },
           {
             "@type": "BreadcrumbList",
             "itemListElement": [
-              { "@type": "ListItem", "position": 1, "name": "Fluri", "item": "https://fluri.xyz/" },
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Fluri",
+                "item": "https://winter.fluri.xyz/"
+              },
               {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "The MIT license",
-                "item": "https://fluri.xyz/license/"
+                "item": "https://winter.fluri.xyz/license/"
               }
             ]
           }
@@ -102,7 +107,7 @@
     <a href="#main" class="skip-link">Skip to content</a>
     <header class="site-header">
       <div class="container header-inner">
-        <a class="brand" href="/" aria-label="Fluri home"
+        <a class="brand" href="/" aria-label="Winter by Fluri home"
           ><svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
             <g
               stroke="currentColor"
@@ -114,11 +119,11 @@
                 d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
               />
             </g></svg
-          ><span>fluri</span><span class="brand-period">.</span></a
+          ><span>winter</span><span class="brand-period">.</span></a
         >
         <nav id="primary-nav" class="primary-nav" aria-label="Main navigation">
           <a href="/features/">Features</a><a href="/showcase/">Showcase</a><a href="/docs/">Docs</a
-          ><a href="/about/">About</a
+          ><a href="/about/">About</a><a href="https://fluri.xyz/">All themes ↗</a
           ><a class="mobile-playground" href="/playground/"
             >Open playground <span aria-hidden="true">↗</span></a
           >
@@ -220,7 +225,7 @@ SOFTWARE.
                   d="M20 3v34M5.3 11.5l29.4 17M5.3 28.5l29.4-17M14 7l6 6 6-6M14 33l6-6 6 6M6 19l8-2-2-8M28 31l-2-8 8-2M6 21l8 2-2 8M28 9l-2 8 8 2"
                 />
               </g></svg
-            ><span>fluri</span><span class="brand-period">.</span></a
+            ><span>winter</span><span class="brand-period">.</span></a
           >
           <p>A little winter for the web.<br />Made with care. Open by nature.</p>
           <button type="button" id="motion-toggle" class="motion-toggle" aria-pressed="false">
@@ -229,8 +234,9 @@ SOFTWARE.
         </div>
         <div>
           <h2>Explore</h2>
-          <a href="/features/">Features</a><a href="/showcase/">Showcase</a
-          ><a href="/playground/">Playground</a><a href="/community/">Community</a>
+          <a href="https://fluri.xyz/">Fluri Themes ↗</a><a href="/features/">Features</a
+          ><a href="/showcase/">Showcase</a><a href="/playground/">Playground</a
+          ><a href="/community/">Community</a>
         </div>
         <div>
           <h2>Build</h2>

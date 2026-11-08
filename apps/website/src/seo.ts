@@ -14,16 +14,16 @@ export function structuredData(
         '@type': 'WebSite',
         '@id': `${origin}/#website`,
         url: `${origin}/`,
-        name: 'Fluri',
+        name: 'Winter by Fluri',
         description:
           'Interactive snowfall and DOM-aware snow accumulation for JavaScript and TypeScript websites.',
         inLanguage: 'en',
       },
       {
         '@type': 'Person',
-        '@id': `${origin}/about/#operator`,
+        '@id': 'https://fluri.xyz/#founder',
         name: 'Frantisek Gejdos',
-        url: `${origin}/about/`,
+        url: 'https://fluri.xyz/#founder',
         email: 'fluritheme@gmail.com',
         homeLocation: { '@type': 'Country', name: 'Slovakia' },
       },
@@ -39,7 +39,7 @@ export function structuredData(
         runtimePlatform: 'Web browser supporting Canvas 2D and ES2022',
         version,
         license: 'https://opensource.org/license/mit',
-        author: { '@id': `${origin}/about/#operator` },
+        author: { '@id': 'https://fluri.xyz/#founder' },
         keywords: [
           'JavaScript snow animation',
           'TypeScript snowfall',

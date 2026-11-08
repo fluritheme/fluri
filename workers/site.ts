@@ -127,6 +127,10 @@ export default {
       '/downloads/fluritheme-fluri-react-0.1.0.tgz':
         'https://registry.npmjs.org/@fluritheme/fluri-react/-/fluri-react-0.1.0.tgz',
     };
+    historicalDownloads['/downloads/fluritheme-fluri-0.1.1.tgz'] =
+      'https://registry.npmjs.org/@fluritheme/fluri/-/fluri-0.1.1.tgz';
+    historicalDownloads['/downloads/fluritheme-fluri-react-0.1.1.tgz'] =
+      'https://registry.npmjs.org/@fluritheme/fluri-react/-/fluri-react-0.1.1.tgz';
     const historical = historicalDownloads[url.pathname];
     if (historical && (request.method === 'GET' || request.method === 'HEAD'))
       return new Response(null, {

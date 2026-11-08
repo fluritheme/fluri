@@ -423,19 +423,20 @@
               Vue
             </button>
           </div>
-          <div role="tabpanel" id="home-panel-0" aria-labelledby="home-tab-0">
-            <div class="code-block">
-              <div class="code-bar">
-                <span>TypeScript integration</span
-                ><button
-                  class="copy-button"
-                  data-copy-target="home-code-0"
-                  aria-label="Copy TypeScript integration"
-                >
-                  Copy <span aria-hidden="true">▢</span>
-                </button>
-              </div>
-              <pre><code id="home-code-0">import { createWeather } from &#39;@fluritheme/fluri&#39;;
+          <div class="integration-panels">
+            <div role="tabpanel" id="home-panel-0" aria-labelledby="home-tab-0">
+              <div class="code-block">
+                <div class="code-bar">
+                  <span>TypeScript integration</span
+                  ><button
+                    class="copy-button"
+                    data-copy-target="home-code-0"
+                    aria-label="Copy TypeScript integration"
+                  >
+                    Copy <span aria-hidden="true">▢</span>
+                  </button>
+                </div>
+                <pre><code id="home-code-0">import { createWeather } from &#39;@fluritheme/fluri&#39;;
 
 const weather = createWeather({
   preset: &#39;gentle-snow&#39;,
@@ -448,21 +449,21 @@ weather.start();
 window.addEventListener(&#39;pagehide&#39;, () =&gt; {
   weather.destroy();
 }, { once: true });</code></pre>
-            </div>
-          </div>
-          <div role="tabpanel" id="home-panel-1" aria-labelledby="home-tab-1" hidden>
-            <div class="code-block">
-              <div class="code-bar">
-                <span>React integration</span
-                ><button
-                  class="copy-button"
-                  data-copy-target="home-code-1"
-                  aria-label="Copy React integration"
-                >
-                  Copy <span aria-hidden="true">▢</span>
-                </button>
               </div>
-              <pre><code id="home-code-1">import { useFluri } from &#39;@fluritheme/fluri-react&#39;;
+            </div>
+            <div role="tabpanel" id="home-panel-1" aria-labelledby="home-tab-1" hidden>
+              <div class="code-block">
+                <div class="code-bar">
+                  <span>React integration</span
+                  ><button
+                    class="copy-button"
+                    data-copy-target="home-code-1"
+                    aria-label="Copy React integration"
+                  >
+                    Copy <span aria-hidden="true">▢</span>
+                  </button>
+                </div>
+                <pre><code id="home-code-1">import { useFluri } from &#39;@fluritheme/fluri-react&#39;;
 
 export function WinterPage() {
   const weather = useFluri({
@@ -479,21 +480,21 @@ export function WinterPage() {
     &lt;/article&gt;
   );
 }</code></pre>
-            </div>
-          </div>
-          <div role="tabpanel" id="home-panel-2" aria-labelledby="home-tab-2" hidden>
-            <div class="code-block">
-              <div class="code-bar">
-                <span>Vue integration</span
-                ><button
-                  class="copy-button"
-                  data-copy-target="home-code-2"
-                  aria-label="Copy Vue integration"
-                >
-                  Copy <span aria-hidden="true">▢</span>
-                </button>
               </div>
-              <pre><code id="home-code-2">&lt;script setup lang=&quot;ts&quot;&gt;
+            </div>
+            <div role="tabpanel" id="home-panel-2" aria-labelledby="home-tab-2" hidden>
+              <div class="code-block">
+                <div class="code-bar">
+                  <span>Vue integration</span
+                  ><button
+                    class="copy-button"
+                    data-copy-target="home-code-2"
+                    aria-label="Copy Vue integration"
+                  >
+                    Copy <span aria-hidden="true">▢</span>
+                  </button>
+                </div>
+                <pre><code id="home-code-2">&lt;script setup lang=&quot;ts&quot;&gt;
 import { onMounted, onBeforeUnmount } from &#39;vue&#39;;
 import { createWeather } from &#39;@fluritheme/fluri&#39;;
 
@@ -505,6 +506,7 @@ onBeforeUnmount(() =&gt; weather.destroy());
 &lt;template&gt;
   &lt;article data-weather-surface&gt;A little winter.&lt;/article&gt;
 &lt;/template&gt;</code></pre>
+              </div>
             </div>
           </div>
         </div>

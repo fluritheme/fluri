@@ -220,6 +220,7 @@ test('live homepage controls change real snow, move its surface, and persist the
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto(site);
+  await expect(page.locator('.custom-pointer')).toHaveCount(0);
   await page.locator('#snow-scene').scrollIntoViewIfNeeded();
   await expect
     .poll(() => page.evaluate(() => window.__fluriSite?.getMetrics().surfaceCount ?? 0))
@@ -293,18 +294,22 @@ test('framework examples support keyboard tabs and copy the selected code', asyn
   });
   await page.goto(`${site}/docs/`);
   const first = page.locator('#docs-tab-0');
+  const stage = page.locator('[data-code-tabs]');
+  const initialHeight = (await stage.boundingBox())?.height;
   await first.focus();
   await first.press('ArrowRight');
   await expect(page.locator('#docs-tab-1')).toBeFocused();
   await expect(page.locator('#docs-tab-1')).toHaveAttribute('aria-selected', 'true');
   await expect(page.locator('#docs-panel-0')).toBeHidden();
   await expect(page.locator('#docs-panel-1')).toBeVisible();
+  expect((await stage.boundingBox())?.height).toBeCloseTo(initialHeight ?? 0, 1);
   await page.locator('#docs-panel-1 .copy-button').click();
   const selected = await page.locator('#docs-code-1').textContent();
   expect(await page.evaluate(() => document.documentElement.dataset.copiedCode)).toBe(selected);
   await page.locator('#docs-tab-1').press('End');
   await expect(page.locator('#docs-tab-2')).toHaveAttribute('aria-selected', 'true');
   await expect(page.locator('#docs-code-2')).toContainText('onBeforeUnmount');
+  expect((await stage.boundingBox())?.height).toBeCloseTo(initialHeight ?? 0, 1);
   await page.locator('#docs-tab-2').press('Home');
   await expect(first).toBeFocused();
 });

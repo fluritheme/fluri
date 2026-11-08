@@ -1,4 +1,3 @@
-import '../../shared/cursor';
 import {
   createWeather,
   presetNames,

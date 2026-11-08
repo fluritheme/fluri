@@ -2,7 +2,6 @@ import type { PluginContext, PresetName, WeatherController } from '@fluritheme/f
 import './style.css';
 import './participation';
 import './winter-theme.css';
-import '../../shared/cursor';
 
 declare global {
   interface Window {
@@ -77,6 +76,7 @@ matchMedia('(min-width: 641px)').addEventListener('change', () => closeNavigatio
 for (const group of document.querySelectorAll<HTMLElement>('[data-code-tabs]')) {
   const tabs = [...group.querySelectorAll<HTMLButtonElement>('[role=tab]')];
   function activate(tab: HTMLButtonElement): void {
+    if (tab.getAttribute('aria-selected') === 'true') return;
     for (const candidate of tabs) {
       const selected = candidate === tab;
       candidate.setAttribute('aria-selected', String(selected));

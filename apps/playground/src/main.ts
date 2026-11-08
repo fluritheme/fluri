@@ -636,7 +636,14 @@ function closeSidebar(restoreFocus = true) {
   if (!settingsDialog.open) return;
   const origin = settingsOrigin;
   settingsDialog.close();
-  if (restoreFocus) requestAnimationFrame(() => origin?.focus());
+  if (restoreFocus)
+    requestAnimationFrame(() => {
+      // Native dialog closure can restore focus before this frame. Do not steal it
+      // back if the user has already moved on to another control.
+      const active = document.activeElement;
+      if (active === document.body || (active && settingsDialog.contains(active)))
+        origin?.focus({ preventScroll: true });
+    });
 }
 function syncSettingsPlacement() {
   if (compactLayout.matches) {

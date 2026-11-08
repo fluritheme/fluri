@@ -211,6 +211,8 @@ test('mobile workshop has real tap targets, modal settings focus, and usable nav
   await page.getByRole('button', { name: 'Close configuration' }).click();
   await expect(page.locator('#export-top')).toBeFocused();
   await page.locator('#scene-guide').focus();
+  await page.evaluate(() => new Promise<void>((resolve) => requestAnimationFrame(() => resolve())));
+  await expect(page.locator('#scene-guide')).toBeFocused();
   await page.locator('#scene-guide').press('Enter');
   const guide = page.locator('#info-dialog');
   await expect(guide).toBeVisible();

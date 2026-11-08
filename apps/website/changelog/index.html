@@ -43,15 +43,31 @@
           {
             "@type": "Person",
             "@id": "https://fluri.xyz/#founder",
-            "name": "Frantisek Gejdos",
-            "url": "https://fluri.xyz/#founder",
+            "name": "František Gejdoš",
+            "alternateName": "Frantisek Gejdos",
+            "url": "https://fluri.xyz/founder/",
+            "description": "Founder of Fluri Themes and creator of Winter and Spider website effects.",
+            "sameAs": [
+              "https://www.instagram.com/gejdosfrantisek/",
+              "https://www.linkedin.com/in/gejdosfrantisek/"
+            ],
+            "worksFor": { "@id": "https://fluri.xyz/#organization" },
             "email": "fluritheme@gmail.com",
             "homeLocation": { "@type": "Country", "name": "Slovakia" }
           },
           {
+            "@type": "Organization",
+            "@id": "https://fluri.xyz/#organization",
+            "name": "Fluri Themes",
+            "url": "https://fluri.xyz/",
+            "logo": "https://fluri.xyz/brand-mark-384.png",
+            "founder": { "@id": "https://fluri.xyz/#founder" },
+            "sameAs": ["https://github.com/fluritheme"]
+          },
+          {
             "@type": "SoftwareSourceCode",
             "@id": "https://winter.fluri.xyz/#software",
-            "name": "Fluri",
+            "name": "Winter by Fluri",
             "url": "https://winter.fluri.xyz/",
             "description": "Framework independent TypeScript snow animation library with DOM-aware snow accumulation, pointer interactions, snowballs, adaptive Canvas 2D rendering, and optional Christmas effects.",
             "codeRepository": "https://github.com/fluritheme/fluri",
@@ -163,7 +179,7 @@
           <h2>A new home. A bolder winter.</h2>
           <p>
             The website, playground, documentation and private dashboard now live at
-            winter.fluri.xyz, with vivid purple styling and a modern desktop cursor. Fluri Themes
+            winter.fluri.xyz, with vivid purple styling and a redesigned live workshop. Fluri Themes
             has its own collection and founder homepage. Existing package names, APIs and dashboard
             access remain supported.
           </p>

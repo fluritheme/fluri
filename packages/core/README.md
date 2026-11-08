@@ -18,7 +18,7 @@ Built with TypeScript. Made for your interface.
 
 <a href="https://www.npmjs.com/package/@fluritheme/fluri"><img src="https://winter.fluri.xyz/readme/npm-downloads.svg" alt="npm downloads for @fluritheme/fluri over the last 30 days" height="24" /></a>
 
-**[Live playground](https://winter.fluri.xyz/playground/) · [Explore the presets](https://winter.fluri.xyz/showcase/) · [Documentation](https://winter.fluri.xyz/docs/)**
+**[Live playground](https://winter.fluri.xyz/playground/) · [Explore the presets](https://winter.fluri.xyz/showcase/) · [Documentation](https://winter.fluri.xyz/docs/) · [Founder](https://fluri.xyz/founder/)**
 
 [Quick start](#quick-start) · [Features](#why-fluri) · [React & Next.js](#react-and-nextjs) · [API](#runtime-controls) · [Contributing](https://winter.fluri.xyz/reference/CONTRIBUTING.md)
 

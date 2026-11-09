@@ -1,0 +1,16 @@
+Winter for Framer demonstration
+Copyright 2026 Frantisek Gejdos / Fluri Themes.
+
+The original Framer adapter, demonstration design and guide are provided here for
+viewing this demonstration, including normal browser execution and caching.
+Other rights in those original materials are reserved. A separate product license
+is supplied with the Framer edition. This notice applies to the new Framer
+presentation materials, not to the existing free engine or third-party software.
+
+The Fluri engine and Zod retain their MIT licenses; see runtime/THIRD-PARTY.txt.
+React, React DOM and Scheduler retain their MIT licenses; see THIRD-PARTY.txt.
+DM Sans retains its SIL Open Font License; see fonts/DM-Sans-LICENSE.txt.
+
+The surrounding Fluri engine repository's MIT license remains unchanged for its
+engine and other MIT materials. This folder-specific notice identifies the
+separately prepared original Framer demonstration materials.

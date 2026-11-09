@@ -2,7 +2,7 @@
 
 The public demonstration lives at https://winter.fluri.xyz/framer/. It is prepared for a paid Framer integration around the existing free MIT engine. Sales remain marked **Coming soon** until native Framer and checkout validation are complete.
 
-The original product workspace is maintained separately from this public engine repository. The `apps/website/public/framer/` directory contains its generated demonstration, screenshots, guide and pinned engine only. It contains no customer-delivery ZIP or payment credentials.
+The original product workspace is maintained separately from this public engine repository. The `apps/website/public/framer/` directory contains its generated demonstration, screenshots, guide and pinned engine only. It contains no customer-delivery ZIP or payment credentials. Folder-specific notices identify the new presentation materials; the engine and third-party MIT/OFL licenses remain intact.
 
 ## Runtime
 

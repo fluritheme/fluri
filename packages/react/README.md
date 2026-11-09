@@ -31,7 +31,7 @@ The core stays framework independent. This adapter brings its snowfall, surface 
 npm install @fluritheme/fluri @fluritheme/fluri-react
 ```
 
-Peer dependencies: **React 18 or 19** and **`@fluritheme/fluri` ^0.1.0**. React DOM is not a dependency of the adapter. Package archives are also available in the [documentation](https://winter.fluri.xyz/docs/#quick-start).
+Peer dependencies: **React 18 or 19** and **`@fluritheme/fluri` ^0.2.0**. React DOM is not a dependency of the adapter. Package archives are also available in the [documentation](https://winter.fluri.xyz/docs/#quick-start).
 
 ## One component. A little winter.
 
@@ -112,3 +112,19 @@ The engine releases registered plugins when the instance is destroyed. `onReady`
 ## License
 
 [MIT](https://winter.fluri.xyz/license/). Built by [Frantisek Gejdos](https://fluri.xyz/#founder).
+
+## A little yeti (0.2.0)
+
+```tsx
+<Fluri
+  options={{
+    interactions: {
+      snowballs: { enabled: true },
+      snowman: { enabled: true },
+      yeti: { enabled: true, size: 1, cooldown: 16 },
+    },
+  }}
+/>
+```
+
+Mark a horizontal shelf with `data-weather-surface data-weather-yeti`. The optional visitor gathers real deposited snow, packs a ball, and tries to knock down a snowman on the same shelf. It respects reduced motion and pause. See the [yeti guide and preview](https://winter.fluri.xyz/reference/api-reference.md#yeti-visitor-020) and try [Yeti vs snowman](https://winter.fluri.xyz/playground/).

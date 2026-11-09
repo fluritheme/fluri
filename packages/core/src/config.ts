@@ -103,6 +103,13 @@ export const configSchema = z
           })
           .strict(),
         snowman: z.object({ enabled: z.boolean(), requiredBalls: z.literal(3) }).strict(),
+        yeti: z
+          .object({
+            enabled: z.boolean(),
+            size: z.number().min(0.5).max(2),
+            cooldown: z.number().min(5).max(120),
+          })
+          .strict(),
         pointerVortex: z.object({ enabled: z.boolean() }).strict(),
       })
       .strict(),
@@ -180,6 +187,7 @@ export const defaults: WeatherConfig = {
       maxCount: 12,
     },
     snowman: { enabled: false, requiredBalls: 3 },
+    yeti: { enabled: false, size: 1, cooldown: 16 },
     pointerVortex: { enabled: false },
   },
   performance: { adaptive: true, maxFPS: 60, preferredQuality: 'auto', maxDPR: 2 },

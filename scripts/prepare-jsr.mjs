@@ -2,6 +2,9 @@ import { cp, mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const coreVersion = JSON.parse(
+  await readFile(join(root, 'packages/core/package.json'), 'utf8'),
+).version;
 const manifest = JSON.parse(await readFile(join(root, 'package.json'), 'utf8'));
 const packages = manifest.private ? ['packages/core', 'packages/react'] : ['.'];
 for (const relative of packages) {
@@ -28,7 +31,10 @@ for (const relative of packages) {
             return `${prefix}${quote}${next}${quote}`;
           },
         );
-        text = text.replace(/(from\s+)(['"])(@fluritheme\/fluri)\2/g, '$1$2npm:$3@^0.1.1$2');
+        text = text.replace(
+          /(from\s+)(['"])(@fluritheme\/fluri)\2/g,
+          `$1$2jsr:$3@^${coreVersion}$2`,
+        );
         await writeFile(file, text);
       }
     }

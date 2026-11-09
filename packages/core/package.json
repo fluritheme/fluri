@@ -1,6 +1,6 @@
 {
   "name": "@fluritheme/fluri",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Interactive snowfall for websites: DOM-aware snow accumulation, mouse interactions, snow physics, Canvas 2D rendering, and Christmas effects.",
   "type": "module",
   "license": "MIT",
@@ -58,7 +58,9 @@
     "framework-agnostic",
     "react",
     "vue",
-    "web-animation"
+    "web-animation",
+    "yeti",
+    "snowball-fight"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json"

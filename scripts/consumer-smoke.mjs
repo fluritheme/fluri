@@ -59,10 +59,13 @@ await writeFile(
   `import {createWeather,type WeatherController,type WeatherOptions} from '@fluritheme/fluri';
 import {christmasPack} from '@fluritheme/fluri/christmas';
 import {useFluri,Fluri} from '@fluritheme/fluri-react';
-const options:WeatherOptions={snow:{intensity:0.4},dom:{detection:'explicit'}};
+const options:WeatherOptions={snow:{intensity:0.4},dom:{detection:'explicit'},interactions:{yeti:{enabled:true}}};
 const weather:WeatherController=createWeather(options);
 weather.use(christmasPack({lights:{warmth:0.8}}));
 weather.updateConfig({snow:{texture:null}});
+weather.trigger('yeti');
+const phase = weather.getMetrics().yetiPhase;
+void phase;
 weather.destroy();
 export {useFluri,Fluri};
 `,

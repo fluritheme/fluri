@@ -1,4 +1,5 @@
 import type { PluginContext, Surface, TriggerOptions, TriggerType, Vec2 } from '../types.js';
+import { Yeti } from './Yeti.js';
 import { snowYAt } from '../physics/profiles.js';
 
 export interface PointerInput extends Vec2 {
@@ -73,6 +74,7 @@ export function gatherMass(
     Math.floor((localX + radius) / surface.binSize),
   );
   for (let bin = first; bin <= last && remaining > 0; bin++) {
+    if (surface.exposed?.[bin] === 0) continue;
     const available = Math.max(0, surface.profile[bin] ?? 0);
     const removed = Math.min(available, remaining);
     surface.profile[bin] = available - removed;
@@ -138,7 +140,63 @@ export class Actors {
   private nextId = 1;
   private circle = new CircleRecognizer();
   private lastPointer: PointerInput | undefined;
-  constructor(private readonly context: PluginContext) {}
+  readonly yeti: Yeti;
+  constructor(private readonly context: PluginContext) {
+    this.yeti = new Yeti(context, {
+      gather: gatherMass,
+      targets: () =>
+        this.snowmen
+          .filter((man) => man.support.visible && !man.support.occluded)
+          .map((man) => {
+            const height = man.balls.reduce((n, ball) => n + ball.radius * 2, 0);
+            return {
+              ...worldPoint(
+                man.support,
+                man.localX,
+                -depthAt(man.support, man.localX) - height + (man.balls[2]?.radius ?? 0),
+              ),
+              support: man.support,
+              localX: man.localX,
+            };
+          }),
+      hit: (from, to, radius, vx) => this.hitSnowman(from, to, radius, vx),
+    });
+  }
+  private hitSnowman(from: Vec2, to: Vec2, radius: number, vx: number): boolean {
+    const dx = to.x - from.x,
+      dy = to.y - from.y;
+    for (const man of this.snowmen) {
+      if (!man.support.visible || man.support.occluded) continue;
+      let top = -depthAt(man.support, man.localX);
+      let hit = false;
+      for (const ball of man.balls) {
+        const p = worldPoint(man.support, man.localX, top - ball.radius);
+        const t = clamp(
+          ((p.x - from.x) * dx + (p.y - from.y) * dy) / Math.max(0.0001, dx * dx + dy * dy),
+          0,
+          1,
+        );
+        if (Math.hypot(p.x - from.x - t * dx, p.y - from.y - t * dy) <= ball.radius + radius)
+          hit = true;
+        top -= ball.radius * 2;
+      }
+      if (!hit) continue;
+      top = -depthAt(man.support, man.localX);
+      for (const [index, ball] of man.balls.entries()) {
+        Object.assign(ball, worldPoint(man.support, man.localX, top - ball.radius));
+        top -= ball.radius * 2;
+        delete ball.support;
+        ball.state = 'airborne';
+        ball.vx = vx * (0.25 + index * 0.1);
+        ball.vy = -90 - index * 32;
+        this.balls.push(ball);
+      }
+      this.snowmen.splice(this.snowmen.indexOf(man), 1);
+      this.context.emit('snowman:removed', { surfaceId: man.support.id, reason: 'yeti' });
+      return true;
+    }
+    return false;
+  }
   get gathering(): boolean {
     return this.active !== undefined;
   }
@@ -194,6 +252,10 @@ export class Actors {
     return ball;
   }
   trigger(type: TriggerType, options: TriggerOptions = {}): void {
+    if (type === 'yeti') {
+      this.yeti.spawn(this.selected(options));
+      return;
+    }
     const support = this.selected(options);
     if (type === 'snowburst') {
       const matches = (ball: Snowball): boolean =>
@@ -430,6 +492,7 @@ export class Actors {
   }
 
   update(dt: number, time: number): void {
+    this.yeti.update(dt);
     dt = clamp(dt, 0, 1 / 15);
     const surfaces = this.context.getSurfaces();
     const config = this.context.getConfig();
@@ -720,6 +783,7 @@ export class Actors {
     }
   }
   render(ctx: CanvasRenderingContext2D, time: number): void {
+    this.yeti.render(ctx);
     for (const ball of this.balls) {
       ctx.save();
       if (ball.support) clipToSurface(ctx, ball.support);
@@ -814,6 +878,7 @@ export class Actors {
     }
   }
   clear(): void {
+    this.yeti.clear();
     this.active = undefined;
     this.balls.length = 0;
     this.snowmen.length = 0;

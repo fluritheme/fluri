@@ -271,3 +271,100 @@ describe('snowplough', () => {
     expect(allowed.actors.counts.ploughs).toBe(1);
   });
 });
+
+describe('the surface-bound yeti', () => {
+  function tick(actors: Actors, seconds: number) {
+    for (let frame = 0; frame < seconds * 60; frame++) actors.update(1 / 60, frame / 60);
+  }
+  function reach(actors: Actors, phase: string) {
+    for (let frame = 0; frame < 1800 && actors.yeti.phase !== phase; frame++)
+      actors.update(1 / 60, frame / 60);
+    expect(actors.yeti.phase).toBe(phase);
+  }
+  it('stays opt-in and does not create a character or attack by default', () => {
+    const { actors } = fixture();
+    actors.trigger('yeti');
+    tick(actors, 5);
+    expect(actors.yeti.phase).toBe('hidden');
+  });
+  it('scoops existing mass, goes through its poses, and breaks a snowman only on impact', () => {
+    const { actors, config, surface, clumps, events } = fixture();
+    config.interactions.yeti.enabled = true;
+    actors.trigger('snowman');
+    const originalMass = surface.profile.reduce((sum, n) => sum + n, 0);
+    actors.trigger('yeti');
+    actors.trigger('yeti');
+    reach(actors, 'packing');
+    expect(actors.counts.snowmen).toBe(1);
+    expect(surface.profile.reduce((sum, n) => sum + n, 0) + actors.yeti.state.mass).toBeCloseTo(
+      originalMass,
+      2,
+    );
+    reach(actors, 'watching');
+    expect(actors.counts.snowmen).toBe(1);
+    reach(actors, 'celebrating');
+    expect(actors.counts.snowmen).toBe(0);
+    expect(actors.counts.snowballs).toBe(3);
+    expect(events.filter((e) => e.name === 'yeti:spawned')).toHaveLength(1);
+    expect(
+      events.some(
+        (e) => e.name === 'snowman:removed' && (e.data as { reason?: string }).reason === 'yeti',
+      ),
+    ).toBe(true);
+    expect(
+      surface.profile.reduce((sum, n) => sum + n, 0) + clumps.reduce((sum, n) => sum + n, 0),
+    ).toBeCloseTo(originalMass, 2);
+    tick(actors, 2);
+    expect(actors.yeti.phase).toBe('idle');
+  });
+  it('can miss a target that moves after release; there is no timed destruction', () => {
+    const { actors, config, surface, events } = fixture();
+    config.interactions.yeti.enabled = true;
+    actors.trigger('snowman');
+    actors.trigger('yeti');
+    reach(actors, 'watching');
+    surface.x += 500;
+    reach(actors, 'shrugging');
+    expect(actors.counts.snowmen).toBe(1);
+    expect(events.some((e) => e.name === 'yeti:miss')).toBe(true);
+    expect(events.some((e) => e.name === 'yeti:hit')).toBe(false);
+  });
+  it('cannot conjure a snowball from an empty or covered surface', () => {
+    const { actors, config, surface, events } = fixture();
+    config.interactions.yeti.enabled = true;
+    actors.trigger('snowman');
+    surface.profile.fill(0);
+    actors.trigger('yeti');
+    tick(actors, 20);
+    expect(actors.yeti.state.mass).toBe(0);
+    expect(actors.counts.snowmen).toBe(1);
+    expect(events.some((e) => e.name === 'yeti:thrown')).toBe(false);
+    actors.clear();
+    surface.exposed = new Uint8Array(32);
+    actors.trigger('yeti');
+    expect(actors.yeti.phase).toBe('hidden');
+  });
+  it('follows its surface when scrolling and recycles a held ball on disable', () => {
+    const { actors, config, surface, clumps } = fixture();
+    config.interactions.yeti.enabled = true;
+    actors.trigger('snowman');
+    actors.trigger('yeti');
+    reach(actors, 'packing');
+    const before = actors.yeti.state;
+    surface.x += 20;
+    surface.y -= 65;
+    expect(actors.yeti.state.x - before.x).toBeCloseTo(20);
+    expect(actors.yeti.state.y - before.y).toBeCloseTo(-65);
+    config.interactions.yeti.enabled = false;
+    tick(actors, 1 / 60);
+    expect(actors.yeti.phase).toBe('hidden');
+    expect(clumps.reduce((sum, n) => sum + n, 0)).toBeCloseTo(before.mass);
+    actors.destroy();
+    expect(actors.yeti.state.mass).toBe(0);
+  });
+  it('rejects invalid size and cooldown configuration', () => {
+    expect(() => resolveConfig({ interactions: { yeti: { size: NaN } } })).toThrow();
+    expect(() => resolveConfig({ interactions: { yeti: { cooldown: 0 } } })).toThrow();
+    expect(() => resolveConfig({ interactions: { yeti: { size: 3 } } })).toThrow();
+  });
+});

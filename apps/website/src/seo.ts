@@ -49,7 +49,7 @@ export function structuredData(
         name: 'Winter by Fluri',
         url: `${origin}/`,
         description:
-          'Framework independent TypeScript snow animation library with DOM-aware snow accumulation, pointer interactions, snowballs, adaptive Canvas 2D rendering, and optional Christmas effects.',
+          'Framework independent TypeScript snow animation library with DOM-aware snow accumulation, pointer interactions, snowballs, an optional animated yeti, adaptive Canvas 2D rendering, and optional Christmas effects.',
         codeRepository: 'https://github.com/fluritheme/fluri',
         programmingLanguage: 'TypeScript',
         runtimePlatform: 'Web browser supporting Canvas 2D and ES2022',

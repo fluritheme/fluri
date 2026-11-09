@@ -273,3 +273,13 @@ Setup may return cleanup, and `destroy()` can release additional state. Plugin n
 `addSnow(depth, selector?)` is a manual source whose intended mass is mean depth × support width, limited by physical capacity. A deterministic per-invocation seed produces different broad drifts across supports. `snow:slide` reports actual detached mass; resize events include `reason: 'resize'` and motion events use `reason: 'motion'`. Shrinking supports shed the unsupported portion, while growing edges start bare. Desktop brush activation follows pointer movement or a held pointer according to configuration. Non-mouse brushing additionally requires an explicit `data-weather-interactive="brush"` interaction zone; overlays remain passive.
 
 `getMetrics().particleBudget` is the effective ambient particle budget before snowfall intensity. With adaptive performance enabled it can be lower than the requested `snow.particleCount`, based on scene area, pointer/device class, and measured frame pressure. Saturated surface capacities vary through a deterministic packing profile while remaining below the configured maximum.
+
+## Yeti visitor (0.2.0)
+
+`interactions.yeti` accepts `{ enabled: false, size: 1, cooldown: 16 }` by default. Size is `0.5..2`; cooldown is `5..120` seconds. The feature is opt-in, including when using a preset. Enable snowballs and snowmen to build targets.
+
+One yeti selects a visible, accumulating, mostly horizontal surface at least 150 px wide, preferring `[data-weather-yeti]`. `trigger('yeti', { selector, surface })` can select its initial surface; repeated triggers do not create duplicates. It follows that surface's geometry, freezes offscreen and respects the engine's pause and reduced-motion policy. It does not travel between surfaces.
+
+The visitor waits for a snowman on its own surface, walks to a throwing position, gathers actual deposited mass, packs, aims, and throws one ballistic snowball. Swept collision testing knocks a hit snowman into its original three physical balls. A target that moves after launch may be missed. It never deletes a snowman on a timer or generates ammunition on an empty or covered surface. A pause preserves the current pose; disabling the yeti returns held/in-flight snow to the simulation. Stop and destroy clear it with other actors.
+
+`getMetrics().yetiPhase` reports `hidden`, `arriving`, `idle`, `sneaking`, `gathering`, `packing`, `aiming`, `throwing`, `watching`, `celebrating`, or `shrugging` (exported type `YetiPhase`). Events: `yeti:spawned`, `yeti:phase`, `yeti:thrown`, `yeti:hit`, `yeti:miss`. Phase payloads include `phase` and `surfaceId`; thrown includes `mass` and `surfaceId`. `snowman:removed` includes `reason: 'yeti'` for a successful hit.

@@ -7,6 +7,7 @@ export type {
   WeatherOptions,
   WeatherController,
   WeatherMetrics,
+  YetiPhase,
   WeatherState,
   WeatherEventName,
   WeatherPlugin,

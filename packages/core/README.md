@@ -26,7 +26,7 @@ Built with TypeScript. Made for your interface.
 
 ---
 
-Fluri is a JavaScript and TypeScript **snow animation library** for the web. Snow gathers on supported DOM edges, follows moving elements, and falls onto surfaces below. Visitors can brush it away, gather snowballs, or watch a tiny snowplough clear a path.
+Fluri is a JavaScript and TypeScript **snow animation library** for the web. Snow gathers on supported DOM edges, follows moving elements, and falls onto surfaces below. Visitors can brush it away, gather snowballs, watch a tiny snowplough clear a path, or invite a mischievous yeti to start a snowball fight.
 
 Use a light dusting on a portfolio, a playful snowfall on a landing page, or warm Christmas lights on the surfaces you choose. Your content stays in ordinary HTML; Fluri draws the winter around it.
 
@@ -35,6 +35,7 @@ Use a light dusting on a portfolio, a playful snowfall on a landing page, or war
 <img src="https://winter.fluri.xyz/readme/features.png" alt="Three Fluri features: snow follows a card’s edges, a pointer brushes snow into powder, and sliders customize snowfall and wind." width="100%" />
 
 - **Snow with somewhere to land.** Surface-local accumulation follows supported DOM geometry, scrolling, and responsive layouts. Uneven packing and rounded shoulders give each pile its own shape.
+- **A tiny yeti with a plan.** Opt in to an animated visitor that sneaks over, scoops real snow, packs a ball and aims at your snowman. Hits knock it apart; moving targets can make it miss. No images or animation assets to load.
 - **A little room to play.** Brush deposits, gather and throw snowballs, build a snowman, or run a snowplough along a designated shelf.
 - **Your website, your forecast.** Ten presets, typed overrides, adjustable wind, flake styles, snow depth, and live configuration export.
 - **A good guest.** Pointer-transparent canvases, reduced-motion support, hidden-tab suspension, adaptive quality, and explicit cleanup.
@@ -199,6 +200,38 @@ Brush a snowy edge with the pointer. Hold **Shift** and drag near deposits to ga
 
 Touch behavior preserves ordinary page scrolling. Provide accessible buttons for intentional actions; the playground includes keyboard and touch controls. Gathering, transfer, and ploughing account for stored snow mass.
 
+## Meet the yeti
+
+![The Fluri yeti gathering, packing and throwing a snowball at a snowman](https://winter.fluri.xyz/readme/yeti.png)
+
+```ts
+const weather = createWeather({
+  interactions: {
+    snowballs: { enabled: true },
+    snowman: { enabled: true },
+    yeti: { enabled: true, size: 1, cooldown: 16 },
+  },
+});
+weather.start();
+```
+
+Give it a visible, mostly horizontal surface at least 150 px wide. Add `data-weather-yeti` to your preferred snowy shelf. It stays attached as the page scrolls, blinks and breathes while idle, and waits for a snowman on the same shelf. Its sequence is **arrive → sneak → scoop → pack → aim → throw → celebrate (or shrug)**. Gathering consumes deposited snow; empty shelves cannot produce ammunition. One yeti and one projectile per instance keep the interaction bounded.
+
+```html
+<div data-weather-surface data-weather-yeti>Room for a little rivalry.</div>
+```
+
+```ts
+// Optional demo controls. Visitors can also assemble their own snowman from three balls.
+weather.addSnow(8, '[data-weather-yeti]');
+weather.trigger('snowman', { selector: '[data-weather-yeti]' });
+weather.trigger('yeti', { selector: '[data-weather-yeti]' });
+weather.on('yeti:hit', () => console.log('Snowman down!'));
+weather.updateConfig({ interactions: { yeti: { enabled: false } } });
+```
+
+Disabled by default. Respects pause, hidden tabs and reduced-motion preferences. Try **Yeti vs snowman** in the [playground](https://winter.fluri.xyz/playground/).
+
 ## Runtime controls
 
 | Method                                                       | Purpose                                                            |
@@ -210,7 +243,7 @@ Touch behavior preserves ordinary page scrolling. Provide accessible buttons for
 | `updateConfig(patch)` · `getConfig()`                        | Apply validated changes or read a configuration snapshot           |
 | `addSnow(depth, selector?)` · `clearAccumulation(selector?)` | Manage deposits                                                    |
 | `registerSurface(element, options?)`                         | Register an element; returns an unregister function                |
-| `trigger(type, options?)`                                    | Trigger a gust, burst, snowball, snowman, or plough                |
+| `trigger(type, options?)`                                    | Trigger a gust, burst, snowball, snowman, yeti, or plough          |
 | `use(plugin)` · `on(event, callback)`                        | Add a plugin or subscribe to events; both return cleanup functions |
 | `getMetrics()`                                               | Inspect actual timing, budgets, counts, and state                  |
 

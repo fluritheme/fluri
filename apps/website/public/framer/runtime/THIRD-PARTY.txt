@@ -1,4 +1,4 @@
-FLURI ENGINE 0.1.1
+FLURI ENGINE 0.2.0
 MIT License
 
 Copyright (c) 2026 Fluri contributors

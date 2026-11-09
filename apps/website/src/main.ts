@@ -231,7 +231,13 @@ async function ensureWeather(): Promise<WeatherController | undefined> {
         dom: { detection: 'explicit', maxSurfaces: 8 },
         performance: { adaptive: true, maxDPR: 1.5, maxFPS: 60 },
         ...(scene.dataset.scene !== 'showcase'
-          ? { interactions: { snowballs: { enabled: true }, snowman: { enabled: true } } }
+          ? {
+              interactions: {
+                snowballs: { enabled: true },
+                snowman: { enabled: true },
+                yeti: { enabled: true },
+              },
+            }
           : {}),
         accessibility: { reducedMotion: 'respect', controls: false },
       });
@@ -262,6 +268,20 @@ if (scene) {
   observer.observe(scene);
   document.querySelector('#demo-add')?.addEventListener('click', () => {
     void ensureWeather().then((controller) => controller?.addSnow(8));
+  });
+  document.querySelector('#demo-yeti')?.addEventListener('click', () => {
+    void ensureWeather().then((instance) => {
+      if (!instance) return;
+      if (!motionAllowed()) {
+        toast('Resume the preview to meet the yeti.');
+        return;
+      }
+      instance.addSnow(4, '.catching-shelf');
+      instance.trigger('yeti', { selector: '.catching-shelf' });
+      if (!instance.getMetrics().snowmanCount)
+        instance.trigger('snowman', { selector: '.catching-shelf' });
+      toast('A snowy little rivalry. Watch the yeti scoop, pack, aim and throw.');
+    });
   });
   document.querySelector('#demo-gust')?.addEventListener('click', () => {
     if (!motionAllowed()) {

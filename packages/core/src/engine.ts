@@ -77,6 +77,7 @@ class WeatherEngine implements WeatherController {
     snowMass: 0,
     snowballCount: 0,
     snowmanCount: 0,
+    yetiPhase: 'hidden',
     approximateMemory: 0,
     particleBudget: 0,
     textureStatus: 'idle',
@@ -530,6 +531,7 @@ class WeatherEngine implements WeatherController {
     this.config = next;
     if (!next.interactions.snowballs.enabled) this.cancelGathering();
     this.pluginConfig = freezeConfig(cloneConfig(next));
+    if (!next.interactions.yeti.enabled) this.actors?.yeti.clear(true);
     if (seedChanged) {
       this.particles = new ParticleSystem(next.seed);
     }
@@ -604,7 +606,7 @@ class WeatherEngine implements WeatherController {
   }
   trigger(type: TriggerType, options: TriggerOptions = {}): void {
     this.assertAlive();
-    if (!['plough', 'gust', 'snowburst', 'sparkle', 'snowman', 'snowball'].includes(type))
+    if (!['plough', 'gust', 'snowburst', 'sparkle', 'snowman', 'snowball', 'yeti'].includes(type))
       throw new TypeError('Unknown Fluri trigger');
     if (!options || typeof options !== 'object')
       throw new TypeError('Trigger options must be an object');
@@ -662,6 +664,7 @@ class WeatherEngine implements WeatherController {
       snowMass: surfaces.reduce((sum, s) => sum + totalMass(s.profile), 0),
       snowballCount: this.actors?.counts.snowballs ?? 0,
       snowmanCount: this.actors?.counts.snowmen ?? 0,
+      yetiPhase: this.actors?.yeti.phase ?? 'hidden',
       approximateMemory:
         this.particles.particles.length * 128 +
         surfaces.reduce((n, s) => n + s.profile.byteLength + 256, 0),

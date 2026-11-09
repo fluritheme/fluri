@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0 — 2026-11-09
+
+- Add an opt-in original vector yeti with arrival, sneaking, scooping, packing, aiming, throwing and reaction poses; blinking, breathing and a waving greeting.
+- Gather real deposited snow and launch one ballistic snowball at a snowman on the same surface. Actual hits break the snowman into its original balls; moved targets can be missed.
+- Anchor the visitor to surface geometry, preserve it offscreen, respect reduced motion and pause, and recycle held snow when disabled.
+- Add the `yeti` trigger, `interactions.yeti` settings, lifecycle events and `yetiPhase` metrics; update the React adapter's core peer range.
+- Add website and playground controls, illustrated README preview, API examples, and current JSR dependency versions.
+
 ## 0.1.1 — 2026-11-08
 
 - Move the Winter website, documentation, playground, private dashboard and hosted references to winter.fluri.xyz.

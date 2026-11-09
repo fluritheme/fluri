@@ -53,9 +53,9 @@ app.innerHTML = `
      <article class="scene-card receiving-platform" id="receiving-card" data-weather-surface data-holiday-ornaments data-holiday-lights data-holiday-garland><div class="receiving-icon" aria-hidden="true">↳</div><h3>The catching shelf</h3><p>A new edge to land on.</p></article>
     </div>
     <div id="stress-host" class="hidden"><p class="benchmark-note">1,000 actual DOM nodes. The surface budget controls how many are tracked.</p><div class="stress-grid" id="stress-grid"></div></div>
-    <div class="snow-shelf" id="snow-shelf" data-weather-surface data-plough-route data-holiday-gifts data-holiday-candy-canes data-holiday-sparkle data-holiday-wreath><span><i aria-hidden="true"></i> A little room for play</span><span class="shelf-route" aria-hidden="true">······················································</span></div>
+    <div class="snow-shelf" data-weather-yeti id="snow-shelf" data-weather-surface data-plough-route data-holiday-gifts data-holiday-candy-canes data-holiday-sparkle data-holiday-wreath><span><i aria-hidden="true"></i> A little room for play</span><span class="shelf-route" aria-hidden="true">······················································</span></div>
    </div>
-   <div class="workshop-actions" data-weather-ignore><button class="workshop-action action-primary" id="add-snow"><span aria-hidden="true">❄</span>Add snow</button><button class="workshop-action" id="dock-ball"><span aria-hidden="true">◌</span>Snowball</button><button class="workshop-action" id="dock-plough"><span aria-hidden="true">⇥</span>Snowplough</button><button class="workshop-action" id="shake-surface"><span aria-hidden="true">↔</span>Shake surface</button><button class="workshop-action" id="dock-clear"><span aria-hidden="true">⌫</span>Clear snow</button><button class="workshop-action" id="festive-toggle"><span aria-hidden="true">✧</span>Christmas</button></div>
+   <div class="workshop-actions" data-weather-ignore><button class="workshop-action action-primary" id="add-snow"><span aria-hidden="true">❄</span>Add snow</button><button class="workshop-action" id="dock-ball"><span aria-hidden="true">◌</span>Snowball</button><button class="workshop-action" id="dock-yeti"><span aria-hidden="true">☃</span>Yeti vs snowman</button><button class="workshop-action" id="dock-plough"><span aria-hidden="true">⇥</span>Snowplough</button><button class="workshop-action" id="shake-surface"><span aria-hidden="true">↔</span>Shake surface</button><button class="workshop-action" id="dock-clear"><span aria-hidden="true">⌫</span>Clear snow</button><button class="workshop-action" id="festive-toggle"><span aria-hidden="true">✧</span>Christmas</button></div>
   </section>
   <div class="preview-footer" data-weather-ignore><div class="engine-status" id="engine-status"><i class="live-dot"></i><span id="status-text">Starting engine</span></div><div class="metrics"><span><strong id="metric-fps">—</strong> fps</span><span><strong id="metric-particles">0</strong> particles</span><span><strong id="metric-surfaces">0</strong> surfaces</span></div></div>
   <div class="interaction-note" data-weather-ignore><p class="touch-instruction">Drag the handle to move the surface. Tap a tool to try it.</p><p class="pointer-instruction">Brush a snowy edge to clear it. <kbd>Shift</kbd> + drag to roll a snowball.</p><button id="scene-guide" class="text-button">Interaction guide ↗</button><button id="scene-about" class="text-button desktop-only">How it works ↗</button></div>
@@ -176,7 +176,7 @@ panels.innerHTML = [
         ['press-and-drag', 'Shift + press and drag'],
         ['hover-circle', 'Intentional hover circles'],
       ],
-    )}${range('ball-size', 'Maximum snowball radius', 'interactions.snowballs.maxRadius', 10, 50, 1, 'px')}${toggle('snowman', 'Build a snowman', 'interactions.snowman.enabled')}${toggle('vortex', 'Pointer vortex', 'interactions.pointerVortex.enabled')}<div class="panel-buttons"><button class="btn" id="spawn-ball">Snowball</button><button class="btn" id="spawn-man">Snowman</button></div><button class="btn" id="break-balls" style="width:100%;margin-top:8px">Break snowballs into snow</button><p class="help">Hold Shift near snow and drag to gather a ball. Release to throw. Stack three compatible balls on a surface to assemble a snowman.</p>`,
+    )}${range('ball-size', 'Maximum snowball radius', 'interactions.snowballs.maxRadius', 10, 50, 1, 'px')}${toggle('snowman', 'Build a snowman', 'interactions.snowman.enabled')}${toggle('yeti', 'A mischievous yeti', 'interactions.yeti.enabled')}${range('yeti-size', 'Yeti size', 'interactions.yeti.size', 0.5, 2, 0.1)}${range('yeti-cooldown', 'Time between attempts', 'interactions.yeti.cooldown', 5, 60, 1, 's')}${toggle('vortex', 'Pointer vortex', 'interactions.pointerVortex.enabled')}<div class="panel-buttons"><button class="btn" id="spawn-ball">Snowball</button><button class="btn" id="spawn-man">Snowman</button><button class="btn" id="spawn-yeti">Meet the yeti</button></div><button class="btn" id="break-balls" style="width:100%;margin-top:8px">Break snowballs into snow</button><p class="help">Hold Shift near snow and drag to gather a ball. Release to throw. Stack three compatible balls on a surface to assemble a snowman.</p>`,
   ),
   section(
     'christmas',
@@ -457,6 +457,22 @@ function snowball() {
   weather.trigger('snowball', { selector: '#snow-shelf', radius: 16 });
   notify('Hold Shift and drag the snowball to roll or throw it.');
 }
+function meetYeti() {
+  if (destroyed) return;
+  weather.resume();
+  weather.updateConfig({
+    interactions: {
+      yeti: { enabled: true },
+      snowballs: { enabled: true },
+      snowman: { enabled: true },
+    },
+  });
+  weather.addSnow(4, '#snow-shelf');
+  weather.trigger('yeti', { selector: '#snow-shelf' });
+  if (!weather.getMetrics().snowmanCount) weather.trigger('snowman', { selector: '#snow-shelf' });
+  syncControls();
+  notify('Meet the yeti. Watch it scoop, pack, aim and throw at your snowman.');
+}
 function snowman() {
   if (destroyed) return;
   weather.trigger('snowman', { selector: '#snow-shelf' });
@@ -586,6 +602,8 @@ on('dock-ball', snowball);
 on('spawn-ball', snowball);
 on('shake-surface', shakeSurface);
 on('spawn-man', snowman);
+on('spawn-yeti', meetYeti);
+on('dock-yeti', meetYeti);
 on('break-balls', () => {
   weather.trigger('snowburst');
   notify('Snowballs scattered back into the snowfall.');

@@ -244,6 +244,7 @@ em {
 }
 .winter-tools .demo-tools {
   display: flex;
+  flex-wrap: wrap;
   gap: 24px;
 }
 .winter-tools button {

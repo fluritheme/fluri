@@ -70,6 +70,8 @@ export interface WeatherConfig {
       maxCount: number;
     };
     snowman: { enabled: boolean; requiredBalls: number };
+    /** One surface-bound visitor. Cooldown is in seconds, size is a scale factor. */
+    yeti: { enabled: boolean; size: number; cooldown: number };
     pointerVortex: { enabled: boolean };
   };
   performance: {
@@ -144,6 +146,18 @@ export interface Particle {
   layer: Layer;
 }
 export type WeatherState = 'idle' | 'running' | 'paused' | 'stopped' | 'destroyed';
+export type YetiPhase =
+  | 'hidden'
+  | 'arriving'
+  | 'idle'
+  | 'sneaking'
+  | 'gathering'
+  | 'packing'
+  | 'aiming'
+  | 'throwing'
+  | 'watching'
+  | 'celebrating'
+  | 'shrugging';
 export interface WeatherMetrics {
   textureStatus: 'idle' | 'loading' | 'ready' | 'error' | 'destroyed';
   state: WeatherState;
@@ -161,6 +175,7 @@ export interface WeatherMetrics {
   snowMass: number;
   snowballCount: number;
   snowmanCount: number;
+  yetiPhase: YetiPhase;
   approximateMemory: number;
 }
 export type WeatherEventName =
@@ -183,10 +198,16 @@ export type WeatherEventName =
   | 'snowball:stacked'
   | 'snowman:created'
   | 'snowman:removed'
+  | 'yeti:spawned'
+  | 'yeti:phase'
+  | 'yeti:thrown'
+  | 'yeti:hit'
+  | 'yeti:miss'
   | 'plough:start'
   | 'plough:complete'
   | 'quality:changed';
-export type TriggerType = 'plough' | 'gust' | 'snowburst' | 'sparkle' | 'snowman' | 'snowball';
+export type TriggerType =
+  'plough' | 'gust' | 'snowburst' | 'sparkle' | 'snowman' | 'snowball' | 'yeti';
 export interface TriggerOptions {
   selector?: string;
   surface?: Element;

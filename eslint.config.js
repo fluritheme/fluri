@@ -7,6 +7,8 @@ export default ts.config(
       '**/dist/**',
       // Byte-identical public bundles retained only for pre-migration open tabs.
       'apps/website/public/assets/**',
+      // Built from the separately checked React 18 Framer product workspace.
+      'apps/website/public/framer/**',
       '.wrangler/**',
       '**/.next/**',
       'node_modules/**',

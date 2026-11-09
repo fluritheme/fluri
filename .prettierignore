@@ -19,3 +19,6 @@ apps/website/public/art
 
 # Preserve original hashes of compatibility bundles.
 apps/website/public/assets/
+
+# Generated Framer demonstration and version-pinned runtime bundles.
+apps/website/public/framer/

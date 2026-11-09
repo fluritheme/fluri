@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Winter for Framer — Setup guide | Fluri</title>
+    <meta
+      name="description"
+      content="Set up Winter for Framer, choose page or section coverage, tune snowfall and check your published page."
+    />
+    <link rel="canonical" href="https://winter.fluri.xyz/framer/guide.html" />
+    <link rel="stylesheet" href="./guide.css" />
+  </head>
+  <body>
+    <header>
+      <a href="./">← Winter for Framer</a
+      ><a href="https://fluri.xyz">fluri ✳</a>
+    </header>
+    <main>
+      <p class="eyebrow">THE SETUP GUIDE</p>
+      <h1>A little winter.<br />A few simple steps.</h1>
+      <p class="lede">
+        The Framer edition is being prepared for release. The final component
+        link and checkout are not available yet.
+      </p>
+      <section>
+        <h2>Add Winter</h2>
+        <ol>
+          <li>
+            Once available, insert Winter using the component URL supplied with
+            your purchase.
+          </li>
+          <li>
+            Place one instance on each page that needs snow. Set the layer to
+            <strong>Absolute</strong> positioning so its editor marker does not
+            reserve space in a Stack.
+          </li>
+          <li>
+            Choose <strong>Whole page</strong> coverage, or place Winter
+            directly inside the desired section and choose
+            <strong>Parent frame</strong>.
+          </li>
+          <li>Choose an atmosphere and adjust the visual controls.</li>
+          <li>
+            Open Preview, then check your mobile breakpoint, links and
+            navigation before publishing.
+          </li>
+        </ol>
+        <p>
+          The canvas marker is static. The snow runs in Preview and on the
+          published page.
+        </p>
+      </section>
+      <section>
+        <h2>Your forecast, your way.</h2>
+        <dl>
+          <div>
+            <dt>Snowfall &amp; Mobile snow</dt>
+            <dd>
+              Set desktop density, then its mobile multiplier below 768px.
+            </dd>
+          </div>
+          <div>
+            <dt>Snow color, flakes &amp; wind</dt>
+            <dd>
+              Choose the appearance and direction. Gentle, Alpine, Blizzard and
+              Minimal are the starting atmospheres.
+            </dd>
+          </div>
+          <div>
+            <dt>Settling &amp; Max depth</dt>
+            <dd>Let snow collect on supported elements and limit its depth.</dd>
+          </div>
+          <div>
+            <dt>Start dusting</dt>
+            <dd>
+              Add already-settled snow on startup. Set to 0 to let snowfall
+              build the scene entirely over time. Restart the component to apply
+              a new initial dusting.
+            </dd>
+          </div>
+          <div>
+            <dt>Brush &amp; Snowballs</dt>
+            <dd>
+              Brush settled snow with your pointer. Optional desktop snowball
+              gathering uses Shift + press and drag. Touch scrolling remains
+              available.
+            </dd>
+          </div>
+          <div>
+            <dt>Pause button</dt>
+            <dd>
+              Give visitors control of the effect. Reduced-motion preferences
+              are always respected.
+            </dd>
+          </div>
+        </dl>
+      </section>
+      <section>
+        <h2>A place to land.</h2>
+        <p>
+          Buttons, links, images, articles and elements with the card class are
+          detected automatically. Large headings and whole sections are
+          deliberately omitted to keep display typography clean. For deliberate
+          Framer frames, try the layer name <strong>Snow surface</strong>. To
+          exclude a frame and its descendants, try <strong>No snow</strong>.
+          Confirm that the published page preserves those layer-name attributes.
+        </p>
+        <p>
+          Snow uses browser geometry approximations. Complex 3D transforms,
+          arbitrary masks, iframe contents and every stacking arrangement cannot
+          be reconstructed exactly. Parent-frame coverage uses a rectangular
+          clipping approximation.
+        </p>
+      </section>
+      <section>
+        <h2>Keep things considerate.</h2>
+        <p>
+          Use modest snowfall on smaller screens. Keep the pause button
+          available. The component always respects reduced motion and does not
+          replace the visitor’s cursor.
+        </p>
+        <p>
+          The integration loads a version-pinned free MIT engine from Fluri’s
+          HTTPS host. Self-hosting instructions and license notices are included
+          in the product package. It does not send interaction telemetry.
+        </p>
+      </section>
+      <section>
+        <h2>Already using the free engine?</h2>
+        <p>
+          The npm engine remains free under MIT, including commercial use. The
+          Framer edition packages the original adapter, visual controls and
+          setup experience around it.
+        </p>
+        <a href="https://winter.fluri.xyz/docs/"
+          >Read the engine documentation ↗</a
+        >
+      </section>
+    </main>
+    <footer>
+      Winter by Fluri Themes · František Gejdoš<br /><a href="./"
+        >Back to the live forecast ↗</a
+      >
+    </footer>
+  </body>
+</html>

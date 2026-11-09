@@ -2,6 +2,10 @@ import { test, expect } from '@playwright/test';
 import type {} from '../apps/website/src/main.js';
 import type { WeatherEventName } from '../packages/core/src/types.js';
 
+// Linux WebKit rasterizes Canvas in software. Keep the complete simulation and assertions,
+// while limiting redundant paints and allowing the same headroom as the actor/hero suites.
+test.setTimeout(90_000);
+
 test('yeti packs real snow, keeps moving through a scroll, and knocks down a snowman', async ({
   page,
 }) => {
@@ -21,7 +25,7 @@ test('yeti packs real snow, keeps moving through a scroll, and knocks down a sno
         snowman: { enabled: true },
         yeti: { enabled: true },
       },
-      performance: { adaptive: false },
+      performance: { adaptive: false, maxFPS: 20, maxDPR: 1 },
       accessibility: { controls: false },
     });
     window.weather.addSnow(10, '#lower');
@@ -78,6 +82,12 @@ test('the generated homepage includes a working yeti rivalry demo', async ({ pag
     .poll(() => page.evaluate(() => window.__fluriSite?.getMetrics().surfaceCount ?? 0))
     .toBeGreaterThan(0);
   await page.clock.pauseAt(new Date((await page.evaluate(() => Date.now())) + 100));
+  await page.evaluate(() =>
+    window.__fluriSite?.updateConfig({
+      snow: { enabled: false },
+      performance: { adaptive: false, maxFPS: 20, maxDPR: 1 },
+    }),
+  );
   await page.locator('#demo-yeti').click();
   await page.evaluate(() => {
     const w = window.__fluriSite;

@@ -235,7 +235,7 @@ async function ensureWeather(): Promise<WeatherController | undefined> {
               interactions: {
                 snowballs: { enabled: true },
                 snowman: { enabled: true },
-                yeti: { enabled: true },
+                yeti: { enabled: false },
               },
             }
           : {}),
@@ -276,6 +276,7 @@ if (scene) {
         toast('Resume the preview to meet the yeti.');
         return;
       }
+      instance.updateConfig({ interactions: { yeti: { enabled: true } } });
       instance.addSnow(4, '.catching-shelf');
       instance.trigger('yeti', { selector: '.catching-shelf' });
       if (!instance.getMetrics().snowmanCount)

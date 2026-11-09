@@ -33,7 +33,7 @@ for (const relative of packages) {
         );
         text = text.replace(
           /(from\s+)(['"])(@fluritheme\/fluri)\2/g,
-          `$1$2jsr:$3@^${coreVersion}$2`,
+          `$1$2jsr:$3@${coreVersion}$2`,
         );
         await writeFile(file, text);
       }
@@ -43,7 +43,7 @@ for (const relative of packages) {
   const imports = {};
   for (const [dependency, version] of Object.entries(pkg.dependencies ?? {}))
     imports[dependency] = `npm:${dependency}@${version}`;
-  if (name === 'fluri-react') imports.react = 'npm:react@^19.3.1';
+  if (name === 'fluri-react') imports.react = 'npm:react@19.3.1';
   const config = {
     name: pkg.name,
     version: pkg.version,
@@ -52,6 +52,7 @@ for (const relative of packages) {
       '.': './src/index.ts',
       ...(name === 'fluri' ? { './christmas': './src/christmas.ts' } : {}),
     },
+    ...(name === 'fluri-react' ? { minimumDependencyAge: 0 } : {}),
     compilerOptions: { lib: ['dom', 'dom.iterable', 'esnext'] },
     publish: { include: ['src', 'README.md', 'LICENSE'] },
     ...(Object.keys(imports).length ? { imports } : {}),

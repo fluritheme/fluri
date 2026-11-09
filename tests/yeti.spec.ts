@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import type {} from '../apps/website/src/main.js';
 import type { WeatherEventName } from '../packages/core/src/types.js';
 
 test('yeti packs real snow, keeps moving through a scroll, and knocks down a snowman', async ({
@@ -67,4 +68,27 @@ test('reduced motion never advances the yeti or throws a snowball', async ({ pag
   await page.clock.runFor(20_000);
   expect(await page.evaluate(() => window.weather.getMetrics().yetiPhase)).toBe(phase);
   expect(await page.evaluate(() => window.weather.getMetrics().snowmanCount)).toBe(1);
+});
+
+test('the generated homepage includes a working yeti rivalry demo', async ({ page }) => {
+  await page.clock.install();
+  await page.goto('http://127.0.0.1:4173/');
+  await page.locator('#demo-yeti').scrollIntoViewIfNeeded();
+  await expect
+    .poll(() => page.evaluate(() => window.__fluriSite?.getMetrics().surfaceCount ?? 0))
+    .toBeGreaterThan(0);
+  await page.clock.pauseAt(new Date((await page.evaluate(() => Date.now())) + 100));
+  await page.locator('#demo-yeti').click();
+  await page.evaluate(() => {
+    const w = window.__fluriSite;
+    if (!w) throw Error('Missing hero engine');
+    // Observe real outcomes rather than depending on the width-dependent walk duration.
+    document.documentElement.dataset.yetiHits = '0';
+    w.on('yeti:hit', () => (document.documentElement.dataset.yetiHits = '1'));
+  });
+  for (let step = 0; step < 100; step++) {
+    if ((await page.locator('html').getAttribute('data-yeti-hits')) === '1') break;
+    await page.clock.runFor(300);
+  }
+  expect(await page.locator('html').getAttribute('data-yeti-hits')).toBe('1');
 });

@@ -150,3 +150,27 @@ describe('winter domain migration', () => {
     expect(unknown.status).toBe(404);
   });
 });
+
+describe('central dashboard migration', () => {
+  it('redirects former dashboard pages and retires their public APIs', async () => {
+    const fetch = vi.fn();
+    const env = { ASSETS: { fetch } };
+    for (const path of ['/dashboard', '/dashboard/', '/dashboard/old']) {
+      const response = await worker.fetch(new Request('https://winter.fluri.xyz' + path), env);
+      expect(response.status).toBe(308);
+      expect(response.headers.get('Location')).toBe('https://fluri.xyz/dashboard/');
+      expect(response.headers.get('X-Robots-Tag')).toContain('noindex');
+    }
+    for (const path of [
+      '/api/dashboard',
+      '/api/dashboard/login',
+      '/api/dashboard/session',
+      '/api/dashboard/growth',
+    ]) {
+      const response = await worker.fetch(new Request('https://winter.fluri.xyz' + path), env);
+      expect(response.status).toBe(410);
+      expect(response.headers.get('Cache-Control')).toBe('no-store');
+    }
+    expect(fetch).not.toHaveBeenCalled();
+  });
+});

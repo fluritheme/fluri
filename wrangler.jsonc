@@ -7,6 +7,11 @@
   "routes": [{ "pattern": "winter.fluri.xyz", "custom_domain": true }],
   "d1_databases": [
     {
+      "binding": "CENTRAL_DB",
+      "database_name": "fluri-site-analytics",
+      "database_id": "e370034a-1c15-43e7-8468-a43808d8a270",
+    },
+    {
       "binding": "PARTICIPATION_DB",
       "database_name": "fluri-participation",
       "database_id": "cf122b29-03b7-4eea-a3a6-489076da63c5",

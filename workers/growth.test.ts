@@ -89,7 +89,6 @@ describe('first-party traffic privacy and aggregation', () => {
   it.each([
     ['/dashboard/', {}],
     ['/api/dashboard/', {}],
-    ['/missing/', {}],
     ['/assets/main.js', {}],
     ['/', { DNT: '1' }],
     ['/', { 'Sec-GPC': '1' }],

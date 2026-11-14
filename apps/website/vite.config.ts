@@ -37,7 +37,6 @@ export default defineConfig({
         [
           'index.html',
           'participate/index.html',
-          'dashboard/index.html',
           'community/index.html',
           'features/index.html',
           'showcase/index.html',

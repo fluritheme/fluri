@@ -1,21 +1,6 @@
 import type { Database } from './participation';
 
 const day = 86400000;
-const paths = new Set([
-  '/',
-  '/features/',
-  '/showcase/',
-  '/docs/',
-  '/about/',
-  '/changelog/',
-  '/privacy/',
-  '/terms/',
-  '/cookies/',
-  '/license/',
-  '/participate/',
-  '/community/',
-  '/playground/',
-]);
 const sources: [string, string[]][] = [
   ['GitHub', ['github.com']],
   ['npm', ['npmjs.com', 'npmjs.org']],
@@ -72,13 +57,18 @@ export function referralSource(value: string | null): string {
 
 export function pageObservation(request: Request, response: Response) {
   const url = new URL(request.url);
-  const path = url.pathname.endsWith('/') ? url.pathname : `${url.pathname}/`;
+  const path =
+    url.pathname.endsWith('/') || url.pathname.endsWith('.html')
+      ? url.pathname
+      : `${url.pathname}/`;
   const agent = request.headers.get('user-agent') ?? '';
   if (
     url.hostname !== 'winter.fluri.xyz' ||
     url.protocol !== 'https:' ||
     request.method !== 'GET' ||
-    !paths.has(path) ||
+    path.length > 256 ||
+    /\.[a-z0-9]+\/$/i.test(path) ||
+    /^\/(api|dashboard|internal)(\/|$)/.test(path) ||
     response.status !== 200 ||
     !response.headers.get('content-type')?.toLowerCase().startsWith('text/html') ||
     !request.headers.get('accept')?.includes('text/html') ||

@@ -113,6 +113,24 @@ export default {
     context?: { waitUntil(promise: Promise<unknown>): void },
   ): Promise<Response> {
     const url = new URL(request.url);
+    if (url.pathname === '/dashboard' || url.pathname.startsWith('/dashboard/'))
+      return new Response(null, {
+        status: 308,
+        headers: {
+          Location: 'https://fluri.xyz/dashboard/',
+          'Cache-Control': 'no-store',
+          'X-Robots-Tag': 'noindex, nofollow',
+        },
+      });
+    if (url.hostname !== 'fluri.xyz' && url.pathname.startsWith('/api/dashboard'))
+      return Response.json(
+        { error: 'The dashboard has moved to https://fluri.xyz/dashboard/' },
+        {
+          status: 410,
+          headers: { 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex, nofollow' },
+        },
+      );
+
     if (url.pathname.startsWith('/api/')) {
       return isParticipationEnvironment(env)
         ? participationAPI(request, env)

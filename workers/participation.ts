@@ -12,6 +12,7 @@ export interface Database {
 }
 export interface ParticipationEnvironment {
   PARTICIPATION_DB: Database;
+  CENTRAL_DB?: Database;
   API_LIMIT: { limit(options: { key: string }): Promise<{ success: boolean }> };
   LOGIN_LIMIT: { limit(options: { key: string }): Promise<{ success: boolean }> };
   DASHBOARD_PASSWORD_HASH?: string;
@@ -233,6 +234,10 @@ async function admin(request: Request, env: ParticipationEnvironment): Promise<v
   if (!session) throw new HTTPError(401, 'Your session has expired. Sign in again.');
 }
 export async function cleanup(env: ParticipationEnvironment): Promise<void> {
+  if (env.CENTRAL_DB)
+    await env.CENTRAL_DB.prepare('DELETE FROM central_daily WHERE date < ?')
+      .bind(cutoff(89).slice(0, 10))
+      .run();
   await env.PARTICIPATION_DB.batch([
     env.PARTICIPATION_DB.prepare('DELETE FROM reports WHERE date < ?').bind(
       cutoff(395).slice(0, 10),
@@ -432,6 +437,7 @@ export async function participationAPI(
     }
     if (path.startsWith('/api/dashboard')) {
       await admin(request, env);
+      if (path === '/api/dashboard/session' && method === 'GET') return json({ ok: true });
       if (path === '/api/dashboard/logout' && method === 'POST') {
         await db
           .prepare('DELETE FROM admin_sessions WHERE token_hash = ?')

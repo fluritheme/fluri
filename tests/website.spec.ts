@@ -16,7 +16,6 @@ const routes = [
   '/license/',
   '/participate/',
   '/community/',
-  '/dashboard/',
   '/404.html',
 ];
 
@@ -41,10 +40,7 @@ test('every promotional and legal page contains its own prerendered content and 
     descriptions.add(description ?? '');
     if (routes[index] !== '/404.html') expect(html).toContain('rel="canonical"');
     else expect(html).toMatch(/name="robots"[^>]*content="[^"]*\bnoindex\b/);
-    if (routes[index] === '/dashboard/') {
-      expect(html).toMatch(/name="robots"[^>]*content="[^"]*\bnoindex\b/);
-      expect(html).not.toContain('application/ld+json');
-    } else if (routes[index] !== '/404.html') {
+    if (routes[index] !== '/404.html') {
       const structured = html.match(
         /<script type="application\/ld\+json">([\s\S]*?)<\/script>/,
       )?.[1];
@@ -54,164 +50,6 @@ test('every promotional and legal page contains its own prerendered content and 
       expect(html).toContain('https://winter.fluri.xyz/');
     }
   }
-});
-
-test('dashboard login recovers from invalid keys, non-JSON errors, and connection failures', async ({
-  page,
-}) => {
-  const errors: string[] = [];
-  page.on('pageerror', (error) => errors.push(error.message));
-  await page.route('**/api/dashboard', (route) =>
-    route.fulfill({ status: 401, json: { error: 'Sign in to the dashboard.' } }),
-  );
-  let failure: { status: number; body: string; contentType: string } | null = null;
-  await page.route('**/api/dashboard/login', (route) =>
-    failure ? route.fulfill(failure) : route.abort('failed'),
-  );
-  await page.goto(`${site}/dashboard/`);
-  const field = page.getByLabel('Dashboard access key');
-  const button = page.getByRole('button', { name: 'Open dashboard' });
-  const notice = page.locator('#dashboard-notice');
-  await field.fill('x');
-  for (const [status, body, expected] of [
-    [401, '<html>Authentication failed</html>', 'Invalid dashboard access key.'],
-    [503, '<html>Upstream unavailable</html>', 'The service is temporarily unavailable.'],
-    [429, '', 'Too many requests. Wait a minute'],
-    [200, '<html>Unexpected fallback page</html>', 'The service returned an unexpected response.'],
-  ] as const) {
-    failure = { status, body, contentType: 'text/html' };
-    await button.click();
-    await expect(notice).toContainText(expected);
-    await expect(button).toBeEnabled();
-    await expect(field).toBeVisible();
-    await expect(page.locator('#dashboard-content')).toBeHidden();
-  }
-  failure = null;
-  await button.click();
-  await expect(notice).toContainText('Could not connect to Fluri.');
-  await expect(button).toBeEnabled();
-  failure = {
-    status: 401,
-    body: JSON.stringify({ error: 'Invalid dashboard access key.' }),
-    contentType: 'application/json',
-  };
-  await button.click();
-  await expect(notice).toHaveText('Invalid dashboard access key.');
-  await expect(button).toBeEnabled();
-  await page.getByRole('link', { name: 'Documentation', exact: true }).click();
-  await expect(page).toHaveURL(`${site}/docs/`);
-  expect(errors).toEqual([]);
-});
-
-test('dashboard separates website traffic, genuine zero npm downloads and pending reports on mobile and desktop', async ({
-  page,
-}) => {
-  const errors: string[] = [];
-  page.on('pageerror', (error) => errors.push(error.message));
-  const today = new Date().toISOString().slice(0, 10);
-  const start = new Date(Date.parse(today) - 29 * 86400000).toISOString().slice(0, 10);
-  const checkedAt = new Date().toISOString();
-  await page.route('**/api/dashboard', (route) =>
-    route.fulfill({
-      json: {
-        metrics: {},
-        sites: [],
-        daily: [],
-        versions: [],
-      },
-    }),
-  );
-  let fail = false;
-  await page.route('**/api/dashboard/growth', (route) =>
-    fail
-      ? route.fulfill({
-          status: 503,
-          json: { error: 'Growth statistics are temporarily unavailable.' },
-        })
-      : route.fulfill({
-          json: {
-            updatedAt: checkedAt,
-            website: {
-              start,
-              end: today,
-              startedAt: checkedAt,
-              lastReceivedAt: checkedAt,
-              viewsToday: 8,
-              views7d: 8,
-              views30d: 8,
-              daily: [{ date: today, views: 8 }],
-              pages: [{ path: '/', views: 8 }],
-              referrers: [{ source: 'GitHub', views: 8 }],
-            },
-            packages: [
-              {
-                package: '@fluritheme/fluri',
-                status: 'available',
-                checkedAt,
-                start,
-                end: today,
-                downloads30d: 0,
-                downloads7d: 0,
-                latestDay: 0,
-                daily: Array.from({ length: 30 }, (_, i) => ({
-                  date: new Date(Date.parse(start) + i * 86400000).toISOString().slice(0, 10),
-                  downloads: 0,
-                })),
-              },
-              {
-                package: '@fluritheme/fluri-react',
-                status: 'pending',
-                checkedAt,
-                start: null,
-                end: null,
-                downloads30d: null,
-                downloads7d: null,
-                latestDay: null,
-                daily: [],
-              },
-            ],
-          },
-        }),
-  );
-  await page.goto(`${site}/dashboard/`);
-  await expect(page.getByRole('heading', { name: 'npm downloads', exact: true })).toBeVisible();
-  await expect(page.locator('.npm-stat-card').first().locator('dd')).toHaveText(['0', '0', '0']);
-  await expect(page.locator('.npm-stat-card').last()).toContainText('Stats pending');
-  await expect(page.getByRole('heading', { name: 'Where requests came from' })).toBeVisible();
-  await expect(page.locator('#growth-statistics')).toContainText('100.0%');
-  const dailyCounts = page.locator('.growth-traffic details');
-  await dailyCounts.locator('summary').click();
-  await expect(dailyCounts).toHaveAttribute('open', '');
-  await expect(dailyCounts).toContainText('Not collected');
-  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
-  await expect(page.locator('.growth-traffic details')).toHaveAttribute('open', '');
-  await page.locator('.growth-traffic details summary').click();
-  await expect(page.getByRole('link', { name: 'Open GitHub traffic report' })).toHaveAttribute(
-    'href',
-    'https://github.com/fluritheme/fluri/graphs/traffic',
-  );
-  for (const width of [320, 390, 768, 1440]) {
-    await page.setViewportSize({ width, height: 1000 });
-    expect(
-      await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1),
-      `${width}px dashboard`,
-    ).toBe(true);
-  }
-  if (test.info().project.name === 'chromium') {
-    await page.screenshot({ path: '/tmp/fluri-dashboard-growth-desktop.png', fullPage: true });
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.screenshot({ path: '/tmp/fluri-dashboard-growth-mobile.png', fullPage: true });
-  }
-  fail = true;
-  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
-  await expect(page.locator('#growth-statistics')).toContainText(
-    'Growth statistics are temporarily unavailable.',
-  );
-  await expect(
-    page.getByRole('heading', { name: 'Participating websites', exact: true }),
-  ).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Sign out' })).toBeEnabled();
-  expect(errors).toEqual([]);
 });
 
 test('live homepage controls change real snow, move its surface, and persist the pause preference', async ({
@@ -407,7 +245,7 @@ test('public discovery files expose useful documentation and exclude private are
   expect(sitemap).not.toContain('/dashboard/');
   expect(sitemap).not.toContain('/api/');
   const robots = await (await request.get(`${site}/robots.txt`)).text();
-  expect(robots).toContain('Disallow: /dashboard/');
+  expect(robots).toContain('Disallow: /dashboard');
   expect(robots).toContain('Disallow: /api/');
   const llms = await (await request.get(`${site}/llms.txt`)).text();
   expect(llms).toContain('https://github.com/fluritheme/fluri');

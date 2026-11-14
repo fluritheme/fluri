@@ -4,7 +4,7 @@ import type {} from './fixtures/main.js';
 test('scoped snow stays attached during native page and nested scrolling even before the next JavaScript paint', async ({
   page,
 }) => {
-  await page.clock.install();
+  await page.clock.install({ time: new Date('2026-11-14T08:00:00Z') });
   await page.goto('/tests/fixtures/index.html');
   await expect.poll(() => page.evaluate(() => Boolean(window.weather))).toBe(true);
   await page.evaluate(() => {
@@ -38,7 +38,7 @@ test('scoped snow stays attached during native page and nested scrolling even be
     window.weather.pause();
     window.weather.addSnow(14);
   });
-  await page.clock.pauseAt(new Date((await page.evaluate(() => Date.now())) + 300));
+  await page.clock.pauseAt(new Date('2026-11-14T10:00:00Z'));
   const snapshot = () =>
     page.evaluate(() => {
       const canvas = document.querySelector<HTMLCanvasElement>('[data-fluri-layer="content"]');

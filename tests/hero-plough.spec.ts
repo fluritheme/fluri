@@ -16,7 +16,7 @@ test('the hero occasionally ploughs real snow and its cadence pauses with the pr
   await expect
     .poll(() => page.evaluate(() => window.__fluriSite?.getMetrics().surfaceCount))
     .toBe(2);
-  await page.clock.pauseAt(new Date((await page.evaluate(() => Date.now())) + 1000));
+  await page.clock.pauseAt(new Date('2026-11-06T14:00:00Z'));
   const initialMass = await page.evaluate(() => {
     const weather = window.__fluriSite;
     if (!weather) throw new Error('The real hero engine did not start');
@@ -104,7 +104,7 @@ test('the collection preview does not schedule automatic snowplough passes', asy
   await expect
     .poll(() => page.evaluate(() => window.__fluriSite?.getMetrics().surfaceCount))
     .toBe(2);
-  await page.clock.pauseAt(new Date((await page.evaluate(() => Date.now())) + 1000));
+  await page.clock.pauseAt(new Date('2026-11-06T14:00:00Z'));
   await page.evaluate(() => {
     const weather = window.__fluriSite;
     if (!weather) throw new Error('The real showcase engine did not start');

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1 — 2026-11-14
+
+- Point the npm Homepage link for Winter and its React adapter to the main Fluri Themes website at https://fluri.xyz/. Theme documentation and playground links remain on Winter.
+- Include the current shared-dashboard and search-discovery documentation. The animation runtime is unchanged.
+
 ## 0.2.0 — 2026-11-09
 
 - Add an opt-in original vector yeti with arrival, sneaking, scooping, packing, aiming, throwing and reaction poses; blinking, breathing and a waving greeting.

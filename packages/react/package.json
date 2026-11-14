@@ -1,6 +1,6 @@
 {
   "name": "@fluritheme/fluri-react",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "React snow effects for websites: Fluri component and hook with DOM-aware snowfall, snow accumulation, Next.js support, and automatic lifecycle cleanup.",
   "type": "module",
   "license": "MIT",
@@ -53,7 +53,7 @@
     "@fluritheme/fluri": "workspace:*",
     "@types/react": "^19.3.0"
   },
-  "homepage": "https://winter.fluri.xyz/docs/#frameworks",
+  "homepage": "https://fluri.xyz/",
   "author": {
     "name": "Frantisek Gejdos",
     "url": "https://fluri.xyz/#founder"

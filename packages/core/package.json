@@ -1,6 +1,6 @@
 {
   "name": "@fluritheme/fluri",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Interactive snowfall for websites: DOM-aware snow accumulation, mouse interactions, snow physics, Canvas 2D rendering, and Christmas effects.",
   "type": "module",
   "license": "MIT",
@@ -68,7 +68,7 @@
   "dependencies": {
     "zod": "4.6.7"
   },
-  "homepage": "https://winter.fluri.xyz/",
+  "homepage": "https://fluri.xyz/",
   "author": {
     "name": "Frantisek Gejdos",
     "url": "https://fluri.xyz/#founder"

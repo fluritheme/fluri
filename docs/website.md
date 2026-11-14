@@ -1,6 +1,6 @@
 # Fluri promotional website
 
-The production website is deployed with Cloudflare Workers Static Assets. It includes Home, Features, an interactive Showcase, Documentation, About, Changelog, Privacy, Terms, Cookies & Storage, the MIT License, a custom 404 page, and the existing playground.
+The production website is deployed with Cloudflare Workers Static Assets. It includes Home, Features, an interactive Showcase, Documentation, About, Changelog, Privacy, Terms, Cookies & Storage, the commercial licence, a custom 404 page, and the existing playground.
 
 Public website: [winter.fluri.xyz](https://winter.fluri.xyz/).
 
@@ -16,7 +16,7 @@ Open `http://127.0.0.1:4173/` for the complete production layout, including pack
 ## Content and design
 
 - `apps/website/src/pages.ts` contains the page content, shared navigation/footer, integration examples, and static page renderer.
-- `apps/website/src/legal.ts` contains the operator details, legal notices, and complete MIT text. The confirmed public operator is Frantisek Gejdos, with contact address fluritheme@gmail.com.
+- `apps/website/src/legal.ts` contains the operator details, legal notices, and current commercial text and legacy MIT notice. The confirmed public operator is Frantisek Gejdos, with contact address fluritheme@gmail.com.
 - `apps/website/src/style.css` defines the color, typography, spacing, responsive layouts, and accessible interaction styles. Start with the custom properties in `:root` to change the palette.
 - `apps/shared/brand.css` holds the palette, body font, and display font shared by the website and playground. Change these tokens to customize both together.
 - `apps/website/src/main.ts` connects navigation, keyboard tabs, clipboard actions, preset filtering, motion preferences, and real snow previews.

@@ -11,7 +11,7 @@
 DOM-aware snow accumulation, playful physics, and optional Christmas effects.<br />
 Built with TypeScript. Made for your interface.
 
-<a href="LICENSE"><img src="assets/readme/badges/mit.svg" alt="License: MIT" height="24" /></a>
+<a href="https://fluri.xyz/license/"><img src="https://fluri.xyz/commercial-license.svg" alt="Fluri commercial licence" height="24" /></a>
 <img src="assets/readme/badges/typescript.svg" alt="TypeScript: typed API" height="24" />
 <img src="assets/readme/badges/frameworks.svg" alt="Framework independent" height="24" />
 <img src="assets/readme/badges/canvas.svg" alt="Renderer: Canvas 2D" height="24" />
@@ -29,6 +29,10 @@ Built with TypeScript. Made for your interface.
 Fluri is a JavaScript and TypeScript **snow animation library** for the web. Snow gathers on supported DOM edges, follows moving elements, and falls onto surfaces below. Visitors can brush it away, gather snowballs, watch a tiny snowplough clear a path, or invite a mischievous yeti to start a snowball fight.
 
 Use a light dusting on a portfolio, a playful snowfall on a landing page, or warm Christmas lights on the surfaces you choose. Your content stays in ordinary HTML; Fluri draws the winter around it.
+
+## Commercial licence
+
+Current releases require a [EUR 19 lifetime licence](https://fluri.xyz/license/) for production or client use, covering all current and future Fluri themes on unlimited websites. Private non-production evaluation is permitted. Winter core and React versions through 0.2.1 remain MIT.
 
 ## Why Fluri?
 
@@ -313,7 +317,7 @@ Found a rough edge or made something snowy? Read the [contribution guide](CONTRI
 
 ## License
 
-**[MIT](LICENSE)** — free to use, modify, and redistribute, including commercially, with the required notices. Original Fluri artwork and procedural decorations use the same license.
+**[Fluri Themes Commercial License 1.0](https://fluri.xyz/license/)** — one EUR 19 payment covers all current and future Fluri themes on unlimited personal and client websites. Private non-production evaluation is permitted. Standalone theme resale and public library redistribution are prohibited. Earlier MIT releases retain their original rights; see [LICENSING.md](https://fluri.xyz/licensing.md).
 
 <div align="center">
 

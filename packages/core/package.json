@@ -1,9 +1,9 @@
 {
   "name": "@fluritheme/fluri",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Interactive snowfall for websites: DOM-aware snow accumulation, mouse interactions, snow physics, Canvas 2D rendering, and Christmas effects.",
   "type": "module",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "sideEffects": false,
   "files": [
     "dist",
@@ -13,7 +13,10 @@
     "assets",
     "CHANGELOG.md",
     "CONTRIBUTING.md",
-    "SECURITY.md"
+    "SECURITY.md",
+    "LICENSE-MIT-LEGACY",
+    "LICENSING.md",
+    "licensing.json"
   ],
   "exports": {
     ".": {
@@ -63,7 +66,8 @@
     "snowball-fight"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json"
+    "build": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "node ../../scripts/check-licensing.mjs"
   },
   "dependencies": {
     "zod": "4.6.7"

@@ -1,10 +1,11 @@
+await import('./check-licensing.mjs');
 import { readFile, access } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
 import assert from 'node:assert/strict';
 for (const name of ['core', 'react']) {
   const cwd = new URL(`../packages/${name}/`, import.meta.url);
   const manifest = JSON.parse(await readFile(new URL('package.json', cwd), 'utf8'));
-  assert.equal(manifest.license, 'MIT');
+  assert.equal(manifest.license, 'SEE LICENSE IN LICENSE');
   assert.equal(manifest.sideEffects, false);
   assert.equal(manifest.publishConfig.access, 'public');
   assert.ok(manifest.keywords.length >= 8);

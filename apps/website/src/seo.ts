@@ -54,7 +54,7 @@ export function structuredData(
         programmingLanguage: 'TypeScript',
         runtimePlatform: 'Web browser supporting Canvas 2D and ES2022',
         version,
-        license: 'https://opensource.org/license/mit',
+        license: 'https://fluri.xyz/license/',
         author: { '@id': 'https://fluri.xyz/#founder' },
         keywords: [
           'JavaScript snow animation',

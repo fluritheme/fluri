@@ -1,6 +1,6 @@
 # Fluri
 
-> Open-source TypeScript snow animation library for websites. Snow accumulates on supported DOM edges and responds to pointer interactions. MIT licensed.
+> Interactive TypeScript snow animation library for websites. Snow accumulates on supported DOM edges and responds to pointer interactions. Commercially licensed; legacy versions through 0.2.1 remain MIT.
 
 Fluri is a visual effect, not a weather forecast service. The core works independently of frameworks; a separate React adapter supports React and Next.js. Defaults include no visitor telemetry or network requests. Adaptive quality and reduced-motion controls are available; performance and supported geometry have documented limits.
 
@@ -13,7 +13,7 @@ Install with npm. Package files are also distributed by jsDelivr and UNPKG; raw 
 ## Product and source
 - [Overview](https://winter.fluri.xyz/): Live preview and product capabilities.
 - [Documentation](https://winter.fluri.xyz/docs/): Setup, lifecycle, configuration, and framework examples.
-- [Source](https://github.com/fluritheme/fluri): Source code, license, issues, and contribution instructions.
+- [Source](https://github.com/fluritheme/fluri): Project history, issues, and licence information.
 - [Preset previews](https://winter.fluri.xyz/showcase/): Ten presets rendered by the actual engine.
 - [Playground](https://winter.fluri.xyz/playground/): Interactive configuration; JavaScript required.
 

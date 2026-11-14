@@ -1,6 +1,6 @@
 # Winter for Framer preview
 
-The public demonstration lives at https://winter.fluri.xyz/framer/. It is prepared for a paid Framer integration around the existing free MIT engine. Sales remain marked **Coming soon** until native Framer and checkout validation are complete.
+The public demonstration lives at https://winter.fluri.xyz/framer/. It is prepared for a paid Framer integration around the pinned legacy MIT engine. Sales remain marked **Coming soon** until native Framer and checkout validation are complete.
 
 The original product workspace is maintained separately from this public engine repository. The `apps/website/public/framer/` directory contains its generated demonstration, screenshots, guide and pinned engine only. It contains no customer-delivery ZIP or payment credentials. Folder-specific notices identify the new presentation materials; the engine and third-party MIT/OFL licenses remain intact.
 
@@ -23,4 +23,4 @@ Previews are captured from the actual runnable React demonstration, not a fabric
 
 ## Publishing state
 
-The existing native component is https://framer.com/m/Winter-jGyBaJ.js@lWsgV8LILmxFtzuwuMYx. The 0.2.0 update has no live checkout yet. Do not mark this edition available, add a purchase link, or claim native editor verification until those steps have actually completed. The underlying engine and React adapter remain free under MIT. The new public demo includes Yeti vs snowman and a Little yeti switch.
+The existing native component is https://framer.com/m/Winter-jGyBaJ.js@lWsgV8LILmxFtzuwuMYx. The 0.2.0 update has no live checkout yet. Do not mark this edition available, add a purchase link, or claim native editor verification until those steps have actually completed. The pinned 0.2.0 engine and adapter remain MIT; newer npm editions use the commercial licence. The new public demo includes Yeti vs snowman and a Little yeti switch.

@@ -24,7 +24,7 @@ async function loadContent(file) {
   return import(`data:text/javascript;base64,${Buffer.from(javascript).toString('base64')}`);
 }
 const { renderWebsite, escapeHTML } = await loadContent('src/pages.ts');
-const { legalPages, mitLicenseText, legalUpdatedAt } = await loadContent('src/legal.ts');
+const { legalPages, commercialLicenseText, legalUpdatedAt } = await loadContent('src/legal.ts');
 const { version } = JSON.parse(await readFile(new URL('packages/core/package.json', root), 'utf8'));
 const originURL = new URL(process.env.FLURI_SITE_ORIGIN ?? 'https://winter.fluri.xyz');
 if (
@@ -55,7 +55,7 @@ for (const name of await readdir(new URL('docs/', root))) {
 for (const name of ['CONTRIBUTING.md', 'SECURITY.md', 'CHANGELOG.md'])
   await cp(new URL(name, root), new URL(`public/reference/${name}`, website));
 await cp(new URL('assets/readme/', root), new URL('public/readme/', website), { recursive: true });
-await writeFile(new URL('public/license.txt', website), mitLicenseText);
+await writeFile(new URL('public/license.txt', website), commercialLicenseText);
 const urls = [
   ...pages
     .filter((page) => page.path !== '404.html' && page.path !== 'dashboard/')
@@ -88,7 +88,7 @@ await writeFile(
   new URL('public/llms.txt', website),
   `# Fluri
 
-> Open-source TypeScript snow animation library for websites. Snow accumulates on supported DOM edges and responds to pointer interactions. MIT licensed.
+> Interactive TypeScript snow animation library for websites. Snow accumulates on supported DOM edges and responds to pointer interactions. Commercially licensed; legacy versions through 0.2.1 remain MIT.
 
 Fluri is a visual effect, not a weather forecast service. The core works independently of frameworks; a separate React adapter supports React and Next.js. Defaults include no visitor telemetry or network requests. Adaptive quality and reduced-motion controls are available; performance and supported geometry have documented limits.
 
@@ -101,7 +101,7 @@ Install with npm. Package files are also distributed by jsDelivr and UNPKG; raw 
 ## Product and source
 - [Overview](${origin}/): Live preview and product capabilities.
 - [Documentation](${origin}/docs/): Setup, lifecycle, configuration, and framework examples.
-- [Source](https://github.com/fluritheme/fluri): Source code, license, issues, and contribution instructions.
+- [Source](https://github.com/fluritheme/fluri): Project history, issues, and licence information.
 - [Preset previews](${origin}/showcase/): Ten presets rendered by the actual engine.
 - [Playground](${origin}/playground/): Interactive configuration; JavaScript required.
 

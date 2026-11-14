@@ -111,7 +111,7 @@ The engine releases registered plugins when the instance is destroyed. `onReady`
 
 ## License
 
-[MIT](https://winter.fluri.xyz/license/). Built by [Frantisek Gejdos](https://fluri.xyz/#founder).
+[Fluri Themes Commercial License 1.0](https://fluri.xyz/license/). Built by [Frantisek Gejdos](https://fluri.xyz/#founder).
 
 ## A little yeti (0.2.0)
 
@@ -128,3 +128,5 @@ The engine releases registered plugins when the instance is destroyed. `onReady`
 ```
 
 Mark a horizontal shelf with `data-weather-surface data-weather-yeti`. The optional visitor gathers real deposited snow, packs a ball, and tries to knock down a snowman on the same shelf. It respects reduced motion and pause. See the [yeti guide and preview](https://winter.fluri.xyz/reference/api-reference.md#yeti-visitor-020) and try [Yeti vs snowman](https://winter.fluri.xyz/playground/).
+
+Production use requires the EUR 19 lifetime Fluri licence, covering unlimited personal and client websites and all current and future themes. Private non-production evaluation is permitted. Versions through 0.2.1 remain MIT.

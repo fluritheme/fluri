@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0 — 2026-11-14
+
+- Change future releases to Fluri Themes Commercial License 1.0: EUR 19 lifetime access to all current and future themes for unlimited personal and client websites. Private non-production evaluation remains permitted.
+- Preserve all earlier MIT releases and third-party notices; include explicit version boundaries in LICENSING.md.
+- Keep the animation API and runtime behavior unchanged.
+
 ## 0.2.1 — 2026-11-14
 
 - Point the npm Homepage link for Winter and its React adapter to the main Fluri Themes website at https://fluri.xyz/. Theme documentation and playground links remain on Winter.

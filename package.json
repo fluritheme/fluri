@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "pnpm --filter @fluri/playground dev",
     "dev:website": "pnpm --filter @fluri/website dev",
-    "build": "node scripts/prepare-packages.mjs && pnpm --filter @fluritheme/fluri build && pnpm --filter @fluritheme/fluri-react build && pnpm --filter './apps/*' build && node scripts/assemble-site.mjs && node scripts/prepare-seo.mjs winter",
+    "build": "node scripts/prepare-licensing.mjs winter && node scripts/prepare-packages.mjs && pnpm --filter @fluritheme/fluri build && pnpm --filter @fluritheme/fluri-react build && pnpm --filter './apps/*' build && node scripts/assemble-site.mjs && node scripts/prepare-seo.mjs winter",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run",
     "test:browser": "playwright test",

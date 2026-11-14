@@ -24,7 +24,7 @@ Public scoped packages need `access: public`, which is already configured. All p
 
 The manual release workflow performs checks by default and publishes only when the `publish` input is selected. Configure the GitHub `npm` environment and npm trusted publishing for `fluritheme/fluri` and its release workflow before using OIDC/provenance. No npm token is stored in this project. Do not run a publish workflow until scope access and trusted publishing are configured.
 
-MIT licensing is confirmed by the project owner. The selected Fluri product/package name is user-supplied; it does not constitute trademark clearance.
+Commercial licensing for future releases is confirmed by the project owner; earlier MIT releases retain their original licence. The selected Fluri product/package name is user-supplied; it does not constitute trademark clearance.
 
 ## First-party website traffic and package statistics
 

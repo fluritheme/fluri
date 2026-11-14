@@ -1,14 +1,17 @@
 {
   "name": "@fluritheme/fluri-react",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "React snow effects for websites: Fluri component and hook with DOM-aware snowfall, snow accumulation, Next.js support, and automatic lifecycle cleanup.",
   "type": "module",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "sideEffects": false,
   "files": [
     "dist",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "LICENSE-MIT-LEGACY",
+    "LICENSING.md",
+    "licensing.json"
   ],
   "exports": {
     ".": {
@@ -43,10 +46,11 @@
     "snowball-fight"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json"
+    "build": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "node ../../scripts/check-licensing.mjs"
   },
   "peerDependencies": {
-    "@fluritheme/fluri": "^0.2.0",
+    "@fluritheme/fluri": "^0.3.0",
     "react": "^18.0.0 || ^19.0.0"
   },
   "devDependencies": {

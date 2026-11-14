@@ -6,12 +6,17 @@ import type { WeatherEventName } from '../packages/core/src/types.js';
 // while limiting redundant paints and allowing the same headroom as the actor/hero suites.
 test.setTimeout(90_000);
 
+// Leave a fixed two-hour window for page startup. Computing a pause time only
+// 100ms ahead of a browser round trip could already be in the past on CI WebKit.
+const clockStart = new Date('2026-11-14T08:00:00Z');
+const clockPause = new Date('2026-11-14T10:00:00Z');
+
 test('yeti packs real snow, keeps moving through a scroll, and knocks down a snowman', async ({
   page,
 }) => {
-  await page.clock.install();
+  await page.clock.install({ time: clockStart });
   await page.goto('/tests/fixtures/index.html');
-  await page.clock.pauseAt(new Date((await page.evaluate(() => Date.now())) + 100));
+  await page.clock.pauseAt(clockPause);
   await page.evaluate(() => {
     const shelf = document.querySelector<HTMLElement>('#lower')!;
     shelf.style.cssText =
@@ -60,9 +65,9 @@ test('yeti packs real snow, keeps moving through a scroll, and knocks down a sno
 
 test('reduced motion never advances the yeti or throws a snowball', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.clock.install();
+  await page.clock.install({ time: clockStart });
   await page.goto('/tests/fixtures/index.html');
-  await page.clock.pauseAt(new Date((await page.evaluate(() => Date.now())) + 100));
+  await page.clock.pauseAt(clockPause);
   await page.evaluate(() => {
     window.weather.updateConfig({ interactions: { yeti: { enabled: true } } });
     window.weather.trigger('yeti', { selector: '#upper' });
@@ -75,13 +80,13 @@ test('reduced motion never advances the yeti or throws a snowball', async ({ pag
 });
 
 test('the generated homepage includes a working yeti rivalry demo', async ({ page }) => {
-  await page.clock.install();
+  await page.clock.install({ time: clockStart });
   await page.goto('http://127.0.0.1:4173/');
   await page.locator('#demo-yeti').scrollIntoViewIfNeeded();
   await expect
     .poll(() => page.evaluate(() => window.__fluriSite?.getMetrics().surfaceCount ?? 0))
     .toBeGreaterThan(0);
-  await page.clock.pauseAt(new Date((await page.evaluate(() => Date.now())) + 100));
+  await page.clock.pauseAt(clockPause);
   await page.evaluate(() =>
     window.__fluriSite?.updateConfig({
       snow: { enabled: false },

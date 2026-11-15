@@ -1,3 +1,4 @@
+import { consolidated } from './consolidation';
 import { cleanup, participationAPI, type ParticipationEnvironment } from './participation';
 import { pageObservation, recordPageView } from './growth';
 
@@ -112,6 +113,8 @@ export default {
     env: SiteEnvironment,
     context?: { waitUntil(promise: Promise<unknown>): void },
   ): Promise<Response> {
+    const migration = consolidated(request, 'winter');
+    if (migration) return migration;
     const url = new URL(request.url);
     if (url.pathname === '/dashboard' || url.pathname.startsWith('/dashboard/'))
       return new Response(null, {

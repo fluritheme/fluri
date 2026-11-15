@@ -161,12 +161,15 @@ describe('first-party traffic privacy and aggregation', () => {
     expect(sql.prepare('SELECT SUM(views) AS total FROM website_daily').get()?.total).toBe(1);
   });
 
-  it('records after asset delivery and keeps the page working when storage fails', async () => {
+  it('records retained legacy documents after asset delivery and tolerates storage failure', async () => {
     const pending: Promise<unknown>[] = [];
     const env = { ASSETS: { fetch: async () => html() }, PARTICIPATION_DB: db };
     expect(
-      (await worker.fetch(browser(), env, { waitUntil: (promise) => pending.push(promise) }))
-        .status,
+      (
+        await worker.fetch(browser('/retained-example.html'), env, {
+          waitUntil: (promise) => pending.push(promise),
+        })
+      ).status,
     ).toBe(200);
     await Promise.all(pending);
     expect(sql.prepare('SELECT SUM(views) AS total FROM website_daily').get()?.total).toBe(1);
@@ -180,7 +183,7 @@ describe('first-party traffic privacy and aggregation', () => {
         },
       },
     };
-    expect((await worker.fetch(browser(), failed)).status).toBe(200);
+    expect((await worker.fetch(browser('/retained-example.html'), failed)).status).toBe(200);
     expect(console.error).toHaveBeenCalledWith('Website traffic aggregation failed.');
   });
 });

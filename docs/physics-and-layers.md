@@ -13,7 +13,7 @@ x = surface.x + u × cos(angle) - v × sin(angle)
 y = surface.y + u × sin(angle) + v × cos(angle)
 ```
 
-The outward/upward support normal is `(sin(angle), -cos(angle))`. Canvas drawing uses CSS pixels; the renderer separately sizes its backing stores using device pixel ratio, capped by `performance.maxDPR`. A scoped container limits discovery and clips the result, while the canvases remain viewport overlays.
+The outward/upward support normal is `(sin(angle), -cos(angle))`. Canvas drawing uses CSS pixels; the renderer separately sizes its backing stores using device pixel ratio, capped by `performance.maxDPR`. A scoped container limits discovery and clips the result. Canvas hosts translate these viewport simulation coordinates into their native document, container or fixed coordinate plane.
 
 ## Discovery and measurement
 
@@ -21,9 +21,11 @@ The registry discovers explicit registrations, marked surfaces, configured inclu
 
 `ResizeObserver` and a filtered `MutationObserver` invalidate discovery and clips. Document scroll/viewport changes also invalidate geometry. Rescans are coalesced, while the existing supports are measured as the active scene runs so moving cards, fixed elements, and sticky elements can follow their current viewport position. Geometry work is separate from the inner particle loop.
 
-Invalidated geometry and attached snow redraw on browser animation frames even between frames skipped by `performance.maxFPS`. Lowering the physics/render cap therefore does not intentionally leave deposits behind a scrolling support. As with any main-thread canvas overlay, a blocked main thread or asynchronous compositor scroll can still cause a temporary visual mismatch.
+Whole-page deposits and actors occupy a bounded document-attached content strip, so ordinary document scrolling moves them with the browser compositor even between JavaScript paints. Falling flakes and fixed/sticky supports remain viewport attached. Invalidated geometry also redraws on browser animation frames between frames skipped by `performance.maxFPS`. Nested scrolling or independently animated geometry can still need a main-thread refresh.
 
-When available, `getBoxQuads()` supplies edge endpoints. Otherwise `getBoundingClientRect()` gives an axis-aligned fallback; common affine rotate/scale cases are approximated from the transform matrix and box dimensions. Nested transforms, skew, perspective, arbitrary transform origins, complex SVG paths, and complex CSS clipping remain limited. Surface confidence labels distinguish exact available box-quad geometry from less certain fallbacks.
+When available, `getBoxQuads()` supplies edge endpoints. Otherwise measured box dimensions and inherited 2D rotation/scale, including individual CSS `rotate` and `scale`, reconstruct common affine edges. Skew, perspective, complex SVG paths and arbitrary CSS clipping remain approximate. Surface confidence labels distinguish available box-quad geometry from fallbacks.
+
+Transparent headings and text surfaces use rasterised glyph tops for each wrapped text-node line. Spaces remain unsupported; collision and rendering share these holes. Font loading, mutations and responsive layout changes invalidate the contour. Work is capped at 1,600 graphemes per candidate, 40 line fragments and a 4096 × 512 raster; complex writing modes and SVG text are not exact glyph geometry. Opaque cards use their actual asymmetric and elliptical CSS corner radii.
 
 Resize preserves the physical local footprint of existing snow. Newly extended edges start bare. When an edge shrinks, the portion that loses support becomes falling clumps; the remaining deposit plus emitted mass conserves the original budget within floating-point tolerance. Scroll offsets are compensated separately from actual surface movement, including fixed/sticky ancestors.
 
@@ -60,7 +62,7 @@ The registry derives velocity and acceleration from measured edge movement. Atta
 
 A snowball's mass maps to its visual radius as `radius = sqrt(mass / π)`. Shift plus press/drag deliberately gathers mass from nearby profile bins. Pointer velocity is bounded before release. Airborne balls use gravity, damped lateral motion, support collision response, and pairwise collision impulses. A resting ball stores its support and local horizontal position. When support movement becomes unstable, it releases with inherited motion.
 
-Three resting balls with decreasing sizes, vertical contact, and compatible horizontal alignment assemble into a snowman. The resulting actor keeps the three masses, draws a face/scarf/arms, and stays anchored to its base support. Losing support disassembles it back into airborne balls. Breakup converts its masses into clumps. Configured melting shrinks balls; lowering the maximum radius sheds excess mass as clumps.
+Three resting balls with decreasing sizes, vertical contact, and compatible horizontal alignment assemble into a snowman. The resulting actor keeps the three masses, draws a face/scarf/arms, and stays anchored to its base support. Losing support, a yeti impact or a snowburst breaks it into small downward-falling snow parcels. Those parcels settle through the normal collision system; the original three intact balls are not restored. Configured melting shrinks balls; lowering the maximum radius sheds excess mass as clumps.
 
 Actor simulation is deliberately bounded: the configured ball budget includes three per snowman, the snowman budget is four, and at most two ploughs can run with one per explicit route. Rendering uses original procedural shapes, not downloaded character images. Pointer handlers never capture input and preserve native behavior outside an accepted intentional gathering gesture.
 
@@ -68,7 +70,7 @@ Actor simulation is deliberately bounded: the configured ball budget includes th
 
 Fluri uses three pointer-transparent canvases for background, content, and foreground effect groups. For eligible bounded, already-positioned containers, the inert overlay is mounted inside the scene. Its backing store scrolls natively with the scene and its supports, preventing attached deposits from drifting between JavaScript redraws. Viewport-space simulation coordinates are translated by the canvas host’s actual origin when drawing. No styles are added to the container itself.
 
-Full-document, static, transformed, oversized, and internally scrolling scopes keep the fixed viewport overlay. Their attachments refresh on invalidated browser frames, including frames between simulation FPS caps. A blocked main thread or asynchronous compositor scroll can still temporarily mismatch this fallback. The effect groups are not independently inserted browser compositing planes between every host element.
+Full-document scenes attach their settled content canvas to the document element using a moving bounded strip: viewport height plus at most 1024 CSS pixels on either side. This avoids allocating a page-height bitmap or enlarging the page. Falling flakes and fixed/sticky caps keep fixed planes. Other scopes use a fixed fallback where native container mounting is unsuitable; independently scrolling scopes still rely on invalidated browser frames. The effect groups are not independently inserted browser compositing planes between every host element.
 
 The scene assigns approximate paint-order weights from ancestor z-index values. Simple opaque discovered UI bodies are masked out of background/content effects; foreground flakes intentionally stay in front. Surface-attached drawings can use ancestor overflow/rounded-rectangle clip regions. This supports common cards, toolbars, scrolling containers, and fixed headers without expensive per-particle DOM hit testing.
 

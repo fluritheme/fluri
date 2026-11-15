@@ -1,17 +1,17 @@
 {
-  "measuredAt": "2026-11-09T21:33:45.160Z",
-  "node": "v24.14.1",
+  "measuredAt": "2026-11-15T16:08:11.813Z",
+  "node": "v24.22.1",
   "methodology": "Vite production library build, single minified ESM entry, dependencies bundled; compression defaults. Entries measured independently.",
   "bundles": {
     "core": {
-      "minifiedBytes": 232152,
-      "gzipBytes": 60842,
-      "brotliBytes": 52212
+      "minifiedBytes": 245198,
+      "gzipBytes": 64813,
+      "brotliBytes": 55552
     },
     "christmas": {
-      "minifiedBytes": 121643,
-      "gzipBytes": 29998,
-      "brotliBytes": 25962
+      "minifiedBytes": 121423,
+      "gzipBytes": 29956,
+      "brotliBytes": 25935
     }
   }
 }

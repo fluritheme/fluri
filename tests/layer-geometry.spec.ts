@@ -23,7 +23,11 @@ test('inherited rotated and scaled cards keep their actual top edge through scro
     window.weather.addSnow(12);
   });
   const geometry = () =>
-    page.evaluate(() => {
+    page.evaluate(async () => {
+      // A compositor animation can advance between an arbitrary protocol task
+      // and the engine's animation-frame measurement, especially on busy Linux
+      // runners. Compare both geometries in the same browser paint phase.
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
       const s = window.inspection
         ?.getSurfaces()
         .find((surface) => surface.element.id === 'tilted-card');

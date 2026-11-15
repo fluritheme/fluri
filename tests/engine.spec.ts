@@ -296,20 +296,29 @@ test('scrolling moves deposited snow with its support without a physical avalanc
   const before = await page.evaluate(
     () => window.captureSurfaces().find((surface) => surface.elementId === 'upper')?.mass ?? 0,
   );
+  const initialOffset = await page.evaluate(() => {
+    const surface = window.captureSurfaces().find((item) => item.elementId === 'upper');
+    const support = document.querySelector('#upper');
+    if (!surface || !support) throw new Error('Missing scroll support');
+    return surface.y - support.getBoundingClientRect().top;
+  });
+  // The affine fallback uses integer offsetHeight against a fractional DOM box.
+  // Bound that existing subpixel bias, then test scroll attachment independently.
+  expect(Math.abs(initialOffset)).toBeLessThan(0.5);
   await page.evaluate(() => scrollTo(0, 220));
   await expect
     .poll(() =>
-      page.evaluate(() =>
-        Math.round(
-          window.captureSurfaces().find((surface) => surface.elementId === 'upper')?.y ?? 0,
-        ),
-      ),
+      page.evaluate((initialOffset) => {
+        // Read both positions in one browser task instead of comparing a cached
+        // registry value against a separately sampled, rounded layout position.
+        const surface = window.captureSurfaces().find((item) => item.elementId === 'upper');
+        const support = document.querySelector('#upper');
+        return surface && support
+          ? Math.abs(surface.y - support.getBoundingClientRect().top - initialOffset)
+          : Infinity;
+      }, initialOffset),
     )
-    .toBe(
-      await page
-        .locator('#upper')
-        .evaluate((element) => Math.round(element.getBoundingClientRect().top)),
-    );
+    .toBeLessThan(1 / 30);
   await page.waitForTimeout(200);
   expect(
     await page.evaluate(

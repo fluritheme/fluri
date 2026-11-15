@@ -15,6 +15,8 @@ export class CanvasRenderer {
   private mountedScope: HTMLElement | undefined;
   private mountDirty = true;
   private scopeEligible = false;
+  private documentMount = false;
+  private documentTop = 0;
   private maxDPR = 1;
   private ignored: Element[] = [];
   private lastIgnoreRefresh = -Infinity;
@@ -30,6 +32,8 @@ export class CanvasRenderer {
       signature: number;
       width: number;
       radius: number;
+      contour: Surface['contour'];
+      cornerRadii: Surface['cornerRadii'];
       contours: ReturnType<typeof buildSnowContours>;
     }
   >();
@@ -121,15 +125,48 @@ export class CanvasRenderer {
       scope.scrollWidth <= scope.clientWidth + 1
         ? scope
         : undefined;
-    if (nativeScope !== this.mountedScope) {
+    const documentMount = !nativeScope;
+    if (nativeScope !== this.mountedScope || documentMount !== this.documentMount) {
       this.mountedScope = nativeScope;
-      this.host.style.position = nativeScope ? 'absolute' : 'fixed';
-      this.host.dataset.fluriMount = nativeScope ? 'scope' : 'viewport';
-      (nativeScope ?? this.doc.body).append(this.host);
+      this.documentMount = documentMount;
+      this.host.style.position = 'absolute';
+      this.host.style.inset = '0 auto auto 0';
+      // A paint/layout-containment ancestor would turn fixed flakes into document
+      // children. Only the snow plane belongs to native document scrolling.
+      this.host.style.contain = nativeScope ? 'strict' : 'style';
+      this.host.style.overflow = nativeScope ? 'hidden' : 'clip';
+      this.host.dataset.fluriMount = nativeScope ? 'scope' : 'document';
+      (nativeScope ?? this.doc.documentElement).append(this.host);
+      for (const [layer, canvas] of this.canvases) {
+        canvas.style.position = nativeScope || layer === 'content' ? 'absolute' : 'fixed';
+        canvas.style.inset = 'auto';
+      }
     }
-    const bounds = nativeScope ? this.host.getBoundingClientRect() : undefined;
-    const bitmapWidth = bounds?.width ?? width;
-    const bitmapHeight = bounds?.height ?? height;
+    const bounds = nativeScope ? nativeScope.getBoundingClientRect() : undefined;
+    const bitmapWidth = bounds ? nativeScope!.clientWidth : width;
+    // Draw a bounded strip around the viewport. The browser moves this bitmap
+    // with the document even if compositor scrolling outruns JavaScript.
+    const overscan = Math.min(1024, Math.max(256, height));
+    const body = this.doc.body;
+    const bodyRect = documentMount ? body.getBoundingClientRect() : undefined;
+    const documentHeight = documentMount
+      ? Math.max(height, body.scrollHeight, bodyRect!.bottom + win.scrollY)
+      : (nativeScope?.clientHeight ?? height);
+    const bitmapHeight = documentMount
+      ? Math.min(documentHeight, height + overscan * 2)
+      : (nativeScope?.clientHeight ?? height);
+    this.documentTop = documentMount
+      ? Math.max(0, Math.min(Math.max(0, documentHeight - bitmapHeight), win.scrollY - overscan))
+      : 0;
+    const content = this.canvases.get('content');
+    if (content) {
+      content.style.top = `${this.documentTop}px`;
+      content.style.left = `${documentMount ? win.scrollX : 0}px`;
+    }
+    // Constrain the overlay independently of its own scroll overflow. Removing a
+    // page section must not leave an old document-sized invisible spacer behind.
+    this.host.style.width = `${documentMount ? Math.max(width, body.scrollWidth) : bitmapWidth}px`;
+    this.host.style.height = `${documentHeight}px`;
     if (
       width === this.width &&
       height === this.height &&
@@ -144,14 +181,24 @@ export class CanvasRenderer {
     this.bitmapHeight = bitmapHeight;
     this.dpr = dpr;
     for (const [layer, canvas] of this.canvases) {
-      canvas.width = Math.round(bitmapWidth * dpr);
-      canvas.height = Math.round(bitmapHeight * dpr);
+      const localWidth = nativeScope ? bitmapWidth : width;
+      const localHeight = nativeScope || layer === 'content' ? bitmapHeight : height;
+      canvas.width = Math.round(localWidth * dpr);
+      canvas.height = Math.round(localHeight * dpr);
+      canvas.style.width = `${localWidth}px`;
+      canvas.style.height = `${localHeight}px`;
+      if (layer !== 'content') {
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+      }
       this.contexts.get(layer)?.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
   }
   clear(): void {
-    for (const ctx of this.contexts.values())
-      ctx.clearRect(0, 0, this.bitmapWidth, this.bitmapHeight);
+    for (const [layer, ctx] of this.contexts) {
+      const canvas = this.canvases.get(layer);
+      if (canvas) ctx.clearRect(0, 0, canvas.width / this.dpr, canvas.height / this.dpr);
+    }
   }
   render(
     particles: readonly Particle[],
@@ -182,11 +229,15 @@ export class CanvasRenderer {
     const sorted = surfaces
       .filter((s) => s.visible && !s.occluded)
       .sort((a, b) => a.paintOrder - b.paintOrder);
-    const origin = this.mountedScope ? this.host.getBoundingClientRect() : undefined;
+    const scopeOrigin = this.mountedScope ? this.host.getBoundingClientRect() : undefined;
+    const contentOrigin = this.documentMount
+      ? this.canvases.get('content')?.getBoundingClientRect()
+      : scopeOrigin;
     for (const layer of layers) {
       const ctx = this.contexts.get(layer);
       if (!ctx) continue;
       ctx.save();
+      const origin = layer === 'content' ? contentOrigin : scopeOrigin;
       if (origin) ctx.translate(-origin.left, -origin.top);
       if (
         config.container &&
@@ -198,12 +249,24 @@ export class CanvasRenderer {
         ctx.rect(r.left, r.top, r.width, r.height);
         ctx.clip();
       }
-      for (const p of particles) if (p.layer === layer) this.particle(ctx, p, config);
+      for (const p of particles)
+        if (
+          (!this.documentMount && p.layer === layer) ||
+          (this.documentMount &&
+            ((p.layer === layer && layer !== 'content') ||
+              (layer === 'background' && p.layer === 'content')))
+        )
+          this.particle(ctx, p, config);
       if (layer === 'content') {
         // Mask flakes before attached deposits so their lower edge can meet the actual rounded shoulder.
         if (config.dom.respectLayers) this.maskBodies(ctx, sorted);
-        for (const s of sorted) if (s.layer === 'content') this.snow(ctx, s, config);
-        if (config.dom.respectLayers) this.maskBodies(ctx, sorted, true);
+        for (const s of sorted) {
+          // Paint back to front: a parent masks earlier flakes, then its children's
+          // deposits remain visible. A final all-body mask incorrectly erased them.
+          if (config.dom.respectLayers) this.maskBodies(ctx, [s], true);
+          if (this.documentMount ? !s.viewportFixed : s.layer === 'content')
+            this.snow(ctx, s, config);
+        }
         actorDraw(ctx, time);
         for (const plugin of plugins) {
           ctx.save();
@@ -211,7 +274,9 @@ export class CanvasRenderer {
           ctx.restore();
         }
       } else {
-        for (const s of sorted) if (s.layer === layer) this.snow(ctx, s, config);
+        for (const s of sorted)
+          if (this.documentMount ? layer === 'foreground' && s.viewportFixed : s.layer === layer)
+            this.snow(ctx, s, config);
         if (layer === 'background' && config.dom.respectLayers) this.maskBodies(ctx, sorted);
       }
       if (config.debug && layer === 'foreground') this.debug(ctx, sorted);
@@ -308,13 +373,17 @@ export class CanvasRenderer {
       cached.profile !== s.profile ||
       cached.signature !== signature ||
       cached.width !== s.width ||
-      cached.radius !== s.radius
+      cached.radius !== s.radius ||
+      cached.contour !== s.contour ||
+      cached.cornerRadii !== s.cornerRadii
     ) {
       cached = {
         profile: s.profile,
         signature,
         width: s.width,
         radius: s.radius,
+        contour: s.contour,
+        cornerRadii: s.cornerRadii,
         contours: buildSnowContours(s),
       };
       this.contourCache.set(s, cached);
@@ -384,7 +453,7 @@ export class CanvasRenderer {
       ctx.rotate(s.angle);
       ctx.beginPath();
       const top = deposits ? Math.min(6, Math.max(1.25, s.radius * 0.35)) : 1;
-      ctx.roundRect(0, top, s.width, Math.max(0, s.height - top), s.radius);
+      ctx.roundRect(0, top, s.width, Math.max(0, s.height - top), s.cornerRadii ?? s.radius);
       ctx.fill();
       ctx.restore();
     }

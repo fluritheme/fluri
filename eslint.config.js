@@ -10,6 +10,7 @@ export default ts.config(
       // Built from the separately checked React 18 Framer product workspace.
       'apps/website/public/framer/**',
       '.wrangler/**',
+      '.vite-shapes/**',
       '**/.next/**',
       'node_modules/**',
       'playwright-report/**',

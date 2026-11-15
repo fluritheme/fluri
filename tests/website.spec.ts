@@ -219,11 +219,16 @@ test('content and legal notices work without JavaScript and downloads contain ge
     await page.goto(`${site}/license/`);
     const license = await readFile(new URL('../LICENSE', import.meta.url), 'utf8');
     expect(await page.locator('.license-copy').textContent()).toBe(license);
-    const manifest = JSON.parse(
-      await readFile(new URL('../packages/core/package.json', import.meta.url), 'utf8'),
-    ) as { version: string };
-    for (const name of ['fluritheme-fluri', 'fluritheme-fluri-react']) {
-      const response = await request.get(`${site}/downloads/${name}-${manifest.version}.tgz`);
+    for (const [name, folder] of [
+      ['fluritheme-fluri', 'core'],
+      ['fluritheme-fluri-react', 'react'],
+    ]) {
+      const archiveManifest = JSON.parse(
+        await readFile(new URL(`../packages/${folder}/package.json`, import.meta.url), 'utf8'),
+      ) as { version: string };
+      const response = await request.get(
+        `${site}/downloads/${name}-${archiveManifest.version}.tgz`,
+      );
       expect(response.ok()).toBe(true);
       const bytes = await response.body();
       expect(bytes.length).toBeGreaterThan(1000);

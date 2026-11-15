@@ -26,6 +26,9 @@ async function loadContent(file) {
 const { renderWebsite, escapeHTML } = await loadContent('src/pages.ts');
 const { legalPages, commercialLicenseText, legalUpdatedAt } = await loadContent('src/legal.ts');
 const { version } = JSON.parse(await readFile(new URL('packages/core/package.json', root), 'utf8'));
+const { version: reactVersion } = JSON.parse(
+  await readFile(new URL('packages/react/package.json', root), 'utf8'),
+);
 const originURL = new URL(process.env.FLURI_SITE_ORIGIN ?? 'https://winter.fluri.xyz');
 if (
   originURL.protocol !== 'https:' ||
@@ -45,7 +48,16 @@ for (const page of pages) {
     website,
   );
   await mkdir(new URL('./', destination), { recursive: true });
-  await writeFile(destination, await format(page.html, { ...formatOptions, parser: 'html' }));
+  await writeFile(
+    destination,
+    await format(
+      page.html.replaceAll(
+        `/downloads/fluritheme-fluri-react-${version}.tgz`,
+        `/downloads/fluritheme-fluri-react-${reactVersion}.tgz`,
+      ),
+      { ...formatOptions, parser: 'html' },
+    ),
+  );
 }
 await mkdir(new URL('public/reference/', website), { recursive: true });
 for (const name of await readdir(new URL('docs/', root))) {

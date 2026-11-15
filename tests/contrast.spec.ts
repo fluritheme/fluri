@@ -113,10 +113,11 @@ test('custom colored snow retains its selected color on white surfaces', async (
     const ctx = canvas?.getContext('2d');
     const rect = document.querySelector('#upper')?.getBoundingClientRect();
     if (!canvas || !ctx || !rect) throw new Error('Missing cap');
-    const scale = canvas.width / innerWidth;
+    const bounds = canvas.getBoundingClientRect();
+    const scale = canvas.width / bounds.width;
     const pixels = ctx.getImageData(
-      Math.floor((rect.left + 10) * scale),
-      Math.floor((rect.top - 20) * scale),
+      Math.floor((rect.left + 10 - bounds.left) * scale),
+      Math.floor((rect.top - 20 - bounds.top) * scale),
       Math.floor((rect.width - 20) * scale),
       Math.ceil(20 * scale),
     ).data;

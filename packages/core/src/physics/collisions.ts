@@ -1,6 +1,6 @@
 import type { ClipRect, Surface, Vec2 } from '../types.js';
 import { clamp, localToWorld, surfaceNormal, worldToLocal } from './math.js';
-import { snowYAt } from './profiles.js';
+import { snowYAt, supportYAt } from './profiles.js';
 
 export interface SurfaceHit {
   surface: Surface;
@@ -36,9 +36,26 @@ export function sweptSurfaceHit(
   const b = worldToLocal(surface, end);
   const dx = b.x - a.x;
   const dy = b.y - a.y;
+  const support = supportYAt(surface, a.x),
+    snow = snowYAt(surface, a.x);
+  const initialPoint = localToWorld(surface, a.x, snow);
+  if (
+    dy > 0 &&
+    a.x >= 0 &&
+    a.x <= surface.width &&
+    Number.isFinite(support) &&
+    Number.isFinite(snow) &&
+    a.y + radius >= snow &&
+    a.y <= support &&
+    surface.exposed?.[clamp(Math.floor(a.x / surface.binSize), 0, surface.profile.length - 1)] !==
+      0 &&
+    (surface.options.clip === false ||
+      !surface.clipRegions.some((clip) => !insideClip(initialPoint, clip)))
+  )
+    return { surface, t: 0, x: a.x, point: initialPoint, normal: surfaceNormal(surface) };
   if (
     Math.max(a.y, b.y) + radius < -surface.maxDepth ||
-    Math.min(a.y, b.y) - radius > surface.radius
+    Math.min(a.y, b.y) - radius > (surface.contour ? surface.height : surface.radius)
   )
     return undefined;
   if (Math.max(a.x, b.x) < 0 || Math.min(a.x, b.x) > surface.width) return undefined;
@@ -75,10 +92,14 @@ export function sweptSurfaceHit(
     for (const fraction of [0.25, 0.5, 0.75])
       error = Math.max(
         error,
-        Math.abs(
-          snowYAt(surface, left + span * fraction) -
-            (leftDepth + (rightDepth - leftDepth) * fraction),
-        ),
+        Number.isFinite(leftDepth) &&
+          Number.isFinite(rightDepth) &&
+          Number.isFinite(snowYAt(surface, left + span * fraction))
+          ? Math.abs(
+              snowYAt(surface, left + span * fraction) -
+                (leftDepth + (rightDepth - leftDepth) * fraction),
+            )
+          : Infinity,
       );
     if (error > 0.16 && level < 5) {
       const middle = (left + right) / 2;
@@ -101,6 +122,7 @@ export function sweptSurfaceHit(
     if (right < startX || left > endX || right - left <= 1e-8) continue;
     const leftY = snowYAt(surface, left) - radius;
     const rightY = snowYAt(surface, right) - radius;
+    if (!Number.isFinite(leftY) || !Number.isFinite(rightY)) continue;
     const slope = (rightY - leftY) / (right - left);
     const denominator = dy - slope * dx;
     if (denominator <= 1e-8) continue;
@@ -149,11 +171,22 @@ export class SurfaceIndex {
     this.surfaces = surfaces.filter((surface) => surface.visible && surface.width > 0);
     for (const surface of this.surfaces) {
       const end = localToWorld(surface, surface.width);
+      const edgeHeight = surface.contour ? surface.height : surface.radius;
+      const bottomA = localToWorld(surface, 0, edgeHeight),
+        bottomB = localToWorld(surface, surface.width, edgeHeight);
       const depth = Math.max(surface.maxDepth, 0);
-      const x1 = Math.floor((Math.min(surface.x, end.x) - depth) / this.cellSize);
-      const x2 = Math.floor((Math.max(surface.x, end.x) + depth) / this.cellSize);
-      const y1 = Math.floor((Math.min(surface.y, end.y) - depth) / this.cellSize);
-      const y2 = Math.floor((Math.max(surface.y, end.y) + depth) / this.cellSize);
+      const x1 = Math.floor(
+        (Math.min(surface.x, end.x, bottomA.x, bottomB.x) - depth) / this.cellSize,
+      );
+      const x2 = Math.floor(
+        (Math.max(surface.x, end.x, bottomA.x, bottomB.x) + depth) / this.cellSize,
+      );
+      const y1 = Math.floor(
+        (Math.min(surface.y, end.y, bottomA.y, bottomB.y) - depth) / this.cellSize,
+      );
+      const y2 = Math.floor(
+        (Math.max(surface.y, end.y, bottomA.y, bottomB.y) + depth) / this.cellSize,
+      );
       // Malformed external surfaces must not allocate an unbounded spatial grid.
       if ((x2 - x1 + 1) * (y2 - y1 + 1) > 4096) {
         this.oversized.push(surface);

@@ -124,8 +124,8 @@ describe('snow actor physics', () => {
     expect(actors.balls[0]?.state).toBe('airborne');
     expect(actors.balls[0]?.vx).toBeGreaterThan(90);
   });
-  it('stacks three compatible balls into one snowman and restores them when support disappears', () => {
-    const { actors, surface, events } = fixture();
+  it('stacks three compatible balls into one snowman and crumbles into loose snow when support disappears', () => {
+    const { actors, surface, events, clumps } = fixture();
     actors.trigger('snowman');
     expect(actors.counts).toEqual({ snowballs: 0, snowmen: 1, ploughs: 0 });
     expect(events.filter((event) => event.name === 'snowball:stacked')).toHaveLength(3);
@@ -133,8 +133,11 @@ describe('snow actor physics', () => {
     surface.visible = false;
     actors.update(1 / 60, 1);
     expect(actors.counts.snowmen).toBe(0);
-    expect(actors.counts.snowballs).toBe(3);
-    expect(actors.balls.every((ball) => ball.state === 'airborne')).toBe(true);
+    expect(actors.counts.snowballs).toBe(0);
+    expect(clumps.length).toBeGreaterThan(50);
+    expect(clumps.reduce((sum, mass) => sum + mass, 0)).toBeCloseTo(
+      massFromRadius(23) + massFromRadius(23 * 0.74) + massFromRadius(23 * 0.52),
+    );
   });
   it('breaks balls and snowmen into clumps without losing mass', () => {
     const { actors, clumps } = fixture();
@@ -281,6 +284,23 @@ describe('the surface-bound yeti', () => {
       actors.update(1 / 60, frame / 60);
     expect(actors.yeti.phase).toBe(phase);
   }
+  it('places the yeti on the same shaped snow contour used by collisions', () => {
+    const { actors, config, surface } = fixture();
+    config.interactions.yeti.enabled = true;
+    surface.contour = { offsets: new Float32Array(32).fill(20), step: 10 };
+    actors.trigger('yeti');
+    expect(actors.yeti.phase).toBe('arriving');
+    expect(actors.yeti.state.y).toBeCloseTo(surface.y + 20 - 8);
+  });
+  it('does not spawn or aim from an unsupported text gap', () => {
+    const { actors, config, surface } = fixture();
+    config.interactions.yeti.enabled = true;
+    surface.shape = 'text';
+    surface.contour = { offsets: new Float32Array(32).fill(Infinity), step: 10 };
+    actors.trigger('yeti');
+    expect(actors.yeti.phase).toBe('hidden');
+    expect(Number.isFinite(actors.yeti.state.x + actors.yeti.state.y)).toBe(true);
+  });
   it('stays opt-in and does not create a character or attack by default', () => {
     const { actors } = fixture();
     actors.trigger('yeti');
@@ -304,7 +324,8 @@ describe('the surface-bound yeti', () => {
     expect(actors.counts.snowmen).toBe(1);
     reach(actors, 'celebrating');
     expect(actors.counts.snowmen).toBe(0);
-    expect(actors.counts.snowballs).toBe(3);
+    expect(actors.counts.snowballs).toBe(0);
+    expect(clumps.length).toBeGreaterThan(50);
     expect(events.filter((e) => e.name === 'yeti:spawned')).toHaveLength(1);
     expect(
       events.some(
@@ -313,7 +334,10 @@ describe('the surface-bound yeti', () => {
     ).toBe(true);
     expect(
       surface.profile.reduce((sum, n) => sum + n, 0) + clumps.reduce((sum, n) => sum + n, 0),
-    ).toBeCloseTo(originalMass, 2);
+    ).toBeCloseTo(
+      originalMass + massFromRadius(23) + massFromRadius(23 * 0.74) + massFromRadius(23 * 0.52),
+      2,
+    );
     tick(actors, 2);
     expect(actors.yeti.phase).toBe('idle');
   });

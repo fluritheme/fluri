@@ -1,4 +1,5 @@
 import type { PluginContext, Surface, Vec2, YetiPhase } from '../types.js';
+import { snowYAt } from '../physics/profiles.js';
 
 export interface YetiTarget extends Vec2 {
   support: Surface;
@@ -52,13 +53,16 @@ export class Yeti {
   private point(): Vec2 {
     const s = this.support;
     if (!s) return { x: 0, y: 0 };
-    const depth =
-      (s.profile[clamp(Math.floor(this.x / s.binSize), 0, s.profile.length - 1)] ?? 0) / s.binSize;
+    const supportY = snowYAt(s, this.x);
+    // A disappearing glyph must not put non-finite coordinates into Canvas or
+    // the projectile simulation while the support is being invalidated.
+    const height = Number.isFinite(supportY) ? supportY : 0;
     return {
-      x: s.x + this.x * Math.cos(s.angle) + depth * Math.sin(s.angle),
-      y: s.y + this.x * Math.sin(s.angle) - depth * Math.cos(s.angle),
+      x: s.x + this.x * Math.cos(s.angle) - height * Math.sin(s.angle),
+      y: s.y + this.x * Math.sin(s.angle) + height * Math.cos(s.angle),
     };
   }
+
   private change(phase: YetiPhase): void {
     this.phase = phase;
     this.elapsed = 0;
@@ -78,9 +82,14 @@ export class Yeti {
       support.width / 4,
     );
     const localX = support.width * 0.18;
-    if (support.exposed?.[Math.floor(localX / support.binSize)] === 0) return;
+    const footing = clamp(localX, margin, support.width - margin);
+    if (
+      support.exposed?.[Math.floor(footing / support.binSize)] === 0 ||
+      !Number.isFinite(snowYAt(support, footing))
+    )
+      return;
     this.support = support;
-    this.x = clamp(localX, margin, support.width - margin);
+    this.x = footing;
     this.age = 0;
     this.wait = 0;
     this.change('arriving');
@@ -116,6 +125,7 @@ export class Yeti {
       this.support &&
       (!this.context.getSurfaces().includes(this.support) ||
         !this.support.accumulation ||
+        !Number.isFinite(snowYAt(this.support, this.x)) ||
         this.support.width < 150 ||
         Math.abs(this.support.angle) >= 0.2)
     ) {

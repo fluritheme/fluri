@@ -50,6 +50,7 @@ test('yeti packs real snow, keeps moving through a scroll, and knocks down a sno
   expect(await page.evaluate(() => window.weather.getMetrics().yetiPhase)).toBe('packing');
   await page.clock.runFor(2600);
   expect(await page.evaluate(() => window.weather.getMetrics().snowmanCount)).toBe(0);
+  expect(await page.evaluate(() => window.weather.getMetrics().snowballCount)).toBe(0);
   expect(await page.evaluate(() => window.eventLog.some((e) => e.name === 'yeti:hit'))).toBe(true);
   await page.evaluate(() => window.weather.pause());
   const frozen = await page.evaluate(() => window.weather.getMetrics().yetiPhase);
@@ -106,4 +107,5 @@ test('the generated homepage includes a working yeti rivalry demo', async ({ pag
     await page.clock.runFor(300);
   }
   expect(await page.locator('html').getAttribute('data-yeti-hits')).toBe('1');
+  expect(await page.evaluate(() => window.__fluriSite?.getMetrics().snowballCount)).toBe(0);
 });

@@ -6,6 +6,8 @@
 
 # Winter by Fluri ❄️
 
+> **0.3.1 surface update:** snow follows letter outlines, wrapped text, rounded corners and rotated cards. Settled snow scrolls with the page natively. Destroyed snowmen crumble into loose snow.
+
 **Interactive snowfall that feels at home on your website.**
 
 DOM-aware snow accumulation, playful physics, and optional Christmas effects.<br />
@@ -32,7 +34,16 @@ Use a light dusting on a portfolio, a playful snowfall on a landing page, or war
 
 ## Commercial licence
 
-Current releases require a [EUR 19 lifetime licence](https://fluri.xyz/license/) for production or client use, covering all current and future Fluri themes on unlimited websites. Private non-production evaluation is permitted. Winter core and React versions through 0.2.1 remain MIT.
+Current releases require a [Fluri commercial licence](https://fluri.xyz/legal/license/) for production or client use. See [Fluri](https://fluri.xyz/) for current plans; existing grants remain governed by their original terms. Private non-production evaluation is permitted. Winter core and React versions through 0.2.1 remain MIT.
+
+## Real surface recognition
+
+Snow follows visible letter tops and wrapped lines instead of an invisible text rectangle. Spaces remain open. Rounded cards use their actual asymmetric or elliptical corners, including inherited 2D rotation and scale.
+
+<img src="https://fluri.xyz/previews/winter-glyphs.png" alt="Real Winter 0.3.1 rendering: snow follows each letter of Small words and Big world, with open word spaces." width="100%" />
+<img src="https://fluri.xyz/previews/winter-rounded.png" alt="Real Winter rendering of snow attached to a rotated card with one large elliptical top corner." width="70%" />
+
+Settled snow uses a bounded document-attached rendering strip so fast native scrolling stays aligned without waiting for a JavaScript repaint. Falling flakes remain in the viewport. Destroyed snowmen crumble into small physical parcels and settle back into the snow; they do not turn back into three balls.
 
 ## Why Fluri?
 

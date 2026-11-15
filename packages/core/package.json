@@ -1,6 +1,6 @@
 {
   "name": "@fluritheme/fluri",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Interactive snowfall for websites: DOM-aware snow accumulation, mouse interactions, snow physics, Canvas 2D rendering, and Christmas effects.",
   "type": "module",
   "license": "SEE LICENSE IN LICENSE",

@@ -55,9 +55,10 @@ const clipToSurface = (ctx: CanvasRenderingContext2D, surface: Surface): void =>
       ctx.clip();
     }
 };
-const depthAt = (surface: Surface, x: number): number =>
-  (surface.profile[clamp(Math.floor(x / surface.binSize), 0, surface.profile.length - 1)] ?? 0) /
-  surface.binSize;
+const depthAt = (surface: Surface, x: number): number => {
+  const height = snowYAt(surface, x);
+  return Number.isFinite(height) ? -height : 0;
+};
 
 /** Removes real stored mass, never visual depth. Used by gestures and the plough. */
 export function gatherMass(
@@ -181,16 +182,7 @@ export class Actors {
         top -= ball.radius * 2;
       }
       if (!hit) continue;
-      top = -depthAt(man.support, man.localX);
-      for (const [index, ball] of man.balls.entries()) {
-        Object.assign(ball, worldPoint(man.support, man.localX, top - ball.radius));
-        top -= ball.radius * 2;
-        delete ball.support;
-        ball.state = 'airborne';
-        ball.vx = vx * (0.25 + index * 0.1);
-        ball.vy = -90 - index * 32;
-        this.balls.push(ball);
-      }
+      this.crumbleSnowman(man, clamp(vx * 0.2, -80, 80));
       this.snowmen.splice(this.snowmen.indexOf(man), 1);
       this.context.emit('snowman:removed', { surfaceId: man.support.id, reason: 'yeti' });
       return true;
@@ -214,18 +206,60 @@ export class Actors {
     return this.snowmen.length;
   }
 
-  private selected(options: TriggerOptions): Surface | undefined {
-    return this.context
+  private selected(options: TriggerOptions, stableBox = false): Surface | undefined {
+    const surfaces = this.context
       .getSurfaces()
-      .find(
+      .filter((surface) => surface.visible && !surface.occluded);
+    if (options.surface) return surfaces.find((surface) => surface.element === options.surface);
+    const selector = options.selector;
+    if (selector) return surfaces.find((surface) => surface.element.matches(selector));
+    if (stableBox) {
+      const usable = surfaces.filter(
         (surface) =>
-          surface.visible &&
-          (options.surface
-            ? surface.element === options.surface
-            : options.selector
-              ? surface.element.matches(options.selector)
-              : surface.element.hasAttribute('data-weather-surface')),
+          surface.accumulation &&
+          surface.material !== 'no-accumulation' &&
+          surface.width >= this.context.getConfig().interactions.snowballs.minRadius * 6 &&
+          Math.abs(surface.angle) < 0.4,
       );
+      return (
+        usable.find(
+          (surface) =>
+            surface.shape !== 'text' && surface.element.hasAttribute('data-weather-surface'),
+        ) ??
+        usable.find((surface) => surface.shape !== 'text') ??
+        usable.find(
+          (surface) =>
+            this.footing(
+              surface,
+              surface.width / 2,
+              this.context.getConfig().interactions.snowballs.minRadius,
+            ) !== undefined,
+        )
+      );
+    }
+    return surfaces.find((surface) => surface.element.hasAttribute('data-weather-surface'));
+  }
+  private footing(surface: Surface, preferred: number, radius: number): number | undefined {
+    const fits = (x: number): boolean => {
+      if (x < radius || x > surface.width - radius) return false;
+      const heights = [-0.6, 0, 0.6].map((offset) => snowYAt(surface, x + offset * radius));
+      return (
+        heights.every(Number.isFinite) &&
+        Math.max(...heights) - Math.min(...heights) <= radius * 0.65 &&
+        surface.exposed?.[Math.floor(x / surface.binSize)] !== 0
+      );
+    };
+    if (fits(preferred)) return preferred;
+    let nearest: number | undefined;
+    for (let bin = 0; bin < surface.profile.length; bin++) {
+      const x = (bin + 0.5) * surface.binSize;
+      if (
+        fits(x) &&
+        (nearest === undefined || Math.abs(x - preferred) < Math.abs(nearest - preferred))
+      )
+        nearest = x;
+    }
+    return nearest;
   }
   private createBall(
     x: number,
@@ -256,7 +290,7 @@ export class Actors {
       this.yeti.spawn(this.selected(options));
       return;
     }
-    const support = this.selected(options);
+    const support = this.selected(options, type === 'snowman');
     if (type === 'snowburst') {
       const matches = (ball: Snowball): boolean =>
         options.surface || options.selector
@@ -282,12 +316,7 @@ export class Actors {
           Math.hypot(point.x - options.x, point.y - options.y) > (options.radius ?? 120)
         )
           continue;
-        let top = -depthAt(snowman.support, snowman.localX);
-        for (const ball of snowman.balls) {
-          const position = worldPoint(snowman.support, snowman.localX, top - ball.radius);
-          this.fragment({ ...ball, ...position });
-          top -= ball.radius * 2;
-        }
+        this.crumbleSnowman(snowman);
         this.snowmen.splice(index, 1);
         this.context.emit('snowman:removed', {
           surfaceId: snowman.support.id,
@@ -367,7 +396,8 @@ export class Actors {
       )
         return;
       const base = clamp(options.radius ?? 23, config.minRadius, config.maxRadius);
-      const localX = support.width / 2;
+      const localX = this.footing(support, support.width / 2, base);
+      if (localX === undefined) return;
       let top = -depthAt(support, localX);
       for (const radius of [base, base * 0.74, base * 0.52]) {
         const point = worldPoint(support, localX, top - radius);
@@ -525,6 +555,7 @@ export class Actors {
         if (
           surfaces.includes(ball.support) &&
           ball.support.visible &&
+          Number.isFinite(snowYAt(ball.support, ball.localX)) &&
           Math.abs(ball.support.angle) < 0.4 &&
           Math.hypot(ball.support.acceleration.x, ball.support.acceleration.y) < 1000
         ) {
@@ -618,21 +649,11 @@ export class Actors {
       if (
         !surfaces.includes(snowman.support) ||
         !snowman.support.visible ||
+        !Number.isFinite(snowYAt(snowman.support, snowman.localX)) ||
         Math.abs(snowman.support.angle) > 0.4 ||
         Math.hypot(snowman.support.acceleration.x, snowman.support.acceleration.y) > 1000
       ) {
-        let top = -depthAt(snowman.support, snowman.localX);
-        for (const ball of snowman.balls) {
-          const point = worldPoint(snowman.support, snowman.localX, top - ball.radius);
-          ball.x = point.x;
-          ball.y = point.y;
-          ball.vx = snowman.support.velocity.x;
-          ball.vy = snowman.support.velocity.y;
-          delete ball.support;
-          ball.state = 'airborne';
-          this.balls.push(ball);
-          top -= ball.radius * 2;
-        }
+        this.crumbleSnowman(snowman);
         this.snowmen.splice(index, 1);
         this.context.emit('snowman:removed', { surfaceId: snowman.support.id });
       }
@@ -666,6 +687,38 @@ export class Actors {
         this.spill(plough);
         this.ploughs.splice(index, 1);
         this.context.emit('plough:complete', { surfaceId: plough.support.id, mass: plough.mass });
+      }
+    }
+  }
+  /** The packed body loses cohesion: its mass becomes loose, falling snow.
+   * These parcels enter the normal particle/deposit simulation, never the
+   * snowball actor list, so they settle into a mound instead of bouncing or
+   * assembling themselves back into another snowman.
+   */
+  private crumbleSnowman(snowman: Snowman, impulseX = 0): void {
+    let top = -depthAt(snowman.support, snowman.localX);
+    const inheritedX = clamp(snowman.support.velocity.x + impulseX, -180, 180);
+    const inheritedY = clamp(snowman.support.velocity.y, -60, 160);
+    for (const ball of snowman.balls) {
+      const centre = worldPoint(snowman.support, snowman.localX, top - ball.radius);
+      top -= ball.radius * 2;
+      // Around 100 small granules for a normal-sized snowman. A bounded cloud
+      // remains predictable for unusually large configured actors.
+      const count = Math.min(160, Math.max(8, Math.ceil(ball.mass / (Math.PI * 3 * 3))));
+      const mass = ball.mass / count;
+      const grainRadius = radiusFromMass(mass);
+      const spread = Math.max(0, ball.radius - grainRadius - 1);
+      for (let index = 0; index < count; index++) {
+        const angle = index * 2.399963229728653;
+        const distance = Math.sqrt((index + 0.5) / count) * spread;
+        const outward = (index / count) * Math.PI * 2;
+        this.context.spawnClump(
+          centre.x + Math.cos(angle) * distance,
+          centre.y + Math.sin(angle) * distance - 0.5,
+          mass,
+          inheritedX + Math.cos(outward) * 28,
+          inheritedY + 20 + Math.sin(outward) * 12,
+        );
       }
     }
   }

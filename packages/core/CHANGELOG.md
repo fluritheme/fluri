@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.1 — 2026-11-15
+
+- Trace transparent heading glyphs and individual wrapped lines instead of collecting on an invisible text box; retain real gaps and rebuild contours on font/layout changes.
+- Resolve asymmetric and elliptical percentage corner radii, inherited rotation/scale and individual CSS rotate/scale properties.
+- Keep settled snow and actors on a bounded document-attached rendering plane so native fast scrolling cannot outrun JavaScript repainting; falling flakes and fixed/sticky caps remain viewport attached.
+- Break destroyed snowmen into small downward-falling snow parcels that settle into real deposits instead of releasing their three original balls.
+- Fix contact with a growing snow cap and preserve glyph gaps in collision and granular flow.
+- Preserve historical licences and the public API. Existing React adapter ^0.3.0 compatibility includes this patch.
+
 ## 0.3.0 — 2026-11-14
 
 - Change future releases to Fluri Themes Commercial License 1.0: EUR 19 lifetime access to all current and future themes for unlimited personal and client websites. Private non-production evaluation remains permitted.

@@ -192,6 +192,7 @@ class WeatherEngine implements WeatherController {
     this.listen(doc, 'visibilitychange', visibility);
     this.media.addEventListener('change', visibility);
     this.cleanups.push(() => this.media?.removeEventListener('change', visibility));
+    if (doc.fonts) this.listen(doc.fonts, 'loadingdone', () => this.registry?.invalidate());
     this.listen(win, 'resize', () => {
       this.renderer?.resize(
         this.config.performance.adaptive && this.quality < 0.65

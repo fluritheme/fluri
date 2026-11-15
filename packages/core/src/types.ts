@@ -119,6 +119,11 @@ export interface Surface {
   paintOrder: number;
   clipRegions: ClipRect[];
   radius: number;
+  /** Physical upper silhouette: glyph gaps have infinite support height. */
+  contour?: { offsets: Float32Array; step: number };
+  shape?: 'text' | 'box';
+  cornerRadii?: readonly [Vec2, Vec2, Vec2, Vec2];
+  viewportFixed?: boolean;
   material: Material;
   maxDepth: number;
   accumulation: boolean;

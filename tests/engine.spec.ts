@@ -30,6 +30,7 @@ test('renders real snowfall while preserving underlying clicks and DPR sizing', 
         (canvas) => ({
           width: canvas.width,
           height: canvas.height,
+          documentPlane: canvas.dataset.fluriLayer === 'content',
           expectedWidth: Math.round(innerWidth * Math.min(devicePixelRatio, 2)),
           expectedHeight: Math.round(innerHeight * Math.min(devicePixelRatio, 2)),
         }),
@@ -41,7 +42,10 @@ test('renders real snowfall while preserving underlying clicks and DPR sizing', 
   expect(canvasState.pointer).toBe('none');
   for (const canvas of canvasState.canvases) {
     expect(canvas.width).toBe(canvas.expectedWidth);
-    expect(canvas.height).toBe(canvas.expectedHeight);
+    if (canvas.documentPlane) {
+      expect(canvas.height).toBeGreaterThanOrEqual(canvas.expectedHeight);
+      expect(canvas.height).toBeLessThanOrEqual(canvas.expectedHeight * 3);
+    } else expect(canvas.height).toBe(canvas.expectedHeight);
   }
   await page.getByRole('button', { name: 'Click me' }).click();
   await expect(page.locator('#click-count')).toHaveText('1');
@@ -430,8 +434,9 @@ test('scroll attachment redraws between capped simulation frames, including scop
         await new Promise(requestAnimationFrame);
         const rect = surface.getBoundingClientRect();
         const measured = window.captureSurfaces().find((item) => item.elementId === 'upper');
-        const x = Math.floor((rect.left + rect.width / 2) * scale);
-        const start = Math.floor((rect.top - 25) * scale);
+        const bounds = canvas.getBoundingClientRect();
+        const x = Math.floor((rect.left + rect.width / 2 - bounds.left) * scale);
+        const start = Math.floor((rect.top - 25 - bounds.top) * scale);
         const pixels = ctx.getImageData(x, start, 1, Math.ceil(60 * scale)).data;
         let lastSnowRow = -Infinity;
         for (let row = 0; row < pixels.length / 4; row++) {
@@ -442,7 +447,7 @@ test('scroll attachment redraws between capped simulation frames, including scop
             (pixels[at + 1] ?? 0) > 180 &&
             (pixels[at + 2] ?? 0) > 180
           )
-            lastSnowRow = (start + row) / scale;
+            lastSnowRow = bounds.top + (start + row) / scale;
         }
         samples.push({
           geometryError: Math.abs((measured?.y ?? -Infinity) - rect.top),
@@ -640,7 +645,12 @@ test('snow silhouettes remain inside their real overflow clipping region', async
     if (!context) throw new Error('Canvas 2D unavailable');
     const dpr = canvas.width / innerWidth;
     const alpha = (x: number, y: number) =>
-      context.getImageData(Math.floor(x * dpr), Math.floor(y * dpr), 1, 1).data[3] ?? 0;
+      context.getImageData(
+        Math.floor((x - canvas.getBoundingClientRect().left) * dpr),
+        Math.floor((y - canvas.getBoundingClientRect().top) * dpr),
+        1,
+        1,
+      ).data[3] ?? 0;
     return {
       inside: alpha(clip.right - 25, edge.top - 3),
       outside: alpha(clip.right + 8, edge.top - 3),

@@ -64,3 +64,38 @@ it('attaches rounded cap shoulders to the real rounded card rather than a floati
   expect(supportYAt(surface, 0)).toBe(14);
   expect(supportYAt(surface, 14)).toBe(0);
 });
+
+it('glyph holes remain transparent and never form a horizontal collision shelf', async () => {
+  const s = shelf(Array.from({ length: 12 }, () => 12));
+  s.contour = {
+    step: 1,
+    offsets: Float32Array.from({ length: 73 }, (_, x) =>
+      x > 24 && x < 45 ? Infinity : 10 + Math.abs(15 - (x % 24)) / 2,
+    ),
+  };
+  s.shape = 'text';
+  s.height = 30;
+  const contours = buildSnowContours(s);
+  expect(contours.length).toBeGreaterThan(1);
+  expect(
+    contours.every((c) =>
+      c.points.every((p) => Number.isFinite(p.base) && Number.isFinite(p.depth)),
+    ),
+  ).toBe(true);
+  expect(supportYAt(s, 30)).toBe(Infinity);
+  const { sweptSurfaceHit } = await import('../src/physics/collisions.js');
+  expect(sweptSurfaceHit(s, { x: 30, y: 90 }, { x: 30, y: 140 })).toBeUndefined();
+  expect(sweptSurfaceHit(s, { x: 12, y: 90 }, { x: 12, y: 140 })).toBeDefined();
+});
+it('elliptical asymmetric corners use their own CSS radii', () => {
+  const s = shelf(Array.from({ length: 40 }, () => 20));
+  s.cornerRadii = [
+    { x: 0, y: 0 },
+    { x: 120, y: 50 },
+    { x: 0, y: 0 },
+    { x: 0, y: 0 },
+  ];
+  expect(supportYAt(s, 0)).toBe(0);
+  expect(supportYAt(s, s.width)).toBe(50);
+  expect(supportYAt(s, s.width - 60)).toBeCloseTo(50 * (1 - Math.sqrt(0.75)), 6);
+});

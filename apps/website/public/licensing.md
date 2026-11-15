@@ -15,4 +15,4 @@ The public npm package is downloadable for inspection and private evaluation. A 
 
 ## New packages and release checks
 
-Copy `LICENSE`, `LICENSE-MIT-LEGACY`, `LICENSING.md` and `licensing.json` from the Fluri collection repository. Set package.json `license` to `SEE LICENSE IN LICENSE` and `homepage` to `https://fluri.xyz/`. Include the license and licensing notes in the archive. Preserve third-party notices. New themes are commercial from version 0.1.0 unless the owner explicitly selects a free edition. Never infer an MIT license from an old package or scaffold.
+Copy `LICENSE`, `LICENSE-MIT-LEGACY`, `LICENSING.md` and `licensing.json` from the Fluri collection repository. Set package.json `license` to `SEE LICENSE IN LICENSE` and `homepage` to `https://fluri.xyz/`. Include the license and licensing notes in the archive. Copy scripts/check-licensing.mjs and invoke it from prepublishOnly so a new package cannot silently revert to MIT. Preserve third-party notices. New themes are commercial from version 0.1.0 unless the owner explicitly selects a free edition. Never infer an MIT license from an old package or scaffold.

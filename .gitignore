@@ -31,3 +31,5 @@ apps/website/public/reference/
 apps/website/public/readme/
 packages/core/docs/
 packages/core/assets/
+
+.vite-shapes/

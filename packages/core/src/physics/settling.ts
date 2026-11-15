@@ -1,6 +1,6 @@
 import type { Surface } from '../types.js';
 import { clamp } from './math.js';
-import { deposit } from './profiles.js';
+import { deposit, supportYAt } from './profiles.js';
 
 export interface SurfaceFlowState {
   velocity: number;
@@ -116,7 +116,16 @@ export function settleSurface(
     for (let index = 0; index + 1 < profile.length; index++) {
       const left = profile[index] ?? 0;
       const right = profile[index + 1] ?? 0;
-      const difference = (left - right) / binSize;
+      const leftBase = supportYAt(surface, (index + 0.5) * binSize),
+        rightBase = supportYAt(surface, (index + 1.5) * binSize);
+      const slope =
+        options.sliding &&
+        surface.contour &&
+        Number.isFinite(leftBase) &&
+        Number.isFinite(rightBase)
+          ? rightBase - leftBase
+          : 0;
+      const difference = (left - right) / binSize + slope;
       const unstable = Math.max(0, Math.abs(difference) - repose * binSize);
       const settling = Math.sign(difference) * unstable * binSize * 0.5 * relaxation;
       const advection = (state.velocity * step) / binSize;
@@ -170,6 +179,20 @@ export function settleSurface(
     const maximum = Math.max(0, options.maxDepth) * binSize;
     for (let index = 0; index < profile.length; index++) {
       const capacity = maximum * (surface.packing?.[index] ?? 1);
+      if (surface.contour && !Number.isFinite(supportYAt(surface, (index + 0.5) * binSize))) {
+        const mass = profile[index] ?? 0;
+        if (mass > 0) {
+          profile[index] = 0;
+          result.detached.push({
+            localX: (index + 0.5) * binSize,
+            localY: 0,
+            mass,
+            vx: surface.velocity.x,
+            vy: Math.max(5, surface.velocity.y),
+          });
+        }
+        continue;
+      }
       const excess = Math.max(0, (profile[index] ?? 0) - capacity);
       // Float32 storage can round a saturated bin one ULP above its double-precision cap.
       // That is numeric noise, not an avalanche or a visible minimum-radius clump.

@@ -1,3 +1,5 @@
+import { textContours, measureTextLine, cssCornerRadii, type TextLine } from './TextContours.js';
+import { supportYAt } from '../physics/profiles.js';
 import { createPackingProfile } from '../physics/packing.js';
 import type {
   ClipRect,
@@ -16,6 +18,12 @@ interface Quad {
 }
 type QuadElement = Element & { getBoxQuads?: () => Quad[] };
 const eligibleTags = new Set([
+  'H1',
+  'H2',
+  'H3',
+  'H4',
+  'H5',
+  'H6',
   'NAV',
   'HEADER',
   'BUTTON',
@@ -28,17 +36,21 @@ const eligibleTags = new Set([
 ]);
 export class SurfaceRegistry {
   readonly surfaces: Surface[] = [];
+  private textLines = new WeakMap<Surface, TextLine>();
+  private textKeys = new WeakMap<Text, string>();
+  private shapeKeys = new WeakMap<Surface, string>();
   private registered = new Map<Element, SurfaceOptions>();
   private excluded = new WeakSet<Element>();
   private dirty = true;
   private observer: MutationObserver | undefined;
   private resizeObserver: ResizeObserver | undefined;
   private nextId = 0;
-  private transforms = new WeakMap<Element, string>();
-  private scrollOffsets = new WeakMap<Element, { x: number; y: number }>();
+  private transforms = new WeakMap<Element, DOMMatrixReadOnly>();
+  private scrollOffsets = new WeakMap<Surface, { x: number; y: number }>();
   private positionModes = new WeakMap<Element, string>();
   private scrollChains = new WeakMap<Element, { parents: Element[]; window: boolean }>();
   private lastTime = 0;
+  private animatedElements: Element[] = [];
   private lastSurfaceEvents = new WeakMap<Element, number>();
   private lastScan = -Infinity;
   private occlusionCursor = 0;
@@ -121,6 +133,13 @@ export class SurfaceRegistry {
   }
   update(time: number, physicalMotion = true): void {
     const begin = performance.now();
+    // Ancestor CSS/Web Animations can move a shelf without a style mutation.
+    // Collect their targets once per frame rather than querying every ancestor per shelf.
+    this.animatedElements = this.root
+      .getAnimations({ subtree: true })
+      .filter((animation) => animation.playState === 'running')
+      .map((animation) => (animation.effect as KeyframeEffect | null)?.target)
+      .filter((target): target is Element => target instanceof Element);
     if (this.dirty && time - this.lastScan > 0.1) {
       this.scan();
       this.lastScan = time;
@@ -133,7 +152,7 @@ export class SurfaceRegistry {
         oldVx = surface.velocity.x,
         oldVy = surface.velocity.y;
       const scroll = this.scrollPosition(surface.element),
-        previousScroll = this.scrollOffsets.get(surface.element) ?? scroll;
+        previousScroll = this.scrollOffsets.get(surface) ?? scroll;
       this.measure(surface, this.clipsDirty);
       const mode = this.positionModes.get(surface.element);
       let dx = surface.x - oldX,
@@ -149,7 +168,7 @@ export class SurfaceRegistry {
         dx = mode === 'sticky' ? compensate(dx, sx) : dx + sx;
         dy = mode === 'sticky' ? compensate(dy, sy) : dy + sy;
       }
-      this.scrollOffsets.set(surface.element, scroll);
+      this.scrollOffsets.set(surface, scroll);
       surface.previousVelocity = { x: oldVx, y: oldVy };
       surface.velocity = { x: dx / dt, y: dy / dt };
       surface.acceleration = {
@@ -184,7 +203,7 @@ export class SurfaceRegistry {
     this.geometryScanTime = performance.now() - begin;
   }
   private resizeProfile(s: Surface, oldWidth: number): void {
-    const count = Math.max(2, Math.ceil(s.width / 6)),
+    const count = Math.max(2, Math.ceil(s.width / (s.shape === 'text' ? 2 : 6))),
       bins = new Float32Array(count);
     const oldBin = oldWidth / s.profile.length,
       newBin = s.width / count;
@@ -260,7 +279,7 @@ export class SurfaceRegistry {
     };
     walk(this.root);
     if (this.root.hasAttribute('data-weather-surface')) candidates.add(this.root);
-    const old = new Map(this.surfaces.map((s) => [s.element, s]));
+    const old = new Map(this.surfaces.map((s) => [this.shapeKeys.get(s) ?? s.element, s]));
     const next: Surface[] = [];
     const sorted = [...candidates].sort(
       (a, b) =>
@@ -288,7 +307,20 @@ export class SurfaceRegistry {
         rect.height < 8
       )
         continue;
-      const explicit = this.registered.has(element) || element.hasAttribute('data-weather-surface');
+      const explicit =
+        this.registered.has(element) ||
+        element.hasAttribute('data-weather-surface') ||
+        config.dom.include.some((selector) => element.matches(selector));
+      // Structural wrappers have no physical edge unless they paint a box. In particular,
+      // transparent nav/section wrappers must not create floating shelves above their text.
+      if (
+        !explicit &&
+        !['BUTTON', 'IMG', 'DIALOG', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(
+          element.tagName,
+        ) &&
+        !this.paintedBox(style)
+      )
+        continue;
       if (!explicit && rect.height > win.innerHeight * 0.9 && rect.width > win.innerWidth * 0.9)
         continue;
       const options = this.readOptions(element, this.registered.get(element));
@@ -317,6 +349,7 @@ export class SurfaceRegistry {
         confidence: 'medium',
         options,
       };
+      s.shape = 'box';
       s.options = options;
       s.material = options.material ?? 'flat';
       s.accumulation = options.accumulation ?? true;
@@ -328,23 +361,85 @@ export class SurfaceRegistry {
           rect.width * 0.18,
         );
       s.layer = options.layer ?? 'content';
-      s.opaque =
-        style.backgroundColor !== 'rgba(0, 0, 0, 0)' ||
-        style.backgroundImage !== 'none' ||
-        ['IMG', 'DIALOG', 'IFRAME'].includes(element.tagName);
-      this.transforms.set(element, style.transform);
+      s.opaque = this.opaqueBox(element, style);
       this.positionModes.set(element, style.position);
       this.cacheScrollChain(element);
       s.paintOrder = this.paintOrder(element);
-      s.radius = Math.min(
-        rect.width / 2,
-        rect.height / 2,
-        Math.max(0, parseFloat(style.borderTopLeftRadius) || 0),
-      );
+      const measured: Surface = existing ? { ...s } : s;
+      this.measure(measured, true);
+      const sx = measured.width / ((element as HTMLElement).offsetWidth || measured.width),
+        sy = measured.height / ((element as HTMLElement).offsetHeight || measured.height);
+      s.cornerRadii = cssCornerRadii(style, measured.width, measured.height, sx, sy);
+      s.radius = Math.max(s.cornerRadii[0].y, s.cornerRadii[1].y);
+      let ancestor: Element | null = element;
+      s.viewportFixed = false;
+      while (ancestor) {
+        const mode = win.getComputedStyle(ancestor).position;
+        if (mode === 'fixed' || mode === 'sticky') {
+          s.viewportFixed = true;
+          break;
+        }
+        ancestor = ancestor.parentElement;
+      }
+      const isText =
+        Boolean(element.textContent?.trim()) &&
+        !this.paintedBox(style) &&
+        !['IMG', 'CANVAS', 'VIDEO', 'IFRAME', 'INPUT', 'TEXTAREA'].includes(element.tagName);
+      if (isText) {
+        const lines = textContours(element, measured, (node) => {
+          let key = this.textKeys.get(node);
+          if (!key) {
+            key = `text-${++this.nextId}`;
+            this.textKeys.set(node, key);
+          }
+          return key;
+        });
+        for (const line of lines) {
+          if (next.length >= config.dom.maxSurfaces) break;
+          const saved = old.get(line.key),
+            bins = Math.max(2, Math.ceil(line.width / 2));
+          const part: Surface = saved ?? {
+            ...s,
+            id: `fluri-${++this.nextId}`,
+            profile: new Float32Array(bins),
+          };
+          part.options = options;
+          part.shape = 'text';
+          part.accumulation = s.accumulation;
+          part.material = s.material;
+          part.maxDepth = Math.min(s.maxDepth, line.height * 0.12);
+          part.opaque = false;
+          part.radius = 0;
+          delete part.cornerRadii;
+          part.layer = s.layer;
+          part.paintOrder = s.paintOrder;
+          part.viewportFixed = s.viewportFixed;
+          part.contour = { offsets: line.offsets, step: line.step };
+          this.textLines.set(part, line);
+          this.shapeKeys.set(part, line.key);
+          this.positionModes.set(part.element, style.position);
+          if (!saved) {
+            this.measure(part, true);
+            this.scrollOffsets.set(part, this.scrollPosition(part.element));
+          }
+          part.packing = this.packing(part);
+          next.push(part);
+          old.delete(line.key);
+          if (!saved) this.emit('surface:added', { id: part.id });
+        }
+        this.resizeObserver?.observe(element);
+        // Remove a former rectangular support when its box becomes text-only.
+        if (existing) {
+          old.delete(element);
+          if (config.dom.removedSurface === 'shed') this.shed(existing);
+        }
+        continue;
+      }
+      delete s.contour;
+      this.textLines.delete(s);
       if (!existing) {
-        this.measure(s, true);
         s.packing = this.packing(s);
-        this.scrollOffsets.set(element, this.scrollPosition(element));
+        this.scrollOffsets.set(s, this.scrollPosition(element));
       }
       next.push(s);
       old.delete(element);
@@ -354,7 +449,7 @@ export class SurfaceRegistry {
       }
     }
     for (const s of old.values()) {
-      this.resizeObserver?.unobserve(s.element);
+      if (!next.some((n) => n.element === s.element)) this.resizeObserver?.unobserve(s.element);
       if (config.dom.removedSurface === 'shed') this.shed(s);
       this.emit('surface:removed', { id: s.id });
     }
@@ -377,10 +472,18 @@ export class SurfaceRegistry {
       const hits: boolean[] = [];
       for (let index = 0; index < samples; index++) {
         const localX = ((index + 0.5) * surface.width) / samples;
-        const x = surface.x + Math.cos(surface.angle) * localX - Math.sin(surface.angle) * 2;
-        const y = surface.y + Math.sin(surface.angle) * localX + Math.cos(surface.angle) * 2;
+        const support = supportYAt(surface, localX);
+        if (!Number.isFinite(support)) {
+          hits.push(false);
+          budget--;
+          continue;
+        }
+        const x =
+          surface.x + Math.cos(surface.angle) * localX - Math.sin(surface.angle) * (support + 2);
+        const y =
+          surface.y + Math.sin(surface.angle) * localX + Math.cos(surface.angle) * (support + 2);
         let clear = true;
-        if (x < 0 || x >= win.innerWidth || y < 0 || y >= win.innerHeight) clear = false;
+        if (x < 0 || x >= win.innerWidth || y < 0 || y >= win.innerHeight) clear = true;
         else
           for (const element of doc.elementsFromPoint(x, y)) {
             if (element.closest('[data-fluri-root]')) continue;
@@ -389,13 +492,7 @@ export class SurfaceRegistry {
             let blocks = opaque.get(element);
             if (blocks === undefined) {
               const style = win.getComputedStyle(element);
-              const alpha = style.backgroundColor.match(/rgba?\([^)]*[,/]\s*([\d.]+)\s*\)$/)?.[1];
-              const painted =
-                style.backgroundImage !== 'none' ||
-                ['IMG', 'IFRAME', 'CANVAS', 'VIDEO'].includes(element.tagName) ||
-                (style.backgroundColor !== 'rgba(0, 0, 0, 0)' &&
-                  (alpha === undefined || Number(alpha) >= 0.95));
-              blocks = style.visibility === 'visible' && Number(style.opacity) >= 0.95 && painted;
+              blocks = style.visibility === 'visible' && this.opaqueBox(element, style);
               opaque.set(element, blocks);
             }
             if (blocks) {
@@ -416,10 +513,41 @@ export class SurfaceRegistry {
       surface.occluded = !hits.some(Boolean);
     }
   }
+  private colorAlpha(color: string): number {
+    // Computed rgb(r, g, b) has no alpha: the final blue channel is not opacity.
+    const values = color.slice(color.indexOf('(') + 1, color.lastIndexOf(')'));
+    const alpha = values.includes('/') ? values.split('/')[1] : values.split(',')[3];
+    if (alpha === undefined) return color === 'transparent' ? 0 : 1;
+    const parsed = parseFloat(alpha);
+    return Number.isFinite(parsed) ? parsed / (alpha.includes('%') ? 100 : 1) : 1;
+  }
+  private paintedBox(style: CSSStyleDeclaration): boolean {
+    return (
+      this.colorAlpha(style.backgroundColor) > 0 ||
+      style.backgroundImage !== 'none' ||
+      ['Top', 'Right', 'Bottom', 'Left'].some(
+        (side) =>
+          parseFloat(style.getPropertyValue(`border-${side.toLowerCase()}-width`)) > 0 &&
+          this.colorAlpha(style.getPropertyValue(`border-${side.toLowerCase()}-color`)) > 0,
+      )
+    );
+  }
+  private opaqueBox(element: Element, style: CSSStyleDeclaration): boolean {
+    return (
+      Number(style.opacity) >= 0.95 &&
+      (this.colorAlpha(style.backgroundColor) >= 0.95 ||
+        style.backgroundImage !== 'none' ||
+        ['IMG', 'IFRAME', 'CANVAS', 'VIDEO'].includes(element.tagName))
+    );
+  }
   private packing(surface: Surface): Float32Array {
     let seed = this.config().seed;
     for (const code of surface.id) seed = Math.imul(seed ^ code.charCodeAt(0), 16777619);
-    return createPackingProfile(surface.profile.length, surface.binSize, seed >>> 0);
+    const packing = createPackingProfile(surface.profile.length, surface.binSize, seed >>> 0);
+    if (surface.contour)
+      for (let i = 0; i < packing.length; i++)
+        if (!Number.isFinite(supportYAt(surface, (i + 0.5) * surface.binSize))) packing[i] = 0;
+    return packing;
   }
   private cacheScrollChain(element: Element): void {
     const doc = element.ownerDocument,
@@ -483,42 +611,98 @@ export class SurfaceRegistry {
       s.x = a.x;
       s.y = a.y;
       s.width = Math.hypot(b.x - a.x, b.y - a.y);
+      s.height = Math.hypot(quad.p4.x - quad.p1.x, quad.p4.y - quad.p1.y);
       s.angle = Math.atan2(b.y - a.y, b.x - a.x);
       s.confidence = 'high';
     } else if (win) {
-      if (clips || s.element.getAnimations().some((a) => a.playState === 'running'))
-        this.transforms.set(s.element, win.getComputedStyle(s.element).transform);
-      const transform = this.transforms.get(s.element) ?? 'none';
-      if (transform !== 'none') {
-        const matrix = new win.DOMMatrixReadOnly(transform);
-        const angle = Math.atan2(matrix.b, matrix.a);
-        // Rect + affine local transform recovers common rotate/scale cards; skew/3D stays approximate.
-        if (
-          Math.abs(angle) > 1e-7 &&
-          Math.abs(angle) < 1.2 &&
-          Math.abs(matrix.c + matrix.b) < 0.05 &&
-          matrix.is2D
-        ) {
-          const el = s.element as HTMLElement;
-          const width = (el.offsetWidth || rect.width) * Math.hypot(matrix.a, matrix.b);
-          const height = (el.offsetHeight || rect.height) * Math.hypot(matrix.c, matrix.d);
-          const cy = rect.top + rect.height / 2,
-            cx = rect.left + rect.width / 2;
-          const sign = s.options.edge === 'bottom' ? 1 : -1;
-          s.angle = angle;
-          s.width = width;
-          s.x = cx - (Math.cos(angle) * width) / 2 - (sign * Math.sin(angle) * height) / 2;
-          s.y = cy - (Math.sin(angle) * width) / 2 + (sign * Math.cos(angle) * height) / 2;
-          s.confidence = 'low';
+      // getBoundingClientRect() is an axis-aligned envelope. Recover the real edge from
+      // the complete ancestor transform, not only the card's own transform (Chromium
+      // does not expose getBoxQuads). Rect center already includes transform origins.
+      let matrix = this.transforms.get(s.element);
+      if (
+        clips ||
+        !matrix ||
+        this.animatedElements.some(
+          (element) => element === s.element || element.contains(s.element),
+        )
+      ) {
+        matrix = new win.DOMMatrixReadOnly();
+        let ancestor: Element | null = s.element;
+        while (ancestor) {
+          const style = win.getComputedStyle(ancestor);
+          let local = new win.DOMMatrixReadOnly();
+          const rotation = style.getPropertyValue('rotate');
+          if (rotation && rotation !== 'none' && !/^[xy]\s/.test(rotation)) {
+            const angle = rotation.trim().split(/\s+/).pop() ?? '0';
+            const degrees =
+              parseFloat(angle) *
+              (angle.endsWith('rad') && !angle.endsWith('grad')
+                ? 180 / Math.PI
+                : angle.endsWith('turn')
+                  ? 360
+                  : angle.endsWith('grad')
+                    ? 0.9
+                    : 1);
+            if (Number.isFinite(degrees)) local = local.rotate(degrees);
+          }
+          const scale = style.getPropertyValue('scale');
+          if (scale && scale !== 'none') {
+            const values = scale.trim().split(/\s+/).map(Number);
+            local = local.scale(values[0] || 1, values[1] ?? values[0] ?? 1);
+          }
+          if (style.transform !== 'none')
+            local = local.multiply(new win.DOMMatrixReadOnly(style.transform));
+          const zoom = style.getPropertyValue('zoom');
+          if (zoom && zoom !== 'normal') {
+            const factor = parseFloat(zoom) / (zoom.includes('%') ? 100 : 1);
+            if (factor > 0) local = local.scale(factor);
+          }
+          matrix = local.multiply(matrix);
+          ancestor = ancestor.parentElement;
         }
+        this.transforms.set(s.element, matrix);
+      }
+      const angle = Math.atan2(matrix.b, matrix.a);
+      const scaleX = Math.hypot(matrix.a, matrix.b);
+      const scaleY = Math.hypot(matrix.c, matrix.d);
+      const orthogonality = Math.abs(matrix.a * matrix.c + matrix.b * matrix.d);
+      // A Surface describes an orthogonal shelf, so leave skew/perspective approximate.
+      if (
+        matrix.is2D &&
+        Math.abs(angle) < 1.2 &&
+        scaleX > 0 &&
+        scaleY > 0 &&
+        orthogonality < scaleX * scaleY * 0.001 &&
+        matrix.a * matrix.d - matrix.b * matrix.c > 0
+      ) {
+        const el = s.element as HTMLElement;
+        const localWidth = el.offsetWidth || rect.width / scaleX;
+        const localHeight = el.offsetHeight || rect.height / scaleY;
+        const sign = s.options.edge === 'bottom' ? 1 : -1;
+        s.angle = angle;
+        s.width = localWidth * scaleX;
+        s.height = localHeight * scaleY;
+        s.x =
+          rect.left +
+          rect.width / 2 -
+          (matrix.a * localWidth) / 2 +
+          (sign * matrix.c * localHeight) / 2;
+        s.y =
+          rect.top +
+          rect.height / 2 -
+          (matrix.b * localWidth) / 2 +
+          (sign * matrix.d * localHeight) / 2;
+        s.confidence = 'high';
       }
     }
+    const textLine = this.textLines.get(s);
+    if (textLine) Object.assign(s, measureTextLine(textLine, s.angle));
     s.normal = { x: Math.sin(s.angle), y: -Math.cos(s.angle) };
     s.binSize = s.width / s.profile.length;
     s.visible =
       s.element.isConnected &&
-      rect.bottom >= 0 &&
-      rect.top <= (win?.innerHeight ?? 0) &&
+      rect.bottom >= -(this.root === this.root.ownerDocument.body ? (win?.innerHeight ?? 0) : 0) &&
+      rect.top <= (win?.innerHeight ?? 0) * (this.root === this.root.ownerDocument.body ? 2 : 1) &&
       rect.right >= 0 &&
       rect.left <= (win?.innerWidth ?? 0) &&
       rect.width > 0;

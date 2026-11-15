@@ -10,10 +10,17 @@ export function totalMass(profile: Float32Array): number {
 
 /** Interpolate bin centres so the collision edge matches the rendered silhouette. */
 export function depthAt(
-  surface: Pick<Surface, 'profile' | 'binSize' | 'width'> & { radius?: number },
+  surface: Pick<Surface, 'profile' | 'binSize' | 'width'> &
+    Partial<Pick<Surface, 'radius' | 'contour' | 'cornerRadii'>>,
   x: number,
 ): number {
-  if (!surface.profile.length || surface.binSize <= 0) return 0;
+  if (
+    !surface.profile.length ||
+    surface.binSize <= 0 ||
+    (surface.contour &&
+      !Number.isFinite(supportYAt({ ...surface, radius: surface.radius ?? 0 }, x)))
+  )
+    return 0;
   const position = clamp(x / surface.binSize - 0.5, 0, surface.profile.length - 1);
   const left = Math.floor(position);
   const right = Math.min(left + 1, surface.profile.length - 1);
@@ -34,12 +41,17 @@ export function depthAt(
     (t3 - 2 * t2 + amount) * tangent(before, difference) +
     (-2 * t3 + 3 * t2) * b +
     (t3 - t2) * tangent(difference, after);
-  const corner = Math.min(Math.max(0, surface.radius ?? 0), surface.width / 2);
+  const leftCorner = surface.cornerRadii?.[0].x ?? surface.radius ?? 0;
+  const rightCorner = surface.cornerRadii?.[1].x ?? surface.radius ?? 0;
+  const atLeft = x < leftCorner;
+  const corner = Math.min(
+    surface.width,
+    atLeft ? leftCorner : surface.width - x < rightCorner ? rightCorner : 0,
+  );
   if (corner > 0) {
-    const start = Math.min(corner * 0.32, 6);
-    const distance = Math.min(x, surface.width - x);
+    const start = Math.min(corner * 0.32, 6),
+      distance = atLeft ? x : surface.width - x;
     const t = clamp((distance - start) / Math.max(0.001, corner - start), 0, 1);
-    // Elliptical shoulder has a rounded end, unlike a long triangular smoothstep ramp.
     depth *= Math.sqrt(Math.max(0, 1 - (1 - t) * (1 - t)));
   }
   return Math.max(0, depth);
@@ -174,14 +186,35 @@ export function melt(profile: Float32Array, binSize: number, rate: number, dt: n
 }
 
 /** Actual rounded card shoulder below the horizontal top-edge datum. */
-export function supportYAt(surface: Pick<Surface, 'width' | 'radius'>, x: number): number {
+export function supportYAt(
+  surface: Pick<Surface, 'width' | 'radius'> & Partial<Pick<Surface, 'contour' | 'cornerRadii'>>,
+  x: number,
+): number {
+  if (surface.contour) {
+    const i = clamp(Math.floor(x / surface.contour.step), 0, surface.contour.offsets.length - 1);
+    return surface.contour.offsets[i] ?? Infinity;
+  }
+  if (surface.cornerRadii) {
+    const left = surface.cornerRadii[0],
+      right = surface.cornerRadii[1];
+    const corner =
+      x < left.x
+        ? { r: left, d: x }
+        : x > surface.width - right.x
+          ? { r: right, d: surface.width - x }
+          : undefined;
+    if (!corner || corner.r.x <= 0 || corner.r.y <= 0) return 0;
+    const t = clamp(corner.d / corner.r.x, 0, 1);
+    return corner.r.y * (1 - Math.sqrt(Math.max(0, 1 - (1 - t) ** 2)));
+  }
   const r = Math.min(Math.max(0, surface.radius), surface.width / 2);
   if (r === 0) return 0;
   const distance = clamp(Math.min(x, surface.width - x), 0, r);
   return r - Math.sqrt(Math.max(0, r * r - (r - distance) * (r - distance)));
 }
 export function snowYAt(
-  surface: Pick<Surface, 'width' | 'radius' | 'profile' | 'binSize'>,
+  surface: Pick<Surface, 'width' | 'radius' | 'profile' | 'binSize'> &
+    Partial<Pick<Surface, 'contour' | 'cornerRadii'>>,
   x: number,
 ): number {
   return supportYAt(surface, x) - depthAt(surface, x);

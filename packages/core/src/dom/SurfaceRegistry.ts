@@ -38,6 +38,7 @@ export class SurfaceRegistry {
   readonly surfaces: Surface[] = [];
   private textLines = new WeakMap<Surface, TextLine>();
   private textKeys = new WeakMap<Text, string>();
+  private textCache = new WeakMap<Element, { key: string; lines: TextLine[] }>();
   private shapeKeys = new WeakMap<Surface, string>();
   private registered = new Map<Element, SurfaceOptions>();
   private excluded = new WeakSet<Element>();
@@ -91,6 +92,7 @@ export class SurfaceRegistry {
       });
       this.observer.observe(this.root, {
         childList: true,
+        characterData: true,
         subtree: true,
         attributes: true,
         attributeFilter: [
@@ -115,6 +117,10 @@ export class SurfaceRegistry {
     this.dirty = true;
     this.clipsDirty = true;
     this.onInvalidate?.();
+  }
+  invalidateText(): void {
+    this.textCache = new WeakMap();
+    this.invalidate();
   }
   invalidateGeometry(): void {
     this.clipsDirty = true;
@@ -386,14 +392,58 @@ export class SurfaceRegistry {
         !this.paintedBox(style) &&
         !['IMG', 'CANVAS', 'VIDEO', 'IFRAME', 'INPUT', 'TEXTAREA'].includes(element.tagName);
       if (isText) {
-        const lines = textContours(element, measured, (node) => {
-          let key = this.textKeys.get(node);
-          if (!key) {
-            key = `text-${++this.nextId}`;
-            this.textKeys.set(node, key);
-          }
-          return key;
-        });
+        // Only re-rasterise after actual text/font/shape changes. Scroll and
+        // unrelated DOM activity retain the existing glyph pixels and ranges.
+        const sample = [element, ...Array.from(element.querySelectorAll('*')).slice(0, 64)];
+        const key = [
+          element.innerHTML,
+          measured.width.toFixed(3),
+          measured.height.toFixed(3),
+          measured.angle.toFixed(4),
+          ...sample.map((el) => {
+            const cs = win.getComputedStyle(el);
+            return [
+              cs.font,
+              cs.fontFamily,
+              cs.fontSize,
+              cs.fontWeight,
+              cs.fontStyle,
+              cs.fontVariationSettings,
+              cs.letterSpacing,
+              cs.lineHeight,
+              cs.textTransform,
+              cs.whiteSpace,
+              cs.display,
+              cs.padding,
+              cs.margin,
+              cs.transform,
+            ].join('|');
+          }),
+        ].join('\n');
+        let cached = this.textCache.get(element);
+        if (
+          !cached ||
+          cached.key !== key ||
+          cached.lines.some(
+            (line) =>
+              !line.range.startContainer.isConnected ||
+              !element.contains(line.range.startContainer),
+          )
+        ) {
+          cached = {
+            key,
+            lines: textContours(element, measured, (node) => {
+              let id = this.textKeys.get(node);
+              if (!id) {
+                id = `text-${++this.nextId}`;
+                this.textKeys.set(node, id);
+              }
+              return id;
+            }),
+          };
+          this.textCache.set(element, cached);
+        }
+        const lines = cached.lines;
         for (const line of lines) {
           if (next.length >= config.dom.maxSurfaces) break;
           const saved = old.get(line.key),
@@ -414,7 +464,8 @@ export class SurfaceRegistry {
           part.layer = s.layer;
           part.paintOrder = s.paintOrder;
           part.viewportFixed = s.viewportFixed;
-          part.contour = { offsets: line.offsets, step: line.step };
+          if (part.contour?.offsets !== line.offsets)
+            part.contour = { offsets: line.offsets, step: line.step };
           this.textLines.set(part, line);
           this.shapeKeys.set(part, line.key);
           this.positionModes.set(part.element, style.position);
@@ -545,8 +596,18 @@ export class SurfaceRegistry {
     for (const code of surface.id) seed = Math.imul(seed ^ code.charCodeAt(0), 16777619);
     const packing = createPackingProfile(surface.profile.length, surface.binSize, seed >>> 0);
     if (surface.contour)
-      for (let i = 0; i < packing.length; i++)
-        if (!Number.isFinite(supportYAt(surface, (i + 0.5) * surface.binSize))) packing[i] = 0;
+      for (let i = 0; i < packing.length; i++) {
+        const x = (i + 0.5) * surface.binSize,
+          y = supportYAt(surface, x);
+        const left = supportYAt(surface, Math.max(0, x - 2)),
+          right = supportYAt(surface, Math.min(surface.width, x + 2));
+        // Powder rests on upward-facing letter shoulders, not near-vertical sides.
+        if (
+          !Number.isFinite(y) ||
+          (Number.isFinite(left) && Number.isFinite(right) && Math.abs(right - left) > 6)
+        )
+          packing[i] = 0;
+      }
     return packing;
   }
   private cacheScrollChain(element: Element): void {

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.2 — 2026-11-18
+
+- Keep cohesive snow on upward-facing letter shoulders instead of diffusing through glyph gaps into continuous point streams.
+- Reuse rasterised text contours across scrolling and unrelated DOM mutations; rebuild them for actual text, font or layout changes.
+- Avoid full text rediscovery for visual-viewport scroll events and remove per-sample surface cloning in collision/depth lookup.
+- Render letter deposits with their own local white-to-soft-shadow gradient, reducing blue outlines and vertical side coating.
+- Add stationary-text mass conservation and browser cache-reuse regressions; preserve native-scroll attachment and historical licences.
+
 ## 0.3.1 — 2026-11-15
 
 - Trace transparent heading glyphs and individual wrapped lines instead of collecting on an invisible text box; retain real gaps and rebuild contours on font/layout changes.

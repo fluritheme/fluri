@@ -28,7 +28,12 @@ export function buildSnowContours(surface: Surface): SnowContour[] {
   for (let index = 0; index <= count; index++) {
     const x = Math.min(surface.width, index * step);
     const base = supportYAt(surface, x);
-    if (!Number.isFinite(base)) {
+    if (
+      !Number.isFinite(base) ||
+      (surface.contour &&
+        surface.packing?.[Math.min(surface.profile.length - 1, Math.floor(x / surface.binSize))] ===
+          0)
+    ) {
       if (current) {
         const last = current.points[current.points.length - 1];
         if (last) current.points.push({ ...last, depth: 0 });

@@ -6,7 +6,7 @@
 
 # Winter by Fluri ❄️
 
-> **0.3.1 surface update:** snow follows letter outlines, wrapped text, rounded corners and rotated cards. Settled snow scrolls with the page natively. Destroyed snowmen crumble into loose snow.
+> **0.3.2 powder update:** snow follows letter outlines, wrapped text, rounded corners and rotated cards. Letter caps stay in place without continuous drips; cached glyph shapes reduce layout work. Settled snow scrolls with the page natively. Destroyed snowmen crumble into loose snow.
 
 **Interactive snowfall that feels at home on your website.**
 

@@ -309,7 +309,7 @@ export class CanvasRenderer {
         ctx.lineTo(Math.cos(a) * p.radius * 1.5, Math.sin(a) * p.radius * 1.5);
       }
       if (contrast > 0.05) {
-        ctx.strokeStyle = `rgba(89,120,143,${0.72 * contrast})`;
+        ctx.strokeStyle = `rgba(89,120,143,${0.4 * contrast})`;
         ctx.lineWidth = 2;
         ctx.stroke();
       }
@@ -334,7 +334,7 @@ export class CanvasRenderer {
       ctx.closePath();
       ctx.fill();
       if (contrast > 0.05) {
-        ctx.strokeStyle = `rgba(89,120,143,${0.8 * contrast})`;
+        ctx.strokeStyle = `rgba(89,120,143,${0.35 * contrast})`;
         ctx.lineWidth = 0.85;
         ctx.stroke();
       }
@@ -351,7 +351,7 @@ export class CanvasRenderer {
       );
       ctx.fill();
       if (contrast > 0.05) {
-        ctx.strokeStyle = `rgba(89,120,143,${0.8 * contrast})`;
+        ctx.strokeStyle = `rgba(89,120,143,${0.35 * contrast})`;
         ctx.lineWidth = 0.85;
         ctx.stroke();
       }
@@ -405,12 +405,18 @@ export class CanvasRenderer {
         last = contour.points.at(-1);
       if (!first || !last) continue;
       // The contour comes from stored mass, while a small contact shadow gives the deposit volume.
-      const gradient = ctx.createLinearGradient(0, -contour.peak, 0, 0.5);
+      let top = Infinity,
+        base = -Infinity;
+      for (const point of contour.points) {
+        top = Math.min(top, point.base - point.depth);
+        base = Math.max(base, point.base);
+      }
+      const gradient = ctx.createLinearGradient(0, top, 0, Math.max(top + 0.5, base));
       gradient.addColorStop(0, this.paleSnow ? '#ffffff' : config.snow.color);
       gradient.addColorStop(0.45, config.snow.color);
       gradient.addColorStop(
         1,
-        this.paleSnow ? (contrast > 0.05 ? '#b0c4d4' : '#d1deea') : config.snow.color,
+        this.paleSnow ? (contrast > 0.05 ? '#dde7ee' : '#e8eff4') : config.snow.color,
       );
       ctx.fillStyle = gradient;
       ctx.shadowColor = 'rgba(5,16,32,.2)';
@@ -430,8 +436,8 @@ export class CanvasRenderer {
       // Restrained rim light follows the same physical edge, rather than a scalloped white stripe.
       if (contour.peak > 1.5) {
         ctx.strokeStyle =
-          contrast > 0.05 ? `rgba(89,120,143,${0.72 * contrast})` : 'rgba(255,255,255,.35)';
-        ctx.lineWidth = contrast > 0.05 ? 0.95 : 0.5;
+          contrast > 0.05 ? `rgba(89,120,143,${0.4 * contrast})` : 'rgba(255,255,255,.35)';
+        ctx.lineWidth = contrast > 0.05 ? 0.65 : 0.5;
         ctx.beginPath();
         contour.points.forEach((point, index) => {
           if (index === 0) ctx.moveTo(point.x, point.base - point.depth + 0.25);

@@ -124,3 +124,40 @@ test('font changes and responsive wrapping rebuild the glyph silhouette without 
   );
   expect(after.every((s) => s.shape === 'text' && s.finite && s.width <= 350)).toBe(true);
 });
+
+test('stationary letter caps stay snowy without point streams and unrelated mutations reuse rasterised glyphs', async ({
+  page,
+}) => {
+  await page.goto('/tests/fixtures/index.html');
+  const result = await page.evaluate(async () => {
+    window.weather.destroy();
+    document.body.replaceChildren();
+    document.body.style.cssText = 'margin:0;min-height:2000px;background:#faf8f2;color:#302b40';
+    document.body.innerHTML =
+      '<h1 id="snow-text" style="font:800 92px/1.2 Arial;margin:80px 20px;width:700px">Small words.<br><span style="color:#714de0">Big world.</span></h1><div id="unrelated"></div>';
+    window.recreateWeather({
+      dom: { detection: 'auto' },
+      snow: { particleCount: 0, accumulation: { sliding: true, softness: 0.6 } },
+      performance: { adaptive: false, maxDPR: 1 },
+    });
+    window.weather.addSnow(5, '#snow-text');
+    const initial = window
+      .inspection!.getSurfaces()
+      .filter((s) => s.element.id === 'snow-text')
+      .map((s) => s.contour!.offsets);
+    for (let i = 0; i < 8; i++) {
+      document.getElementById('unrelated')!.className = 'other-' + i;
+      await new Promise((resolve) => setTimeout(resolve, 140));
+    }
+    const surfaces = window.inspection!.getSurfaces().filter((s) => s.element.id === 'snow-text');
+    return {
+      reused: surfaces.every((s, i) => s.contour!.offsets === initial[i]),
+      particles: window.weather.getMetrics().particleCount,
+      mass: surfaces.reduce((n, s) => n + s.profile.reduce((a, b) => a + b, 0), 0),
+    };
+  });
+  expect(result.reused).toBe(true);
+  expect(result.particles).toBe(0);
+  expect(result.mass).toBeGreaterThan(300);
+  await page.screenshot({ path: '/tmp/winter-powder-new.png' });
+});

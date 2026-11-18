@@ -11,14 +11,28 @@ export function totalMass(profile: Float32Array): number {
 /** Interpolate bin centres so the collision edge matches the rendered silhouette. */
 export function depthAt(
   surface: Pick<Surface, 'profile' | 'binSize' | 'width'> &
-    Partial<Pick<Surface, 'radius' | 'contour' | 'cornerRadii'>>,
+    Partial<Pick<Surface, 'radius' | 'contour' | 'cornerRadii' | 'packing'>>,
   x: number,
 ): number {
   if (
     !surface.profile.length ||
     surface.binSize <= 0 ||
     (surface.contour &&
-      !Number.isFinite(supportYAt({ ...surface, radius: surface.radius ?? 0 }, x)))
+      !Number.isFinite(
+        surface.contour.offsets[
+          Math.min(
+            surface.contour.offsets.length - 1,
+            Math.max(0, Math.floor(x / surface.contour.step)),
+          )
+        ] ?? Infinity,
+      ))
+  )
+    return 0;
+  if (
+    surface.contour &&
+    surface.packing?.[
+      Math.min(surface.profile.length - 1, Math.max(0, Math.floor(x / surface.binSize)))
+    ] === 0
   )
     return 0;
   const position = clamp(x / surface.binSize - 0.5, 0, surface.profile.length - 1);

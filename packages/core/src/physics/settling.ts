@@ -118,14 +118,21 @@ export function settleSurface(
       const right = profile[index + 1] ?? 0;
       const leftBase = supportYAt(surface, (index + 0.5) * binSize),
         rightBase = supportYAt(surface, (index + 1.5) * binSize);
-      const slope =
-        options.sliding &&
+      // A glyph gap is an edge, not the next height-field bin. Diffusing snow
+      // across it repeatedly shed tiny droplets from stationary letters.
+      if (
         surface.contour &&
-        Number.isFinite(leftBase) &&
-        Number.isFinite(rightBase)
-          ? rightBase - leftBase
-          : 0;
-      const difference = (left - right) / binSize + slope;
+        (!Number.isFinite(leftBase) ||
+          !Number.isFinite(rightBase) ||
+          surface.packing?.[index] === 0 ||
+          surface.packing?.[index + 1] === 0)
+      ) {
+        transfers[index] = 0;
+        continue;
+      }
+      // Letter shoulders are cohesive supports. Their silhouette is not an
+      // extra pile-height gradient: normal grain relaxation uses snow depth.
+      const difference = (left - right) / binSize;
       const unstable = Math.max(0, Math.abs(difference) - repose * binSize);
       const settling = Math.sign(difference) * unstable * binSize * 0.5 * relaxation;
       const advection = (state.velocity * step) / binSize;

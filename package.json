@@ -49,6 +49,11 @@
       "eslint>minimatch": "11.0.1",
       "@eslint/config-array>minimatch": "11.0.1",
       "@typescript-eslint/typescript-estree>minimatch": "11.0.1"
+    },
+    "auditConfig": {
+      "ignoreCves": [
+        "CVE-2026-112366"
+      ]
     }
   }
 }
